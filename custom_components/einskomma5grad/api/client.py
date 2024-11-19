@@ -1,10 +1,11 @@
-import requests
-import datetime
-import secrets
-import hashlib
 import base64
+import datetime
+import hashlib
+import secrets
+
 import jwt
 from jwt import PyJWKClient
+import requests
 
 from .error import AuthenticationError, RequestError
 

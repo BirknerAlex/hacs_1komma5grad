@@ -1,14 +1,14 @@
 from homeassistant.components.sensor import (
-    SensorEntity,
     SensorDeviceClass,
+    SensorEntity,
     SensorStateClass,
 )
+from homeassistant.const import UnitOfPower
 from homeassistant.core import callback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-from homeassistant.const import UnitOfPower
 
-from .coordinator import Coordinator
 from .const import DOMAIN
+from .coordinator import Coordinator
 
 
 class GenericPowerSensor(CoordinatorEntity, SensorEntity):

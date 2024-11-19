@@ -1,9 +1,9 @@
-from homeassistant.components.switch import SwitchEntity, SwitchDeviceClass
+from homeassistant.components.switch import SwitchDeviceClass, SwitchEntity
 from homeassistant.core import callback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .coordinator import Coordinator
 from .const import DOMAIN
+from .coordinator import Coordinator
 
 
 class EmsSwitch(CoordinatorEntity, SwitchEntity):

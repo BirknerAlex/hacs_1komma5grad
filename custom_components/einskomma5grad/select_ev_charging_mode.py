@@ -4,10 +4,9 @@ from homeassistant.components.select import SelectEntity
 from homeassistant.core import callback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
+from .api.ev_charger import ChargingMode
 from .const import DOMAIN
 from .coordinator import Coordinator
-
-from .api.ev_charger import ChargingMode
 
 _LOGGER = logging.getLogger(__name__)
 

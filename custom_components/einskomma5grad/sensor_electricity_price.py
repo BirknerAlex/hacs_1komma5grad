@@ -1,12 +1,13 @@
+from zoneinfo import ZoneInfo
+
 from homeassistant.components.sensor import SensorEntity
+from homeassistant.const import UnitOfEnergy
 from homeassistant.core import callback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-from homeassistant.const import UnitOfEnergy
 from homeassistant.util import dt as dt_util
 
-from zoneinfo import ZoneInfo
+from .const import CURRENCY, CURRENCY_ICON, DOMAIN, TIMEZONE
 from .coordinator import Coordinator
-from .const import DOMAIN, CURRENCY, TIMEZONE, CURRENCY_ICON
 
 
 class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):

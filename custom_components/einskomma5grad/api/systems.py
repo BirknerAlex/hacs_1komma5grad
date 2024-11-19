@@ -1,7 +1,7 @@
 import requests
 
-from .error import RequestError
 from .client import Client
+from .error import RequestError
 from .system import System
 
 

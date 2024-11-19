@@ -1,5 +1,6 @@
-import requests
 import datetime
+
+import requests
 
 from .client import Client
 from .error import RequestError
@@ -72,7 +73,7 @@ class System:
             + "/api/v1/systems/"
             + self.id()
             + "/ems/actions/set-manual-override",
-            json={"manualSettings": {}, "overrideAutoSettings": auto == False},
+            json={"manualSettings": {}, "overrideAutoSettings": auto is False},
             headers={
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + self.client.get_token(),

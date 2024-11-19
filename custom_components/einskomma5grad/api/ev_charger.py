@@ -1,6 +1,7 @@
 from enum import Enum
 
 import requests
+
 from .client import Client
 from .error import RequestError
 
@@ -31,7 +32,7 @@ class EVCharger:
 
     def set_charging_mode(self, mode: ChargingMode) -> None:
         if self.charging_mode() == mode:
-            return None
+            return
 
         res = requests.patch(
             url=self._api.HEARTBEAT_API

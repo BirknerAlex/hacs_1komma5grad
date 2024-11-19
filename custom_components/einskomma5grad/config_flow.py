@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-import requests
 import logging
 from typing import Any
 
+import requests
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
@@ -13,10 +13,9 @@ from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 
-from .const import DOMAIN
 from .api.client import Client
 from .api.error import AuthenticationError
-
+from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 

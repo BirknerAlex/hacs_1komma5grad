@@ -1,7 +1,7 @@
 """The 1KOMMA5GRAD integration."""
 
-from dataclasses import dataclass
 from collections.abc import Callable
+from dataclasses import dataclass
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform

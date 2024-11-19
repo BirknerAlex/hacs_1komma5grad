@@ -1,3 +1,4 @@
 #!/bin/bash
 
-black  .
+ruff check --fix
+ruff format .

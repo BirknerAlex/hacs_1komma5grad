@@ -1,7 +1,6 @@
 class ApiError(Exception):
     """Base class for all API related errors"""
 
-    pass
 
 
 class AuthenticationError(ApiError):
