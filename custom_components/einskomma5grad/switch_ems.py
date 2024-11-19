@@ -3,6 +3,7 @@ from homeassistant.core import callback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .coordinator import Coordinator
+from .const import DOMAIN
 
 
 class EmsSwitch(CoordinatorEntity, SwitchEntity):
@@ -29,6 +30,12 @@ class EmsSwitch(CoordinatorEntity, SwitchEntity):
     def is_on(self) -> bool | None:
         """Return the state of the entity."""
         return self._enabled
+
+    @property
+    def unique_id(self) -> str:
+        """Return unique id."""
+
+        return f"{DOMAIN}_ems_auto_mode_{self._system_id}"
 
     @property
     def device_class(self) -> SwitchDeviceClass | None:
