@@ -9,9 +9,5 @@
   "documentation": "https://github.com/BirknerAlex/hacs_1komma5grad/blob/main/README.md",
   "issue_tracker": "https://github.com/BirknerAlex/hacs_1komma5grad/issues",
   "iot_class": "cloud_polling",
-  "integration_type": "hub",
-  "requirements": [
-    "requests==2.32.3",
-    "PyJWT==2.9.0"
-  ]
+  "integration_type": "hub"
 }
