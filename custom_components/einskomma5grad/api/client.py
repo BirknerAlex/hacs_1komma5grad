@@ -59,7 +59,10 @@ class Client:
 
         # Check for expiration and refresh token
         if self.is_token_expiring(60):
-            return self.refresh_token()
+            try:
+                return self.refresh_token()
+            except AuthenticationError:
+                return self.login()
 
         return self.token_set["access_token"]
 
@@ -145,6 +148,9 @@ class Client:
     def refresh_token(self) -> str:
         if self.token_set is None:
             raise AuthenticationError("No token set")
+
+        if "refresh_token" not in self.token_set:
+            raise AuthenticationError("No refresh token found")
 
         res = requests.post(
             url=self.TOKEN_URL,
