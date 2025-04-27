@@ -1,5 +1,6 @@
 from zoneinfo import ZoneInfo
 
+import logging
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.const import UnitOfEnergy
 from homeassistant.core import callback
@@ -9,6 +10,7 @@ from homeassistant.util import dt as dt_util
 from .const import CURRENCY_ICON, DOMAIN, TIMEZONE
 from .coordinator import Coordinator
 
+_LOGGER = logging.getLogger(__name__)
 
 class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
     """Representation of an Energy Price Sensor."""
@@ -20,6 +22,7 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         self._system_id = system_id
         self._prices = {}
         self._vat = 0
+        self._grid_costs = 0
         self._unit = 'ct/kWh' # Default unit
 
     @property
@@ -62,9 +65,15 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         if current_time in self._prices:
             # Current price contains the amount of cents per kWh
             current_price = float(self._prices[current_time]["price"])
+            total_net = float(current_price + self._grid_costs)
 
-            ## Round cents to full price e.g. 24,26 cents =-> 0.2430 € and 24.13 cents -> 0.2410 €
-            return round(current_price / 100.0, 4) * self._vat
+            logging.debug("Current price: %s", current_price)
+            logging.debug("Grid costs: %s", self._grid_costs)
+            logging.debug("Total net: %s", total_net)
+            logging.debug("VAT: %s", self._vat)
+
+            # round price to 1 decimal place and convert from ct/kWh to €/kWh and add VAT
+            return round(total_net / 100.0 * self._vat, 4)
 
         return None
 
@@ -79,7 +88,14 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         prices = self.coordinator.get_prices_by_id(self._system_id)
 
         self._vat = float(prices["vat"] + 1)
-        self._prices = prices["energyMarketWithGridCosts"]["data"]
-        self._unit = prices["energyMarketWithGridCosts"]["metadata"]["units"]["price"]
+
+        # Grid costs are the sum of the purchasing cost and the energy tax in ct/kWh
+        self._grid_costs = float(prices["gridCostsComponents"]["purchasingCost"]["value"] + prices["gridCostsComponents"]["energyTax"]["value"])
+
+        # prices is a dict with the time as key and the price as value
+        self._prices = prices["energyMarket"]["data"]
+
+        # price unit e.g. "€/kWh"
+        self._unit = "€/kWh" # TODO: fetch currency from API somehow
 
         self.async_write_ha_state()
