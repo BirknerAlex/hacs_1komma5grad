@@ -1,3 +1,9 @@
+## [1.0.5-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.4...v1.0.5-dev.1) (2025-04-27)
+
+### 🛠️ Fixes
+
+* Fix price calculation by calculating it by myself instead of use API response ([5de8b88](https://github.com/BirknerAlex/hacs_1komma5grad/commit/5de8b88fbb1cbe25c6ae38cc612756b62b72aad2)), closes [#7](https://github.com/BirknerAlex/hacs_1komma5grad/issues/7)
+
 ## [1.0.4](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.3...v1.0.4) (2024-12-23)
 
 ### 🛠️ Fixes
