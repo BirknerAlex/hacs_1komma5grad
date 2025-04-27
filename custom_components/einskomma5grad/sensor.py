@@ -8,6 +8,8 @@ from .const import DOMAIN
 from .coordinator import Coordinator
 from .sensor_electricity_price import ElectricityPriceSensor
 from .sensor_power_generic import GenericPowerSensor
+from .battery_power_sensor import BatteryPowerSensor
+from .battery_soc_sensor import BatteryStateOfChargeSensor
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -91,6 +93,18 @@ async def async_setup_entry(
                 system_id=system.id(),
                 name="Grid Feed In",
             ),
+        )
+        sensors.append(
+            BatteryPowerSensor(
+                coordinator=coordinator,
+                system_id=system.id(),
+            )
+        )
+        sensors.append(
+            BatteryStateOfChargeSensor(
+                coordinator=coordinator,
+                system_id=system.id(),
+            )
         )
 
     async_add_entities(sensors)
