@@ -1,0 +1,86 @@
+from homeassistant.components.sensor import (
+    SensorDeviceClass,
+    SensorEntity,
+    SensorStateClass,
+)
+from homeassistant.const import UnitOfPower
+from homeassistant.core import callback
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
+
+from .const import DOMAIN
+from .coordinator import Coordinator
+
+
+class BatteryPowerSensor(CoordinatorEntity, SensorEntity):
+    """Representation of Battery Power Sensor."""
+
+    def __init__(
+        self, coordinator: Coordinator, system_id: str
+    ) -> None:
+        """Initialise sensor."""
+        super().__init__(coordinator)
+
+        self._system_id = system_id
+        self._summary_cards = {}
+
+    @property
+    def name(self):
+        """Return the name of the sensor."""
+        return f"Battery Power {self._system_id}"
+
+    @property
+    def icon(self) -> str:
+        return "mdi:battery-charging-low"
+
+    @property
+    def native_unit_of_measurement(self):
+        return UnitOfPower.WATT
+
+    @property
+    def unique_id(self) -> str:
+        """Return unique id."""
+
+        return f"{DOMAIN}_battery_power_{self._system_id}"
+
+    @property
+    def native_value(self) -> None | float:
+        """Return the state of the entity."""
+        if "battery" not in self._summary_cards:
+            return None
+
+        try:
+            # External devices like EV chargers and heat pumps have a "power" key in the data
+            if "power" in self._summary_cards["battery"]:
+                # If power is None, you dont have access to the value (e.g. not supported on your heartbeat)
+                if (
+                    "value" not in self._summary_cards["battery"]["power"]
+                    or self._summary_cards["battery"]["power"]["value"] is None
+                ):
+                    return None
+
+                return self._summary_cards["battery"]["power"]["value"]
+        except KeyError:
+            self.coordinator.logger.debug("No data available for %s", "battery")
+        except TypeError:
+            self.coordinator.logger.debug("No data available for %s", "battery")
+
+        return None
+
+    @property
+    def device_class(self):
+        """Return the device class of the sensor."""
+        return SensorDeviceClass.POWER
+
+    @property
+    def state_class(self) -> SensorStateClass | str | None:
+        """Return the state class of the sensor."""
+        return SensorStateClass.MEASUREMENT
+
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Update sensor with latest data from coordinator."""
+        self._summary_cards = self.coordinator.get_live_data_by_id(self._system_id)[
+            "summaryCards"
+        ]
+
+        self.async_write_ha_state()
