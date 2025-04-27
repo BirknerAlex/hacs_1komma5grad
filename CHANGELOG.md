@@ -1,3 +1,13 @@
+## [1.1.0](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.4...v1.1.0) (2025-04-27)
+
+### 🚀 Features
+
+* Added Battery sensors for power and state of charge ([47840cb](https://github.com/BirknerAlex/hacs_1komma5grad/commit/47840cb7b76afaad7eac9f7d0672e5848c6eed57)), closes [#8](https://github.com/BirknerAlex/hacs_1komma5grad/issues/8)
+
+### 🛠️ Fixes
+
+* Fix price calculation by calculating it by myself instead of use API response ([fa62cfa](https://github.com/BirknerAlex/hacs_1komma5grad/commit/fa62cfafea54ac671a90ed479d6e6fadb9d15d9b)), closes [#7](https://github.com/BirknerAlex/hacs_1komma5grad/issues/7)
+
 ## [1.1.0-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.5-dev.1...v1.1.0-dev.1) (2025-04-27)
 
 ### 🚀 Features
