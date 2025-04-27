@@ -1,3 +1,9 @@
+## [1.1.0-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.5-dev.1...v1.1.0-dev.1) (2025-04-27)
+
+### 🚀 Features
+
+* Added Battery sensors for power and state of charge ([3aa8d68](https://github.com/BirknerAlex/hacs_1komma5grad/commit/3aa8d6874e25ed2d44089781ff522be503b554ec)), closes [#8](https://github.com/BirknerAlex/hacs_1komma5grad/issues/8)
+
 ## [1.0.5-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.4...v1.0.5-dev.1) (2025-04-27)
 
 ### 🛠️ Fixes
