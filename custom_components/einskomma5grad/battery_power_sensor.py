@@ -10,27 +10,23 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DOMAIN
 from .coordinator import Coordinator
 
+class BatteryPowerInSensor(CoordinatorEntity, SensorEntity):
+    """Representation of Battery Power In Sensor."""
 
-class BatteryPowerSensor(CoordinatorEntity, SensorEntity):
-    """Representation of Battery Power Sensor."""
-
-    def __init__(
-        self, coordinator: Coordinator, system_id: str
-    ) -> None:
+    def __init__(self, coordinator: Coordinator, system_id: str) -> None:
         """Initialise sensor."""
         super().__init__(coordinator)
-
         self._system_id = system_id
         self._summary_cards = {}
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return f"Battery Power {self._system_id}"
+        return f"Battery In Power {self._system_id}"
 
     @property
     def icon(self) -> str:
-        return "mdi:battery-charging-low"
+        return "mdi:battery-arrow-down"
 
     @property
     def native_unit_of_measurement(self):
@@ -39,8 +35,7 @@ class BatteryPowerSensor(CoordinatorEntity, SensorEntity):
     @property
     def unique_id(self) -> str:
         """Return unique id."""
-
-        return f"{DOMAIN}_battery_power_{self._system_id}"
+        return f"{DOMAIN}_battery_in_power_{self._system_id}"
 
     @property
     def native_value(self) -> None | float:
@@ -49,22 +44,77 @@ class BatteryPowerSensor(CoordinatorEntity, SensorEntity):
             return None
 
         try:
-            # External devices like EV chargers and heat pumps have a "power" key in the data
             if "power" in self._summary_cards["battery"]:
-                # If power is None, you dont have access to the value (e.g. not supported on your heartbeat)
-                if (
-                    "value" not in self._summary_cards["battery"]["power"]
-                    or self._summary_cards["battery"]["power"]["value"] is None
-                ):
-                    return None
-
-                return self._summary_cards["battery"]["power"]["value"]
-        except KeyError:
-            self.coordinator.logger.debug("No data available for %s", "battery")
-        except TypeError:
+                power = self._summary_cards["battery"]["power"].get("value")
+                if power is not None and power < 0:
+                    return abs(power)
+        except (KeyError, TypeError):
             self.coordinator.logger.debug("No data available for %s", "battery")
 
-        return None
+        return 0
+
+    @property
+    def device_class(self):
+        """Return the device class of the sensor."""
+        return SensorDeviceClass.POWER
+
+    @property
+    def state_class(self) -> SensorStateClass | str | None:
+        """Return the state class of the sensor."""
+        return SensorStateClass.MEASUREMENT
+
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Update sensor with latest data from coordinator."""
+        self._summary_cards = self.coordinator.get_live_data_by_id(self._system_id)[
+            "summaryCards"
+        ]
+
+        self.async_write_ha_state()
+
+
+class BatteryPowerOutSensor(CoordinatorEntity, SensorEntity):
+    """Representation of Battery Power Out Sensor."""
+
+    def __init__(self, coordinator: Coordinator, system_id: str) -> None:
+        """Initialise sensor."""
+        super().__init__(coordinator)
+        self._system_id = system_id
+        self._summary_cards = {}
+
+    @property
+    def name(self):
+        """Return the name of the sensor."""
+        return f"Battery Out Power {self._system_id}"
+
+    @property
+    def icon(self) -> str:
+        return "mdi:battery-arrow-up"
+
+    @property
+    def native_unit_of_measurement(self):
+        return UnitOfPower.WATT
+
+    @property
+    def unique_id(self) -> str:
+        """Return unique id."""
+        return f"{DOMAIN}_battery_out_power_{self._system_id}"
+
+    @property
+    def native_value(self) -> None | float:
+        """Return the state of the entity."""
+        if "battery" not in self._summary_cards:
+            return None
+
+        try:
+            if "power" in self._summary_cards["battery"]:
+                power = self._summary_cards["battery"]["power"].get("value")
+                if power is not None and power > 0:
+                    return power
+        except (KeyError, TypeError):
+            self.coordinator.logger.debug("No data available for %s", "battery")
+
+        return 0
 
     @property
     def device_class(self):
