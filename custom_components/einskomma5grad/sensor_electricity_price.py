@@ -1,6 +1,5 @@
 from zoneinfo import ZoneInfo
 
-import logging
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.const import UnitOfEnergy
 from homeassistant.core import callback
@@ -9,8 +8,6 @@ from homeassistant.util import dt as dt_util
 
 from .const import CURRENCY_ICON, DOMAIN, TIMEZONE
 from .coordinator import Coordinator
-
-_LOGGER = logging.getLogger(__name__)
 
 class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
     """Representation of an Energy Price Sensor."""
@@ -23,7 +20,7 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         self._prices = {}
         self._vat = 0
         self._grid_costs = 0
-        self._unit = 'ct/kWh' # Default unit
+        self._unit = '€/kWh' # Default unit
 
     @property
     def icon(self):
@@ -67,10 +64,10 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
             current_price = float(self._prices[current_time]["price"])
             total_net = float(current_price + self._grid_costs)
 
-            logging.debug("Current price: %s", current_price)
-            logging.debug("Grid costs: %s", self._grid_costs)
-            logging.debug("Total net: %s", total_net)
-            logging.debug("VAT: %s", self._vat)
+            self.coordinator.logger.debug("Current price: %s", current_price)
+            self.coordinator.logger.debug("Grid costs: %s", self._grid_costs)
+            self.coordinator.logger.debug("Total net: %s", total_net)
+            self.coordinator.logger.debug("VAT: %s", self._vat)
 
             # round price to 1 decimal place and convert from ct/kWh to €/kWh and add VAT
             return round(total_net / 100.0 * self._vat, 4)
@@ -87,10 +84,29 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         """Update sensor with latest data from coordinator."""
         prices = self.coordinator.get_prices_by_id(self._system_id)
 
+        if "vat" not in prices:
+            self.coordinator.logger.error("VAT not found in coordinator data")
+            return
+
+        if ("gridCostsComponents" not in prices or
+                "purchasingCost" not in prices["gridCostsComponents"] or
+                "energyTax" not in prices["gridCostsComponents"] or
+                "value" not in prices["gridCostsComponents"]["purchasingCost"] or
+                "value" not in prices["gridCostsComponents"]["energyTax"]):
+            self.coordinator.logger.error("Grid costs components not found in coordinator data")
+            return
+
+        if "energyMarket" not in prices or "data" not in prices["energyMarket"]:
+            self.coordinator.logger.error("Energy market data not found in coordinator data")
+            return
+
         self._vat = float(prices["vat"] + 1)
 
         # Grid costs are the sum of the purchasing cost and the energy tax in ct/kWh
-        self._grid_costs = float(prices["gridCostsComponents"]["purchasingCost"]["value"] + prices["gridCostsComponents"]["energyTax"]["value"])
+        try:
+            self._grid_costs = float(prices["gridCostsComponents"]["purchasingCost"]["value"] + prices["gridCostsComponents"]["energyTax"]["value"])
+        except (KeyError, TypeError):
+            self._grid_costs = 0
 
         # prices is a dict with the time as key and the price as value
         self._prices = prices["energyMarket"]["data"]
