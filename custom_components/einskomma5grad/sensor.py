@@ -8,7 +8,7 @@ from .const import DOMAIN
 from .coordinator import Coordinator
 from .sensor_electricity_price import ElectricityPriceSensor
 from .sensor_power_generic import GenericPowerSensor
-from .battery_power_sensor import BatteryPowerSensor
+from .battery_power_sensor import BatteryPowerInSensor, BatteryPowerOutSensor
 from .battery_soc_sensor import BatteryStateOfChargeSensor
 
 _LOGGER = logging.getLogger(__name__)
@@ -95,7 +95,13 @@ async def async_setup_entry(
             ),
         )
         sensors.append(
-            BatteryPowerSensor(
+            BatteryPowerInSensor(
+                coordinator=coordinator,
+                system_id=system.id(),
+            )
+        )
+        sensors.append(
+            BatteryPowerOutSensor(
                 coordinator=coordinator,
                 system_id=system.id(),
             )
