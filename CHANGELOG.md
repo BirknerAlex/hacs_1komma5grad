@@ -1,3 +1,14 @@
+## [1.2.0-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.1.0...v1.2.0-dev.1) (2025-04-28)
+
+### 🚀 Features
+
+* Added energy sensor to track kW/h for certain sensors ([b33d93b](https://github.com/BirknerAlex/hacs_1komma5grad/commit/b33d93b1475149e6a87e826c7ab34bf77a521951))
+* Migrate battery power sensors to 2 separate sensors for in and out ([202f783](https://github.com/BirknerAlex/hacs_1komma5grad/commit/202f7836f80d5b18ff6e3377b3971c93b62fae8a))
+
+### 🛠️ Fixes
+
+* Electricity price sensor fails if no Dynamic Pulse subscription exists ([962981c](https://github.com/BirknerAlex/hacs_1komma5grad/commit/962981cea8fca788c8c31088da85bec1b4a13378))
+
 ## [1.1.0](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.4...v1.1.0) (2025-04-27)
 
 ### 🚀 Features
