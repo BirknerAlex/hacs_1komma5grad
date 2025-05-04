@@ -1,3 +1,9 @@
+## [1.2.0-dev.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.2.0-dev.1...v1.2.0-dev.2) (2025-05-04)
+
+### 🛠️ Fixes
+
+* Fix error when price data not existing ([2066a94](https://github.com/BirknerAlex/hacs_1komma5grad/commit/2066a94b96140461b6a76ecf88a75c63b37c1bdd))
+
 ## [1.2.0-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.1.0...v1.2.0-dev.1) (2025-04-28)
 
 ### 🚀 Features
