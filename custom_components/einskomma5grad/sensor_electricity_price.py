@@ -33,7 +33,7 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         return f"Electricity Price {self._system_id}"
 
     @property
-    def unit_of_measurement(self):
+    def native_unit_of_measurement(self):
         """Return the unit of measurement."""
         return self._unit
 
@@ -47,8 +47,6 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
     @property
     def native_value(self) -> None | float:
         """Return the state of the entity."""
-        # Using native value and native unit of measurement, allows you to change units
-        # in Lovelace and HA will automatically calculate the correct value.
 
         tz = ZoneInfo(TIMEZONE)
         current_time = (
@@ -58,18 +56,14 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
             .strftime("%Y-%m-%dT%H:%MZ")
         )
 
-        # self._prices is an dict where the time is the key and the price is in another dict with "price" as key
         if current_time in self._prices:
-            # Current price contains the amount of cents per kWh
-            current_price = float(self._prices[current_time]["price"])
+            current_price_data = self._prices.get(current_time)
+            current_price = 0
+            if current_price_data and "price" in current_price_data:
+                current_price = float(current_price_data["price"])
+
             total_net = float(current_price + self._grid_costs)
 
-            self.coordinator.logger.debug("Current price: %s", current_price)
-            self.coordinator.logger.debug("Grid costs: %s", self._grid_costs)
-            self.coordinator.logger.debug("Total net: %s", total_net)
-            self.coordinator.logger.debug("VAT: %s", self._vat)
-
-            # round price to 1 decimal place and convert from ct/kWh to €/kWh and add VAT
             return round(total_net / 100.0 * self._vat, 4)
 
         return None
@@ -89,8 +83,11 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
             return
 
         if ("gridCostsComponents" not in prices or
+                not isinstance(prices["gridCostsComponents"], dict) or
                 "purchasingCost" not in prices["gridCostsComponents"] or
+                not isinstance(prices["gridCostsComponents"]["purchasingCost"], dict) or
                 "energyTax" not in prices["gridCostsComponents"] or
+                not isinstance(prices["gridCostsComponents"]["energyTax"], dict) or
                 "value" not in prices["gridCostsComponents"]["purchasingCost"] or
                 "value" not in prices["gridCostsComponents"]["energyTax"]):
             self.coordinator.logger.error("Grid costs components not found in coordinator data")
@@ -106,6 +103,7 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         try:
             self._grid_costs = float(prices["gridCostsComponents"]["purchasingCost"]["value"] + prices["gridCostsComponents"]["energyTax"]["value"])
         except (KeyError, TypeError):
+            self.coordinator.logger.error("Grid costs components not found in coordinator data")
             self._grid_costs = 0
 
         # prices is a dict with the time as key and the price as value
