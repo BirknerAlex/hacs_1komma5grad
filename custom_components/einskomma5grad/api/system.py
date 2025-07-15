@@ -86,7 +86,7 @@ class System:
     def get_prices(self, start: datetime, end: datetime):
         res = requests.get(
             url=self.client.HEARTBEAT_API
-            + "/api/v1/systems/"
+            + "/api/v2/systems/"
             + self.id()
             + "/charts/market-prices",
             params={
