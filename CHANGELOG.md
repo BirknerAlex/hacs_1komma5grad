@@ -1,3 +1,9 @@
+## [1.2.0-dev.3](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.2.0-dev.2...v1.2.0-dev.3) (2025-07-15)
+
+### 🛠️ Fixes
+
+* Migrated price API to v2 because v1 has shut down ([52fa88f](https://github.com/BirknerAlex/hacs_1komma5grad/commit/52fa88f30e1b656040aba2cae21b3f5c2ed4cb91))
+
 ## [1.2.0](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.1.0...v1.2.0) (2025-05-04)
 
 ### 🛠️ Fixes
