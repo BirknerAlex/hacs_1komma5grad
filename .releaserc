@@ -103,6 +103,7 @@
       {
         "message": "chore(release): 📢 ${nextRelease.version}\n\n${nextRelease.notes}",
         "assets": [
+          "custom_components/einskomma5grad/manifest.json",
           "hacs.json",
           "README.md",
           "CHANGELOG.md"
