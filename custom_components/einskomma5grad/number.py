@@ -1,3 +1,5 @@
+"""Number platform for 1KOMMA5GRAD integration."""
+
 import logging
 
 from homeassistant.config_entries import ConfigEntry
@@ -6,7 +8,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import DOMAIN
 from .coordinator import Coordinator
-from .ev_charging_mode import EVChargingModeSelect
+from .ev_current_soc import EVCurrentStateOfCharge
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -16,7 +18,7 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ):
-    """Set up the select entities."""
+    """Set up the Number entities."""
     coordinator: Coordinator = hass.data[DOMAIN][config_entry.entry_id].coordinator
 
     entities = []
@@ -31,6 +33,7 @@ async def async_setup_entry(
             if "assignedChargerName" not in ev:
                 continue
 
-            entities.append(EVChargingModeSelect(coordinator, system.id(), ev["id"]))
+            entities.append(EVCurrentStateOfCharge(coordinator, system.id(), ev["id"]))
 
     async_add_entities(entities)
+

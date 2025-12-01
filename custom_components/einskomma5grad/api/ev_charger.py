@@ -27,6 +27,12 @@ class EVCharger:
     def id(self) -> str:
         return self._data["id"]
 
+    def name(self) -> str | None:
+        if "profile" in self._data and "name" in self._data["profile"]:
+            return self._data["profile"]["name"]
+
+        return None
+
     def charging_mode(self) -> ChargingMode:
         return ChargingMode(self._data["chargeSettings"]["chargingMode"])
 
@@ -51,3 +57,35 @@ class EVCharger:
             raise RequestError("Failed to set charging mode: " + res.text)
 
         self._data["chargeSettings"]["chargingMode"] = mode.value
+
+    def current_soc(self) -> float | None:
+        if self.charging_mode() != ChargingMode.SMART_CHARGE:
+            return None
+
+        return float(self._data["manualSoc"] * 100.0)
+
+    def set_current_soc(self, soc: float) -> None:
+        if self.charging_mode() != ChargingMode.SMART_CHARGE:
+            return
+
+        soc_decimal = 0
+        if soc > 0:
+            soc_decimal = float(soc / 100.0)
+
+        res = requests.patch(
+            url=self._api.HEARTBEAT_API
+                + "/api/v1/systems/"
+                + self._system.id()
+                + "/devices/evs/"
+                + self.id(),
+            json={"id":  self.id(), "manualSoc": soc_decimal},
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + self._api.get_token(),
+            },
+        )
+
+        if res.status_code != 200:
+            raise RequestError("Failed to set state of charge: " + res.text)
+
+        self._data["manualSoc"] = soc
