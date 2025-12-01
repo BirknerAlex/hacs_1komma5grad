@@ -1,3 +1,9 @@
+## [1.3.0-dev.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.3.0-dev.1...v1.3.0-dev.2) (2025-12-01)
+
+### 🚀 Features
+
+* Added custom scrape interval settings ([7cd0b34](https://github.com/BirknerAlex/hacs_1komma5grad/commit/7cd0b34ddb583ea89a8d3f2cd94023587bd6df6b)), closes [#15](https://github.com/BirknerAlex/hacs_1komma5grad/issues/15)
+
 ## [1.3.0-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.2.1...v1.3.0-dev.1) (2025-12-01)
 
 ### 🚀 Features
