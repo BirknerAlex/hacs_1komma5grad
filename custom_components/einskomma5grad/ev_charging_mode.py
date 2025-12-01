@@ -21,6 +21,7 @@ class EVChargingModeSelect(CoordinatorEntity, SelectEntity):
 
         self._system_id = system_id
         self._ev_id = ev_id
+        self._ev_name = ev_id
         self._attr_options = [
             str(ChargingMode.QUICK_CHARGE.value),
             str(ChargingMode.SMART_CHARGE.value),
@@ -50,7 +51,7 @@ class EVChargingModeSelect(CoordinatorEntity, SelectEntity):
     @property
     def name(self) -> str:
         """Return the name of the select entity."""
-        return f"EV Charging Mode {self._ev_id}"
+        return f"EV Charging Mode {self._ev_name}"
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
@@ -70,6 +71,11 @@ class EVChargingModeSelect(CoordinatorEntity, SelectEntity):
         self._attr_current_option = option
         self.async_write_ha_state()
 
+    @property
+    def available(self) -> bool:
+        """Return True when entity has a valid charging mode, otherwise False so HA shows unavailable."""
+        return self._attr_current_option is not None
+
     @callback
     def _handle_coordinator_update(self) -> None:
         """Update sensor with latest data from coordinator."""
@@ -81,5 +87,8 @@ class EVChargingModeSelect(CoordinatorEntity, SelectEntity):
         for ev in live_overview["evs"]:
             if ev["id"] == self._ev_id:
                 self._attr_current_option = ev["chargingMode"]
+
+                if ev["name"]:
+                    self._ev_name = ev["name"]
 
         self.async_write_ha_state()
