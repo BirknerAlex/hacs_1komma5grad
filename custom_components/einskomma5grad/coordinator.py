@@ -19,6 +19,11 @@ from .const import DEFAULT_SCAN_INTERVAL
 
 _LOGGER = logging.getLogger(__name__)
 
+@dataclass
+class EVData:
+    """Class to hold EV data."""
+    ev_name: str | None
+    current_soc: float | None
 
 @dataclass
 class SystemsData:
@@ -32,6 +37,7 @@ class SystemsData:
 
     ems_settings: dict[str, bool] = None
 
+    ev_data: dict[str, EVData] = None
 
 class Coordinator(DataUpdateCoordinator):
     """1KOMMA5GRAD coordinator."""
@@ -83,6 +89,7 @@ class Coordinator(DataUpdateCoordinator):
             prices = {}
             ems_settings = {}
             live_overview = {}
+            ev_data = {}
             for system in systems:
                 prices[system.id()] = await self.hass.async_add_executor_job(
                     system.get_prices,
@@ -97,12 +104,24 @@ class Coordinator(DataUpdateCoordinator):
                 live_overview[system.id()] = await self.hass.async_add_executor_job(
                     system.get_live_overview,
                 )
+
+                ev_chargers = await self.hass.async_add_executor_job(
+                    system.get_ev_chargers,
+                )
+
+                for ev_charger in ev_chargers:
+                    ev_data[ev_charger.id()] = EVData(
+                        ev_name=ev_charger.name(),
+                        current_soc=ev_charger.current_soc(),
+                    )
+
             # What is returned here is stored in self.data by the DataUpdateCoordinator
             return SystemsData(
                 systems=systems,
                 prices=prices,
                 live_overview=live_overview,
                 ems_settings=ems_settings,
+                ev_data=ev_data,
             )
         except ApiError as err:
             raise UpdateFailed(err) from err
@@ -115,6 +134,25 @@ class Coordinator(DataUpdateCoordinator):
         for charger in system.get_ev_chargers():
             if charger.id() == ev_id:
                 charger.set_charging_mode(ChargingMode(mode))
+
+    def set_ev_current_soc(self, system_id: str, ev_id: str, soc: float):
+        """Set the current state of charge for an EV."""
+        systems = Systems(self.api)
+        system = systems.get_system(system_id)
+
+        for charger in system.get_ev_chargers():
+            if charger.id() == ev_id:
+                charger.set_current_soc(soc)
+                return
+
+        _LOGGER.error("EV with id %s not found in system %s", ev_id, system_id)
+
+    def get_ev_data(self, ev_id: str) -> EVData | None:
+        """Return current state of charge by EV id."""
+        if ev_id in self.data.ev_data:
+            return self.data.ev_data[ev_id]
+
+        return None
 
     def get_system_by_id(self, system_id: str) -> System | None:
         """Return device by device id."""
