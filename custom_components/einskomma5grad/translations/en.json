@@ -12,9 +12,23 @@
             "user": {
                 "data": {
                     "password": "Password",
-                    "username": "Username"
+                    "username": "Username",
+                    "scan_interval": "Scrape Interval (seconds)"
                 }
             }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "title": "1KOMMA5GRAD settings",
+                "data": {
+                    "scan_interval": "Scrape interval (seconds)"
+                }
+            }
+        },
+        "error": {
+            "invalid_interval": "Interval must be between {min} and {max} seconds"
         }
     }
 }
