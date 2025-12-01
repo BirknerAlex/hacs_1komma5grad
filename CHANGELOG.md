@@ -1,3 +1,9 @@
+## [1.3.0-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.2.1...v1.3.0-dev.1) (2025-12-01)
+
+### 🚀 Features
+
+* Added EV state of charge entity ([9298cc9](https://github.com/BirknerAlex/hacs_1komma5grad/commit/9298cc98758fd75628a004ae4dea49fc43f0c7b0))
+
 ## [1.2.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.2.0...v1.2.1) (2025-07-16)
 
 ### 🛠️ Fixes
