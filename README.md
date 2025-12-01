@@ -2,9 +2,7 @@
 
 # 1KOMMA5GRAD Home Assistant Integration
 
-> Warning: This integration is still in development and not yet ready for production use.
-
-This is a custom integration for [Home Assistant](https://www.home-assistant.io/) to integrate 1KOMMA5GRAD 
+This is a HACS integration for [Home Assistant](https://www.home-assistant.io/) to integrate 1KOMMA5GRAD 
 into your Home Assistant instance.
 
 This integration is not related to 1KOMMA5GRAD and not officially supported by them.
@@ -13,12 +11,41 @@ This integration is not related to 1KOMMA5GRAD and not officially supported by t
 
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=BirknerAlex&repository=hacs_1komma5grad)
 
-## Supported devices
+## Limited availability
 
-This integration is for the 1KOMMA5GRAD Heartbeat Device Model 2024 (gen 2). If you
-still using the first generation of the device, this integration will not work for you.
+This integration is for the latest 1KOMMA5GRAD Heartbeat API.
 
-If you still running the first generation, please take a look into https://github.com/derlangemarkus/1komma5grad_ha.
+> Warning: The new API is not available for all regions yet. The new API is required to use this integration with Home Assistant.
+
+To check if you are using the latest generation of the Heartbeat API, please try login on https://app.1komma5grad.com/.
+
+Currently supported regions for the new API are (as of December 2025):
+
+- Austria
+- Germany
+- Netherlands
+- Sweden
+- Switzerland
+
+You can check this also by going to https://gaia-charge.github.io/app-not-available/ and enter `6455889609` as App ID.
+This checks if the latest iOS App is available in your region, which also uses the new API.
+
+If you are still using https://my.1komma5.io/ for login (or the old App), you are still using the old API and please use this
+https://github.com/derlangemarkus/1komma5grad_ha to integrate 1KOMMA5GRAD into Home Assistant instead.
+
+## Warning 
+
+This integration is fully community driven and not officially supported by 1KOMMA5GRAD. Use at your own risk.
+We are not responsible for any damage or issues caused by using this integration.
+
+This integration is not affiliated with or endorsed by 1KOMMA5GRAD.
+
+This integration is regularly tested against the following Heartbeat components:
+
+- Chint DTSU666 (Power Meter) 
+- Mennekes Amtron Compact 2.0S (EV Charger)
+
+Other components like heat pumps are not tested due to lack of hardware availability.
 
 ## Contribute
 
