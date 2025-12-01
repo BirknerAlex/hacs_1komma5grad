@@ -1,3 +1,14 @@
+## [1.3.0](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.2.1...v1.3.0) (2025-12-01)
+
+### 📔 Docs
+
+* Updated README to match latest information ([7905d2b](https://github.com/BirknerAlex/hacs_1komma5grad/commit/7905d2bcd77118e49b0b8e94a4f55323ab12fb0a))
+
+### 🚀 Features
+
+* Added custom scrape interval settings ([ba5cf3d](https://github.com/BirknerAlex/hacs_1komma5grad/commit/ba5cf3de5a57b1b09c4d4d15bf2214da6f67e8ec)), closes [#15](https://github.com/BirknerAlex/hacs_1komma5grad/issues/15)
+* Added EV state of charge entity ([7c539f2](https://github.com/BirknerAlex/hacs_1komma5grad/commit/7c539f2bc00a8f0d45f462adc90a052c2f2d33cf))
+
 ## [1.3.0-dev.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.3.0-dev.1...v1.3.0-dev.2) (2025-12-01)
 
 ### 🚀 Features
