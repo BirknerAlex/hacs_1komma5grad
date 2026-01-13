@@ -62,7 +62,11 @@ class EVCharger:
         if self.charging_mode() != ChargingMode.SMART_CHARGE:
             return None
 
-        return float(self._data["manualSoc"] * 100.0)
+        manual_soc = self._data.get("manualSoc")
+        if manual_soc is None:
+            return None
+
+        return float(manual_soc * 100.0)
 
     def set_current_soc(self, soc: float) -> None:
         if self.charging_mode() != ChargingMode.SMART_CHARGE:
