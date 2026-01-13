@@ -1,3 +1,9 @@
+## [1.3.1-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.3.0...v1.3.1-dev.1) (2026-01-13)
+
+### 🛠️ Fixes
+
+* Handle missing `manualSoc` when retrieving EV charger state of charge ([ef23a03](https://github.com/BirknerAlex/hacs_1komma5grad/commit/ef23a03dc1c314f052d34b7fa44e0765c77ca0f8))
+
 ## [1.3.0](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.2.1...v1.3.0) (2025-12-01)
 
 ### 📔 Docs
