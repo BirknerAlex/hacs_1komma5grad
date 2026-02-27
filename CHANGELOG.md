@@ -1,3 +1,10 @@
+## [1.4.0-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.3.2-dev.1...v1.4.0-dev.1) (2026-02-27)
+
+### 🚀 Features
+
+* Add electricity price forecast attributes and update README ([6103ef3](https://github.com/BirknerAlex/hacs_1komma5grad/commit/6103ef36cc89b1d46599a6f6955c28637f7ffa6e))
+* Migrate API to v3/v4, fix EV entity discovery, add test suite ([a73c848](https://github.com/BirknerAlex/hacs_1komma5grad/commit/a73c848dfc319c8a3ca317d9119a01b584a76b3b)), closes [#21](https://github.com/BirknerAlex/hacs_1komma5grad/issues/21)
+
 ## [1.3.2-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.3.1...v1.3.2-dev.1) (2026-02-27)
 
 ### 🛠️ Fixes
