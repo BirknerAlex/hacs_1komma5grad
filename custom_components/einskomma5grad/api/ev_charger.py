@@ -2,7 +2,7 @@ from enum import Enum
 
 import requests
 
-from .client import Client
+from .client import Client, REQUEST_TIMEOUT
 from .error import RequestError
 
 
@@ -40,18 +40,22 @@ class EVCharger:
         if self.charging_mode() == mode:
             return
 
-        res = requests.patch(
-            url=self._api.HEARTBEAT_API
-            + "/api/v1/systems/"
-            + self._system.id()
-            + "/devices/evs/"
-            + self.id(),
-            json={"chargeSettings": {"chargingMode": mode.value}},
-            headers={
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + self._api.get_token(),
-            },
-        )
+        try:
+            res = requests.patch(
+                url=self._api.HEARTBEAT_API
+                + "/api/v1/systems/"
+                + self._system.id()
+                + "/devices/evs/"
+                + self.id(),
+                json={"chargeSettings": {"chargingMode": mode.value}},
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + self._api.get_token(),
+                },
+                timeout=REQUEST_TIMEOUT,
+            )
+        except requests.exceptions.RequestException as err:
+            raise RequestError(f"Failed to set charging mode due to network error: {err}") from err
 
         if res.status_code != 200:
             raise RequestError("Failed to set charging mode: " + res.text)
@@ -76,18 +80,22 @@ class EVCharger:
         if soc > 0:
             soc_decimal = float(soc / 100.0)
 
-        res = requests.patch(
-            url=self._api.HEARTBEAT_API
-                + "/api/v1/systems/"
-                + self._system.id()
-                + "/devices/evs/"
-                + self.id(),
-            json={"id":  self.id(), "manualSoc": soc_decimal},
-            headers={
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + self._api.get_token(),
-            },
-        )
+        try:
+            res = requests.patch(
+                url=self._api.HEARTBEAT_API
+                    + "/api/v1/systems/"
+                    + self._system.id()
+                    + "/devices/evs/"
+                    + self.id(),
+                json={"id":  self.id(), "manualSoc": soc_decimal},
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + self._api.get_token(),
+                },
+                timeout=REQUEST_TIMEOUT,
+            )
+        except requests.exceptions.RequestException as err:
+            raise RequestError(f"Failed to set state of charge due to network error: {err}") from err
 
         if res.status_code != 200:
             raise RequestError("Failed to set state of charge: " + res.text)
