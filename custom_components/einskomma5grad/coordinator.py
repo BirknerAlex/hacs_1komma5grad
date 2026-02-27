@@ -87,8 +87,9 @@ class Coordinator(DataUpdateCoordinator):
         try:
             systems = await self.hass.async_add_executor_job(systems_client.get_systems)
 
-            start = dt_util.now() - timedelta(hours=2)
-            end = dt_util.now() + timedelta(hours=2)
+            now = dt_util.now()
+            start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+            end = start + timedelta(days=2)
 
             prices = {}
             ems_settings = {}

@@ -1,3 +1,4 @@
+from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from homeassistant.components.sensor import SensorEntity
@@ -18,6 +19,7 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
 
         self._system_id = system_id
         self._prices = {}
+        self._price_summary = {}
         self._unit = '€/kWh' # Default unit
 
     @property
@@ -65,6 +67,61 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         """Return the device class of the sensor."""
         return UnitOfEnergy.KILO_WATT_HOUR
 
+    @property
+    def extra_state_attributes(self) -> dict:
+        """Return forecast and summary price attributes."""
+        attrs = {}
+
+        if not self._prices:
+            return attrs
+
+        now_utc = (
+            dt_util.now()
+            .replace(minute=0, second=0, microsecond=0)
+            .astimezone(ZoneInfo("UTC"))
+        )
+
+        # Build forecast list: future hours only, sorted chronologically
+        forecast = []
+        for timestamp_str, price_data in sorted(self._prices.items()):
+            try:
+                ts = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%MZ").replace(
+                    tzinfo=ZoneInfo("UTC")
+                )
+            except (ValueError, TypeError):
+                continue
+
+            if ts <= now_utc:
+                continue
+
+            price_value = price_data.get("marketPriceWithGridCostAndVat")
+            if price_value is not None:
+                forecast.append({
+                    "datetime": ts.isoformat(),
+                    "price": round(float(price_value), 4),
+                })
+
+        attrs["forecast"] = forecast
+
+        # Summary statistics from the API response
+        try:
+            summary = self._price_summary["energyMarketWithGridCostsAndVat"]
+            attrs["price_today_min"] = round(float(summary["lowestPrice"]["price"]["amount"]), 4)
+            attrs["price_today_max"] = round(float(summary["highestPrice"]["price"]["amount"]), 4)
+            attrs["price_today_avg"] = round(float(summary["averagePrice"]["price"]["amount"]), 4)
+        except (KeyError, TypeError, ValueError):
+            pass
+
+        # Cheapest upcoming hour
+        if forecast:
+            cheapest = min(forecast, key=lambda x: x["price"])
+            attrs["cheapest_upcoming_hour"] = cheapest["datetime"]
+            attrs["cheapest_upcoming_price"] = cheapest["price"]
+
+        attrs["forecast_hours_available"] = len(forecast)
+
+        return attrs
+
     @callback
     def _handle_coordinator_update(self) -> None:
         """Update sensor with latest data from coordinator."""
@@ -75,6 +132,7 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
             return
 
         self._prices = prices["timeseries"]
+        self._price_summary = prices
 
         # Determine currency from response metadata
         try:
