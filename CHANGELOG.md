@@ -1,3 +1,10 @@
+## [1.3.2-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.3.1...v1.3.2-dev.1) (2026-02-27)
+
+### 🛠️ Fixes
+
+* Add missing category parameter to HACS installation button URL ([c57d473](https://github.com/BirknerAlex/hacs_1komma5grad/commit/c57d47308a89f7948f49085c7f776e8723478f30)), closes [#30](https://github.com/BirknerAlex/hacs_1komma5grad/issues/30)
+* Improve token refresh resilience after internet outage ([5097b1a](https://github.com/BirknerAlex/hacs_1komma5grad/commit/5097b1a28163abb1cf52bc949ba36a7e71990206)), closes [#31](https://github.com/BirknerAlex/hacs_1komma5grad/issues/31)
+
 ## [1.3.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.3.0...v1.3.1) (2026-01-13)
 
 ### 🛠️ Fixes
