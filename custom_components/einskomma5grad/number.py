@@ -23,17 +23,8 @@ async def async_setup_entry(
 
     entities = []
 
-    for system in coordinator.data.systems:
-        cards = coordinator.data.live_overview[system.id()]["summaryCards"]
-
-        if "evs" not in cards:
-            continue
-
-        for ev in cards["evs"]:
-            if "assignedChargerName" not in ev:
-                continue
-
-            entities.append(EVCurrentStateOfCharge(coordinator, system.id(), ev["id"]))
+    for ev_id, ev in coordinator.data.ev_data.items():
+        entities.append(EVCurrentStateOfCharge(coordinator, ev.system_id, ev_id))
 
     async_add_entities(entities)
 

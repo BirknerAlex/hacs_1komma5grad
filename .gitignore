@@ -4,6 +4,7 @@
 
 # Local config
 .env
+.token
 
 # Python Cache files
 __pycache__/

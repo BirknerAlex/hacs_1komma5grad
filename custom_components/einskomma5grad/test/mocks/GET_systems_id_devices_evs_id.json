@@ -1,36 +1,36 @@
 {
-  "assignedChargerId": "00000000-0000-0000-0000-000000000000",
-  "chargeSettings": {
-    "chargingMode": "QUICK_CHARGE",
-    "chargingModeUpdatedAt": "2024-11-15T22:34:54.777Z",
-    "defaultSoc": 0.3,
-    "primaryScheduleDays": [],
-    "primaryScheduleDepartureSoc": 1,
-    "primaryScheduleDepartureTime": "08:00",
-    "secondaryScheduleDepartureSoc": null,
-    "secondaryScheduleDepartureTime": null,
-    "targetSoc": 0.5
-  },
   "id": "00000000-0000-0000-0000-000000000000",
-  "manualSoc": null,
-  "manualSocTimestamp": "2024-10-15T14:15:55.582Z",
   "profile": {
-    "averageConsumption": null,
-    "capacity": {
-      "unit": "Wh",
-      "value": 60000
-    },
-    "manufacturer": "Tesla",
-    "minChargingCurrent": {
-      "unit": "A",
-      "value": 5
-    },
-    "model": "Model Y",
     "name": "Tesla",
+    "manufacturer": "Tesla",
+    "model": "Model Y Performance",
+    "capacity": {
+      "value": 65000,
+      "unit": "Wh"
+    },
+    "averageConsumption": null,
+    "minChargingCurrent": {
+      "value": 5,
+      "unit": "A"
+    },
     "safetyRange": {
-      "unit": "km",
-      "value": 0
+      "value": 0,
+      "unit": "km"
     }
   },
-  "updatedAt": "2024-11-15T22:34:54.777Z"
+  "manualSoc": 0.5,
+  "manualSocTimestamp": "2025-12-01T18:04:28.924Z",
+  "assignedChargerId": "00000000-0000-0000-0000-000000000001",
+  "chargeSettings": {
+    "defaultSoc": 0.2,
+    "targetSoc": 0.59,
+    "chargingMode": "QUICK_CHARGE",
+    "chargingModeUpdatedAt": "2026-02-21T01:06:27.967Z",
+    "primaryScheduleDays": [],
+    "primaryScheduleDepartureTime": "08:00",
+    "primaryScheduleDepartureSoc": 1,
+    "secondaryScheduleDepartureTime": null,
+    "secondaryScheduleDepartureSoc": null
+  },
+  "updatedAt": "2026-02-21T01:06:27.967Z"
 }

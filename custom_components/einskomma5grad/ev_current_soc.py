@@ -28,7 +28,15 @@ class EVCurrentStateOfCharge(CoordinatorEntity, NumberEntity):
         self._attr_native_min_value = 0.0
         self._attr_native_max_value = 100.0
         self._attr_native_step = 1.0
-        self._attr_native_value: float | None = None
+
+        # Read initial state from already-fetched coordinator data
+        ev_data = coordinator.get_ev_data(ev_id)
+        if ev_data is not None:
+            self._attr_native_value = ev_data.current_soc
+            if ev_data.ev_name:
+                self._ev_name = ev_data.ev_name
+        else:
+            self._attr_native_value = None
 
     @property
     def icon(self):

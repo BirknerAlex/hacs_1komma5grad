@@ -1,4 +1,31 @@
 {
-  "manualSettings": {},
-  "overrideAutoSettings": false
+  "systemId": "00000000-0000-0000-0000-000000000000",
+  "createdAt": "2024-08-21T11:31:00.147Z",
+  "updatedAt": "2026-02-27T08:42:36.978Z",
+  "consentGiven": true,
+  "overrideAutoSettings": false,
+  "manualSettings": {
+    "0": {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "type": "EV_CHARGER",
+      "chargerName": "Wallbox",
+      "assignedEvId": "00000000-0000-0000-0000-000000000002",
+      "assignedEvName": "Tesla",
+      "activeChargingMode": "QUICK_CHARGE"
+    },
+    "1": {
+      "type": "BATTERY",
+      "enableForecastCharging": false
+    },
+    "2": {
+      "id": "00000000-0000-0000-0000-000000000003",
+      "type": "HEAT_PUMP",
+      "useSolarSurplus": false,
+      "maxSolarSurplusUsage": {
+        "value": 2,
+        "unit": "kW"
+      }
+    }
+  },
+  "timeOfUseEnabled": true
 }

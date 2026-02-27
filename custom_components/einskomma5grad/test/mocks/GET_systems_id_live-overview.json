@@ -1,98 +1,95 @@
 {
+  "timestamp": "2026-02-27T08:10:25Z",
+  "status": "ONLINE",
   "liveHeroView": {
+    "selfSufficiency": 1,
+    "production": {
+      "value": 1545,
+      "unit": "W"
+    },
     "consumption": {
-      "unit": "W",
-      "value": 900
-    },
-    "evChargersAggregated": {
-      "power": {
-        "unit": "W",
-        "value": 0
-      }
-    },
-    "grid": {
-      "unit": "W",
-      "value": 900
-    },
-    "gridConsumption": {
-      "unit": "W",
-      "value": 900
+      "value": 634.4,
+      "unit": "W"
     },
     "gridFeedIn": {
-      "unit": "W",
-      "value": 0
+      "value": 1.9,
+      "unit": "W"
+    },
+    "gridConsumption": {
+      "value": 0,
+      "unit": "W"
+    },
+    "grid": {
+      "value": -1.9,
+      "unit": "W"
+    },
+    "totalStateOfCharge": 0.03,
+    "evChargersAggregated": {
+      "power": {
+        "value": 0,
+        "unit": "W"
+      }
     },
     "heatPumpsAggregated": {
-      "power": null,
+      "power": {
+        "value": 0,
+        "unit": "W"
+      },
       "powerExternal": null
     },
-    "production": {
-      "unit": "W",
-      "value": 0
-    },
-    "selfSufficiency": 0,
-    "totalStateOfCharge": 0.05
+    "acsAggregated": {
+      "power": {
+        "value": 800,
+        "unit": "W"
+      }
+    }
   },
-  "status": "ONLINE",
   "summaryCards": {
+    "grid": {
+      "power": {
+        "value": -1.9,
+        "unit": "W"
+      }
+    },
     "battery": {
       "power": {
-        "unit": "W",
-        "value": 0
+        "value": -908.7,
+        "unit": "W"
       },
-      "stateOfCharge": 0.05
+      "stateOfCharge": 0.03
+    },
+    "photovoltaic": {
+      "production": {
+        "value": 1545,
+        "unit": "W"
+      }
     },
     "evChargers": [
       {
-        "assignedEvId": "2b4f771c-be18-4d18-8bad-4f00a20441d7",
-        "assignedEvName": "Tesla",
+        "applianceId": "00000000-0000-0000-0000-000000000001",
         "currentSoc": null,
-        "gridxHardwareId": "00d0e92a-47d9-4194-9ed3-c3b8fa11a350",
-        "name": "Wallbox",
         "power": {
-          "unit": "W",
-          "value": 0
+          "value": 0,
+          "unit": "W"
         },
         "powerSource": null
       }
     ],
-    "evs": [
+    "heatPumps": [],
+    "acs": [
       {
-        "assignedChargerName": "Wallbox",
-        "chargingMode": "SOLAR_CHARGE",
-        "currentSoc": null,
-        "id": "2b4f771c-be18-4d18-8bad-4f00a20441d7",
-        "manualSoc": null,
-        "manualSocTimestamp": "2024-10-15T14:15:55.582Z",
-        "name": "Tesla",
+        "applianceId": "00000000-0000-0000-0000-000000000002",
         "power": {
-          "unit": "W",
-          "value": 0
-        },
-        "powerSource": null,
-        "primaryScheduleDepartureTime": "08:00",
-        "targetSoc": 0.5
+          "value": 800,
+          "unit": "W"
+        }
       }
     ],
-    "grid": {
-      "power": {
-        "unit": "W",
-        "value": 900
-      }
-    },
-    "heatPumps": [],
     "household": {
       "power": {
-        "unit": "W",
-        "value": 900
-      }
-    },
-    "photovoltaic": {
-      "production": {
-        "unit": "W",
-        "value": 0
+        "value": 634.4,
+        "unit": "W"
       }
     }
-  },
-  "timestamp": "2024-11-15T22:19:47Z"
+  }
 }

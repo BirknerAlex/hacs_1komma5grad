@@ -1,262 +1,178 @@
 {
-  "consumption": {
-    "data": {
-      "2024-11-12T00:00:00.000Z": {
-        "energy": 0.9735
-      },
-      "2024-11-12T01:00:00.000Z": {
-        "energy": 1.1317
-      },
-      "2024-11-12T02:00:00.000Z": {
-        "energy": 0.9886
-      },
-      "2024-11-12T03:00:00.000Z": {
-        "energy": 0.8564
-      },
-      "2024-11-12T04:00:00.000Z": {
-        "energy": 0.5854
-      },
-      "2024-11-12T05:00:00.000Z": {
-        "energy": 0.5852
-      },
-      "2024-11-12T06:00:00.000Z": {
-        "energy": 0.5763
-      },
-      "2024-11-12T07:00:00.000Z": {
-        "energy": 0.5526
-      },
-      "2024-11-12T08:00:00.000Z": {
-        "energy": 0.5089
-      },
-      "2024-11-12T09:00:00.000Z": {
-        "energy": 0.3501
-      },
-      "2024-11-12T10:00:00.000Z": {
-        "energy": 0.502
-      },
-      "2024-11-12T11:00:00.000Z": {
-        "energy": 0.7045
-      },
-      "2024-11-12T12:00:00.000Z": {
-        "energy": 0.0355
-      },
-      "2024-11-12T13:00:00.000Z": {
-        "energy": 0.0092
-      },
-      "2024-11-12T14:00:00.000Z": {
-        "energy": 0.1281
-      },
-      "2024-11-12T15:00:00.000Z": {
-        "energy": 0.7287
-      },
-      "2024-11-12T16:00:00.000Z": {
-        "energy": 1.1259
-      },
-      "2024-11-12T17:00:00.000Z": {
-        "energy": 1.1251
-      },
-      "2024-11-12T18:00:00.000Z": {
-        "energy": 2.0973
-      },
-      "2024-11-12T19:00:00.000Z": {
-        "energy": 1.8875
-      },
-      "2024-11-12T20:00:00.000Z": {
-        "energy": 2.5221
-      },
-      "2024-11-12T21:00:00.000Z": {
-        "energy": 1.2318
-      },
-      "2024-11-12T22:00:00.000Z": {
-        "energy": 1.0939
-      },
-      "2024-11-12T23:00:00.000Z": {
-        "energy": 0.9111
-      }
-    },
-    "metadata": {
-      "units": {
-        "energy": "kWh"
-      }
-    }
-  },
   "energyMarket": {
-    "averagePrice": 16.61,
-    "data": {
-      "2024-11-12T00:00Z": {
-        "price": 11.03
+    "averagePrice": {
+      "price": {
+        "amount": "0.0536",
+        "currency": "EUR"
       },
-      "2024-11-12T01:00Z": {
-        "price": 10.46
-      },
-      "2024-11-12T02:00Z": {
-        "price": 10.27
-      },
-      "2024-11-12T03:00Z": {
-        "price": 10.4
-      },
-      "2024-11-12T04:00Z": {
-        "price": 10.75
-      },
-      "2024-11-12T05:00Z": {
-        "price": 11.8
-      },
-      "2024-11-12T06:00Z": {
-        "price": 14.77
-      },
-      "2024-11-12T07:00Z": {
-        "price": 18.55
-      },
-      "2024-11-12T08:00Z": {
-        "price": 20.16
-      },
-      "2024-11-12T09:00Z": {
-        "price": 22.33
-      },
-      "2024-11-12T10:00Z": {
-        "price": 19.02
-      },
-      "2024-11-12T11:00Z": {
-        "price": 17.11
-      },
-      "2024-11-12T12:00Z": {
-        "price": 16.16
-      },
-      "2024-11-12T13:00Z": {
-        "price": 15.65
-      },
-      "2024-11-12T14:00Z": {
-        "price": 17.44
-      },
-      "2024-11-12T15:00Z": {
-        "price": 21.88
-      },
-      "2024-11-12T16:00Z": {
-        "price": 27.27
-      },
-      "2024-11-12T17:00Z": {
-        "price": 31.79
-      },
-      "2024-11-12T18:00Z": {
-        "price": 22.53
-      },
-      "2024-11-12T19:00Z": {
-        "price": 17.14
-      },
-      "2024-11-12T20:00Z": {
-        "price": 14.91
-      },
-      "2024-11-12T21:00Z": {
-        "price": 13.19
-      },
-      "2024-11-12T22:00Z": {
-        "price": 12.52
-      },
-      "2024-11-12T23:00Z": {
-        "price": 11.56
-      }
+      "unit": "kWh"
     },
-    "highestPrice": 31.79,
-    "lowestPrice": 10.27,
-    "metadata": {
-      "units": {
-        "price": "ct/kWh"
-      }
+    "highestPrice": {
+      "price": {
+        "amount": "0.08885",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "lowestPrice": {
+      "price": {
+        "amount": "0.00389",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
     }
   },
   "energyMarketWithGridCosts": {
-    "averagePrice": 34.9,
-    "data": {
-      "2024-11-12T00:00Z": {
-        "price": 29.32
+    "averagePrice": {
+      "price": {
+        "amount": "0.1814",
+        "currency": "EUR"
       },
-      "2024-11-12T01:00Z": {
-        "price": 28.75
-      },
-      "2024-11-12T02:00Z": {
-        "price": 28.56
-      },
-      "2024-11-12T03:00Z": {
-        "price": 28.69
-      },
-      "2024-11-12T04:00Z": {
-        "price": 29.04
-      },
-      "2024-11-12T05:00Z": {
-        "price": 30.09
-      },
-      "2024-11-12T06:00Z": {
-        "price": 33.06
-      },
-      "2024-11-12T07:00Z": {
-        "price": 36.84
-      },
-      "2024-11-12T08:00Z": {
-        "price": 38.45
-      },
-      "2024-11-12T09:00Z": {
-        "price": 40.62
-      },
-      "2024-11-12T10:00Z": {
-        "price": 37.31
-      },
-      "2024-11-12T11:00Z": {
-        "price": 35.4
-      },
-      "2024-11-12T12:00Z": {
-        "price": 34.45
-      },
-      "2024-11-12T13:00Z": {
-        "price": 33.94
-      },
-      "2024-11-12T14:00Z": {
-        "price": 35.73
-      },
-      "2024-11-12T15:00Z": {
-        "price": 40.17
-      },
-      "2024-11-12T16:00Z": {
-        "price": 45.56
-      },
-      "2024-11-12T17:00Z": {
-        "price": 50.08
-      },
-      "2024-11-12T18:00Z": {
-        "price": 40.82
-      },
-      "2024-11-12T19:00Z": {
-        "price": 35.43
-      },
-      "2024-11-12T20:00Z": {
-        "price": 33.2
-      },
-      "2024-11-12T21:00Z": {
-        "price": 31.48
-      },
-      "2024-11-12T22:00Z": {
-        "price": 30.81
-      },
-      "2024-11-12T23:00Z": {
-        "price": 29.85
-      }
+      "unit": "kWh"
     },
-    "highestPrice": 50.08,
-    "lowestPrice": 28.56,
-    "metadata": {
-      "units": {
-        "price": "ct/kWh"
-      }
+    "highestPrice": {
+      "price": {
+        "amount": "0.21661",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "lowestPrice": {
+      "price": {
+        "amount": "0.13165",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
     }
   },
-  "gridCostsComponents": null,
-  "gridCostsTotal": {
-    "unit": "ct/kWh",
-    "value": 18.289109999999997
+  "energyMarketWithGridCostsAndVat": {
+    "averagePrice": {
+      "price": {
+        "amount": "0.2158",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "highestPrice": {
+      "price": {
+        "amount": "0.2578",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "lowestPrice": {
+      "price": {
+        "amount": "0.1567",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    }
   },
-  "performanceGuarantee": {
-    "unit": "ct/kWh",
-    "value": 21
+  "timeseries": {
+    "2026-02-27T06:00Z": {
+      "marketPrice": "0.08885",
+      "marketPriceWithVat": "0.1057315",
+      "marketPriceWithGridCost": "0.21661",
+      "marketPriceWithGridCostAndVat": "0.2577659",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.00448,
+      "gridFeedIn": 0.00631
+    },
+    "2026-02-27T07:00Z": {
+      "marketPrice": "0.07933",
+      "marketPriceWithVat": "0.0944027",
+      "marketPriceWithGridCost": "0.20709",
+      "marketPriceWithGridCostAndVat": "0.2464371",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.01662,
+      "gridFeedIn": 0.02527
+    },
+    "2026-02-27T08:00Z": {
+      "marketPrice": "0.064415",
+      "marketPriceWithVat": "0.07665385",
+      "marketPriceWithGridCost": "0.192175",
+      "marketPriceWithGridCostAndVat": "0.22868825",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.0011,
+      "gridFeedIn": 0.00437
+    },
+    "2026-02-27T09:00Z": {
+      "marketPrice": "0.0315475",
+      "marketPriceWithVat": "0.037541525",
+      "marketPriceWithGridCost": "0.1593075",
+      "marketPriceWithGridCostAndVat": "0.189575925",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-02-27T10:00Z": {
+      "marketPrice": "0.00389",
+      "marketPriceWithVat": "0.0046291",
+      "marketPriceWithGridCost": "0.13165",
+      "marketPriceWithGridCostAndVat": "0.1566635",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    }
+  },
+  "timeseriesMetadata": {
+    "units": {
+      "price": {
+        "currency": "EUR",
+        "perUnit": "kWh"
+      },
+      "energy": "kWh"
+    }
   },
   "usesFallbackGridCosts": false,
-  "vat": 0.19
+  "gridCostsComponents": {
+    "purchasingCost": {
+      "price": {
+        "amount": "0",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "energyTax": {
+      "price": {
+        "amount": "0.12776",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "fixedTariff": {
+      "price": {
+        "amount": "0",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "dynamicMarkup": {
+      "price": {
+        "amount": "0",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "feedInRemunerationAdjustment": {
+      "price": {
+        "amount": "0",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    }
+  },
+  "vat": 0.19,
+  "gridCostsTotal": {
+    "price": {
+      "amount": "0.1520344",
+      "currency": "EUR"
+    },
+    "unit": "kWh"
+  }
 }

@@ -4,7 +4,6 @@ from homeassistant.components.select import SelectEntity
 from homeassistant.core import callback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .api.ev_charger import ChargingMode
 from .const import DOMAIN
 from .coordinator import Coordinator
 
@@ -22,13 +21,16 @@ class EVChargingModeSelect(CoordinatorEntity, SelectEntity):
         self._system_id = system_id
         self._ev_id = ev_id
         self._ev_name = ev_id
-        self._attr_options = [
-            str(ChargingMode.QUICK_CHARGE.value),
-            str(ChargingMode.SMART_CHARGE.value),
-            str(ChargingMode.SOLAR_CHARGE.value),
-        ]
+        self._attr_options = coordinator.data.ev_charging_modes.get(system_id, [])
 
-        self._attr_current_option = None
+        # Read initial state from already-fetched coordinator data
+        ev_data = coordinator.get_ev_data(ev_id)
+        if ev_data is not None:
+            self._attr_current_option = ev_data.charging_mode
+            if ev_data.ev_name:
+                self._ev_name = ev_data.ev_name
+        else:
+            self._attr_current_option = None
 
     @property
     def icon(self):
@@ -79,16 +81,14 @@ class EVChargingModeSelect(CoordinatorEntity, SelectEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Update sensor with latest data from coordinator."""
-        live_overview = self.coordinator.get_live_data_by_id(self._system_id)[
-            "summaryCards"
-        ]
+        ev_data = self.coordinator.get_ev_data(self._ev_id)
+        if ev_data is not None:
+            self._attr_current_option = ev_data.charging_mode
+            if ev_data.ev_name:
+                self._ev_name = ev_data.ev_name
 
-        # iterate over all EVs and find the one with the matching ID
-        for ev in live_overview["evs"]:
-            if ev["id"] == self._ev_id:
-                self._attr_current_option = ev["chargingMode"]
-
-                if ev["name"]:
-                    self._ev_name = ev["name"]
+        self._attr_options = self.coordinator.data.ev_charging_modes.get(
+            self._system_id, []
+        )
 
         self.async_write_ha_state()

@@ -1,0 +1,17 @@
+{
+  "displayedEvChargingModes": [
+    {
+      "type": "SMART_CHARGE",
+      "disabled": false
+    },
+    {
+      "type": "SOLAR_CHARGE",
+      "disabled": false
+    },
+    {
+      "type": "QUICK_CHARGE",
+      "disabled": false
+    }
+  ],
+  "emsMode": "TOU"
+}

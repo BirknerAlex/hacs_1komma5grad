@@ -24,6 +24,8 @@ class EVData:
     """Class to hold EV data."""
     ev_name: str | None
     current_soc: float | None
+    charging_mode: str | None
+    system_id: str | None
 
 @dataclass
 class SystemsData:
@@ -38,6 +40,8 @@ class SystemsData:
     ems_settings: dict[str, bool] = None
 
     ev_data: dict[str, EVData] = None
+
+    ev_charging_modes: dict[str, list[str]] = None
 
 class Coordinator(DataUpdateCoordinator):
     """1KOMMA5GRAD coordinator."""
@@ -90,6 +94,7 @@ class Coordinator(DataUpdateCoordinator):
             ems_settings = {}
             live_overview = {}
             ev_data = {}
+            ev_charging_modes = {}
             for system in systems:
                 prices[system.id()] = await self.hass.async_add_executor_job(
                     system.get_prices,
@@ -113,7 +118,13 @@ class Coordinator(DataUpdateCoordinator):
                     ev_data[ev_charger.id()] = EVData(
                         ev_name=ev_charger.name(),
                         current_soc=ev_charger.current_soc(),
+                        charging_mode=ev_charger.charging_mode().value,
+                        system_id=system.id(),
                     )
+
+                ev_charging_modes[system.id()] = await self.hass.async_add_executor_job(
+                    system.get_displayed_ev_charging_modes,
+                )
 
             # What is returned here is stored in self.data by the DataUpdateCoordinator
             return SystemsData(
@@ -122,6 +133,7 @@ class Coordinator(DataUpdateCoordinator):
                 live_overview=live_overview,
                 ems_settings=ems_settings,
                 ev_data=ev_data,
+                ev_charging_modes=ev_charging_modes,
             )
         except ApiError as err:
             raise UpdateFailed(err) from err

@@ -6,7 +6,7 @@ from homeassistant.core import callback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 
-from .const import CURRENCY_ICON, DOMAIN, TIMEZONE
+from .const import CURRENCY_ICON, DOMAIN
 from .coordinator import Coordinator
 
 class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
@@ -18,8 +18,6 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
 
         self._system_id = system_id
         self._prices = {}
-        self._vat = 0
-        self._grid_costs = 0
         self._unit = '€/kWh' # Default unit
 
     @property
@@ -48,23 +46,17 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
     def native_value(self) -> None | float:
         """Return the state of the entity."""
 
-        tz = ZoneInfo(TIMEZONE)
         current_time = (
             dt_util.now()
             .replace(minute=0, second=0, microsecond=0)
-            .astimezone(tz)
+            .astimezone(ZoneInfo("UTC"))
             .strftime("%Y-%m-%dT%H:%MZ")
         )
 
         if current_time in self._prices:
             current_price_data = self._prices.get(current_time)
-            current_price = 0
-            if current_price_data and "price" in current_price_data:
-                current_price = float(current_price_data["price"])
-
-            total_net = float(current_price + self._grid_costs)
-
-            return round(total_net / 100.0 * self._vat, 4)
+            if current_price_data and "marketPriceWithGridCostAndVat" in current_price_data:
+                return round(float(current_price_data["marketPriceWithGridCostAndVat"]), 4)
 
         return None
 
@@ -78,38 +70,18 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         """Update sensor with latest data from coordinator."""
         prices = self.coordinator.get_prices_by_id(self._system_id)
 
-        if "vat" not in prices:
-            self.coordinator.logger.error("VAT not found in coordinator data")
+        if "timeseries" not in prices:
+            self.coordinator.logger.error("Timeseries data not found in coordinator data")
             return
 
-        if ("gridCostsComponents" not in prices or
-                not isinstance(prices["gridCostsComponents"], dict) or
-                "purchasingCost" not in prices["gridCostsComponents"] or
-                not isinstance(prices["gridCostsComponents"]["purchasingCost"], dict) or
-                "energyTax" not in prices["gridCostsComponents"] or
-                not isinstance(prices["gridCostsComponents"]["energyTax"], dict) or
-                "value" not in prices["gridCostsComponents"]["purchasingCost"] or
-                "value" not in prices["gridCostsComponents"]["energyTax"]):
-            self.coordinator.logger.error("Grid costs components not found in coordinator data")
-            return
+        self._prices = prices["timeseries"]
 
-        if "energyMarket" not in prices or "data" not in prices["energyMarket"]:
-            self.coordinator.logger.error("Energy market data not found in coordinator data")
-            return
-
-        self._vat = float(prices["vat"] + 1)
-
-        # Grid costs are the sum of the purchasing cost and the energy tax in ct/kWh
+        # Determine currency from response metadata
         try:
-            self._grid_costs = float(prices["gridCostsComponents"]["purchasingCost"]["value"] + prices["gridCostsComponents"]["energyTax"]["value"])
+            currency = prices["timeseriesMetadata"]["units"]["price"]["currency"]
+            per_unit = prices["timeseriesMetadata"]["units"]["price"]["perUnit"]
+            self._unit = f"{currency}/{per_unit}"
         except (KeyError, TypeError):
-            self.coordinator.logger.error("Grid costs components not found in coordinator data")
-            self._grid_costs = 0
-
-        # prices is a dict with the time as key and the price as value
-        self._prices = prices["energyMarket"]["data"]
-
-        # price unit e.g. "€/kWh"
-        self._unit = "€/kWh" # TODO: fetch currency from API somehow
+            self._unit = "€/kWh"
 
         self.async_write_ha_state()

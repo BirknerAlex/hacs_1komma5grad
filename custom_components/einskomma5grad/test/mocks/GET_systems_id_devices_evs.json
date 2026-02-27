@@ -1,0 +1,38 @@
+[
+  {
+    "id": "00000000-0000-0000-0000-000000000000",
+    "profile": {
+      "name": "Tesla",
+      "manufacturer": "Tesla",
+      "model": "Model Y Performance",
+      "capacity": {
+        "value": 65000,
+        "unit": "Wh"
+      },
+      "averageConsumption": null,
+      "minChargingCurrent": {
+        "value": 5,
+        "unit": "A"
+      },
+      "safetyRange": {
+        "value": 0,
+        "unit": "km"
+      }
+    },
+    "manualSoc": 0.5,
+    "manualSocTimestamp": "2025-12-01T18:04:28.924Z",
+    "assignedChargerId": "00000000-0000-0000-0000-000000000001",
+    "chargeSettings": {
+      "defaultSoc": 0.2,
+      "targetSoc": 0.59,
+      "chargingMode": "QUICK_CHARGE",
+      "chargingModeUpdatedAt": "2026-02-21T01:06:27.967Z",
+      "primaryScheduleDays": [],
+      "primaryScheduleDepartureTime": "08:00",
+      "primaryScheduleDepartureSoc": 1,
+      "secondaryScheduleDepartureTime": null,
+      "secondaryScheduleDepartureSoc": null
+    },
+    "updatedAt": "2026-02-21T01:06:27.967Z"
+  }
+]

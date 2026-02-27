@@ -19,7 +19,7 @@ class System:
         try:
             res = requests.get(
                 url=self.client.HEARTBEAT_API
-                + "/api/v1/systems/"
+                + "/api/v3/systems/"
                 + self.id()
                 + "/live-overview",
                 headers={
@@ -99,16 +99,42 @@ class System:
         if res.status_code != 201:
             raise RequestError("Failed to set EMS mode: " + res.text)
 
+    def get_displayed_ev_charging_modes(self) -> list[str]:
+        try:
+            res = requests.get(
+                url=self.client.HEARTBEAT_API
+                + "/api/v1/sites/"
+                + self.id()
+                + "/assets/evs/displayed-ev-charging-modes",
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + self.client.get_token(),
+                },
+                timeout=REQUEST_TIMEOUT,
+            )
+        except requests.exceptions.RequestException as err:
+            raise RequestError(f"Failed to get EV charging modes due to network error: {err}") from err
+
+        if res.status_code != 200:
+            raise RequestError("Failed to get EV charging modes: " + res.text)
+
+        data = res.json()
+        return [
+            mode["type"]
+            for mode in data.get("displayedEvChargingModes", [])
+            if not mode.get("disabled", False)
+        ]
+
     def get_prices(self, start: datetime, end: datetime):
         try:
             res = requests.get(
                 url=self.client.HEARTBEAT_API
-                + "/api/v2/systems/"
+                + "/api/v4/systems/"
                 + self.id()
                 + "/charts/market-prices",
                 params={
-                    "from": start.strftime("%Y-%m-%d"),
-                    "to": end.strftime("%Y-%m-%d"),
+                    "from": start.astimezone(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                    "to": end.astimezone(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
                     "resolution": "1h",
                 },
                 headers={
