@@ -1,3 +1,16 @@
+## [1.4.0](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.3.1...v1.4.0) (2026-02-27)
+
+### 🛠️ Fixes
+
+* Add missing category parameter to HACS installation button URL ([c57d473](https://github.com/BirknerAlex/hacs_1komma5grad/commit/c57d47308a89f7948f49085c7f776e8723478f30)), closes [#30](https://github.com/BirknerAlex/hacs_1komma5grad/issues/30)
+* Handle EMS settings API failure gracefully for newer Heartbeat ([f068f7c](https://github.com/BirknerAlex/hacs_1komma5grad/commit/f068f7cecf24fdb410326eb70c0d5114dbd96d0e))
+* Improve token refresh resilience after internet outage ([5097b1a](https://github.com/BirknerAlex/hacs_1komma5grad/commit/5097b1a28163abb1cf52bc949ba36a7e71990206)), closes [#31](https://github.com/BirknerAlex/hacs_1komma5grad/issues/31)
+
+### 🚀 Features
+
+* Add electricity price forecast attributes and update README ([6103ef3](https://github.com/BirknerAlex/hacs_1komma5grad/commit/6103ef36cc89b1d46599a6f6955c28637f7ffa6e))
+* Migrate API to v3/v4, fix EV entity discovery, add test suite ([a73c848](https://github.com/BirknerAlex/hacs_1komma5grad/commit/a73c848dfc319c8a3ca317d9119a01b584a76b3b)), closes [#21](https://github.com/BirknerAlex/hacs_1komma5grad/issues/21)
+
 ## [1.4.0-dev.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.4.0-dev.1...v1.4.0-dev.2) (2026-02-27)
 
 ### 🛠️ Fixes
