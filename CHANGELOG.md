@@ -1,3 +1,9 @@
+## [1.4.0-dev.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.4.0-dev.1...v1.4.0-dev.2) (2026-02-27)
+
+### 🛠️ Fixes
+
+* Handle EMS settings API failure gracefully for newer Heartbeat ([f068f7c](https://github.com/BirknerAlex/hacs_1komma5grad/commit/f068f7cecf24fdb410326eb70c0d5114dbd96d0e))
+
 ## [1.4.0-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.3.2-dev.1...v1.4.0-dev.1) (2026-02-27)
 
 ### 🚀 Features
