@@ -103,9 +103,16 @@ class Coordinator(DataUpdateCoordinator):
                     end,
                 )
 
-                ems_settings[system.id()] = await self.hass.async_add_executor_job(
-                    system.get_ems_settings,
-                )
+                try:
+                    ems_settings[system.id()] = await self.hass.async_add_executor_job(
+                        system.get_ems_settings,
+                    )
+                except ApiError:
+                    _LOGGER.warning(
+                        "Failed to get EMS settings for system %s, skipping",
+                        system.id(),
+                    )
+                    ems_settings[system.id()] = None
 
                 live_overview[system.id()] = await self.hass.async_add_executor_job(
                     system.get_live_overview,

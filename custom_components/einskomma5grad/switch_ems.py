@@ -38,6 +38,11 @@ class EmsSwitch(CoordinatorEntity, SwitchEntity):
         return f"{DOMAIN}_ems_auto_mode_{self._system_id}"
 
     @property
+    def available(self) -> bool:
+        """Return False when EMS settings are not available."""
+        return self._enabled is not None
+
+    @property
     def device_class(self) -> SwitchDeviceClass | None:
         """Return the class of this device, from component DEVICE_CLASSES."""
         return SwitchDeviceClass.SWITCH
@@ -64,8 +69,10 @@ class EmsSwitch(CoordinatorEntity, SwitchEntity):
 
     @callback
     def _handle_coordinator_update(self) -> None:
-        self._enabled = not self.coordinator.data.ems_settings[self._system_id][
-            "overrideAutoSettings"
-        ]
+        settings = self.coordinator.data.ems_settings.get(self._system_id)
+        if settings is None:
+            self._enabled = None
+        else:
+            self._enabled = not settings["overrideAutoSettings"]
 
         self.async_write_ha_state()
