@@ -66,7 +66,12 @@ class BatteryPowerInSensor(CoordinatorEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Update sensor with latest data from coordinator."""
-        self._summary_cards = self.coordinator.get_live_data_by_id(self._system_id)[
+        live_data = self.coordinator.get_live_data_by_id(self._system_id)
+
+        if live_data is None:
+            return
+
+        self._summary_cards = live_data[
             "summaryCards"
         ]
 
@@ -129,7 +134,12 @@ class BatteryPowerOutSensor(CoordinatorEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Update sensor with latest data from coordinator."""
-        self._summary_cards = self.coordinator.get_live_data_by_id(self._system_id)[
+        live_data = self.coordinator.get_live_data_by_id(self._system_id)
+
+        if live_data is None:
+            return
+
+        self._summary_cards = live_data[
             "summaryCards"
         ]
 

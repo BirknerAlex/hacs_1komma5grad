@@ -85,7 +85,14 @@ class Coordinator(DataUpdateCoordinator):
         systems_client = Systems(self.api)
 
         try:
-            systems = await self.hass.async_add_executor_job(systems_client.get_systems)
+            try:
+                systems = await self.hass.async_add_executor_job(systems_client.get_systems)
+            except ApiError:
+                if self.data is not None:
+                    _LOGGER.warning("Failed to get systems, using cached data")
+                    systems = self.data.systems
+                else:
+                    raise
 
             now = dt_util.now()
             start = now.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -97,11 +104,18 @@ class Coordinator(DataUpdateCoordinator):
             ev_data = {}
             ev_charging_modes = {}
             for system in systems:
-                prices[system.id()] = await self.hass.async_add_executor_job(
-                    system.get_prices,
-                    start,
-                    end,
-                )
+                try:
+                    prices[system.id()] = await self.hass.async_add_executor_job(
+                        system.get_prices,
+                        start,
+                        end,
+                    )
+                except ApiError:
+                    _LOGGER.warning(
+                        "Failed to get prices for system %s, skipping",
+                        system.id(),
+                    )
+                    prices[system.id()] = self.data.prices.get(system.id()) if self.data else None
 
                 try:
                     ems_settings[system.id()] = await self.hass.async_add_executor_job(
@@ -114,13 +128,27 @@ class Coordinator(DataUpdateCoordinator):
                     )
                     ems_settings[system.id()] = None
 
-                live_overview[system.id()] = await self.hass.async_add_executor_job(
-                    system.get_live_overview,
-                )
+                try:
+                    live_overview[system.id()] = await self.hass.async_add_executor_job(
+                        system.get_live_overview,
+                    )
+                except ApiError:
+                    _LOGGER.warning(
+                        "Failed to get live overview for system %s, skipping",
+                        system.id(),
+                    )
+                    live_overview[system.id()] = self.data.live_overview.get(system.id()) if self.data else None
 
-                ev_chargers = await self.hass.async_add_executor_job(
-                    system.get_ev_chargers,
-                )
+                try:
+                    ev_chargers = await self.hass.async_add_executor_job(
+                        system.get_ev_chargers,
+                    )
+                except ApiError:
+                    _LOGGER.warning(
+                        "Failed to get EV chargers for system %s, skipping",
+                        system.id(),
+                    )
+                    ev_chargers = []
 
                 for ev_charger in ev_chargers:
                     ev_data[ev_charger.id()] = EVData(
@@ -130,9 +158,16 @@ class Coordinator(DataUpdateCoordinator):
                         system_id=system.id(),
                     )
 
-                ev_charging_modes[system.id()] = await self.hass.async_add_executor_job(
-                    system.get_displayed_ev_charging_modes,
-                )
+                try:
+                    ev_charging_modes[system.id()] = await self.hass.async_add_executor_job(
+                        system.get_displayed_ev_charging_modes,
+                    )
+                except ApiError:
+                    _LOGGER.warning(
+                        "Failed to get EV charging modes for system %s, skipping",
+                        system.id(),
+                    )
+                    ev_charging_modes[system.id()] = self.data.ev_charging_modes.get(system.id()) if self.data else None
 
             # What is returned here is stored in self.data by the DataUpdateCoordinator
             return SystemsData(
