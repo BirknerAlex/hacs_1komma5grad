@@ -85,7 +85,12 @@ class GenericPowerSensor(CoordinatorEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Update sensor with latest data from coordinator."""
-        self._live_data = self.coordinator.get_live_data_by_id(self._system_id)[
+        live_data = self.coordinator.get_live_data_by_id(self._system_id)
+
+        if live_data is None:
+            return
+
+        self._live_data = live_data[
             "liveHeroView"
         ]
 

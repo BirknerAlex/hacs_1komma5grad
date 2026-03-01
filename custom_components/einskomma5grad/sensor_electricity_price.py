@@ -127,6 +127,9 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         """Update sensor with latest data from coordinator."""
         prices = self.coordinator.get_prices_by_id(self._system_id)
 
+        if prices is None:
+            return
+
         if "timeseries" not in prices:
             self.coordinator.logger.error("Timeseries data not found in coordinator data")
             return
