@@ -114,18 +114,45 @@ You can use these in Developer Tools > Templates or in automations:
 Start a device when the cheapest upcoming hour begins:
 
 ```yaml
-automation:
-  - alias: "Run dishwasher at cheapest hour"
-    trigger:
-      - platform: template
-        value_template: >
-          {{ now().isoformat()[:13] ==
-             state_attr('sensor.electricity_price_YOUR_SYSTEM_ID', 'cheapest_upcoming_hour')[:13] }}
-    action:
-      - service: switch.turn_on
-        target:
-          entity_id: switch.dishwasher
+alias: "Run dishwasher at cheapest hour"
+trigger:
+  - platform: template
+    value_template: >
+      {{ now().isoformat()[:13] ==
+         state_attr('sensor.electricity_price_YOUR_SYSTEM_ID', 'cheapest_upcoming_hour')[:13] }}
+action:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.dishwasher
 ```
+
+### Sync EV SoC to EV Charger
+
+If your EV integration exposes a battery level sensor (e.g. [Tesla](https://www.home-assistant.io/integrations/tesla_fleet/), [Hyundai/Kia](https://github.com/Hyundai-Homeassistant/hyundai_kia_connect), [BMW](https://www.home-assistant.io/integrations/bmw_connected_drive/), or any other), you can sync the EV's state of charge to the EV charger so it always has an accurate SoC for smart charging decisions. The example below uses Tesla, but simply replace the sensor entity with your EV's battery level sensor:
+
+```yaml
+alias: Sync EV SoC to 1KOMMA5GRAD EV Charger
+description: ""
+triggers:
+  - entity_id: sensor.my_tesla_battery_level
+    trigger: state
+conditions:
+  - condition: template
+    value_template: |
+      {{ states('sensor.my_tesla_battery_level') | int(0) > 0 and
+         states('sensor.my_tesla_battery_level') | int(0) != states('number.ev_current_state_of_charge_YOUR_SYSTEM_ID') | int(0)
+      }}
+actions:
+  - target:
+      entity_id: number.ev_current_state_of_charge_YOUR_SYSTEM_ID
+    data:
+      value: "{{ states('sensor.my_tesla_battery_level') | int(0) }}"
+    action: number.set_value
+  - delay: "00:10:00"
+mode: single
+```
+
+Replace `sensor.my_tesla_battery_level` with your EV's battery level sensor entity and `number.ev_current_state_of_charge_YOUR_SYSTEM_ID` with your EV charger SoC entity.
 
 ## Warning
 
