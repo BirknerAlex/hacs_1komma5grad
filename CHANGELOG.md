@@ -1,3 +1,13 @@
+## [1.4.1-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.4.0...v1.4.1-dev.1) (2026-03-29)
+
+### 🛠️ Fixes
+
+* Use 15-min price resolution and correct CET timezone handling ([7a36a92](https://github.com/BirknerAlex/hacs_1komma5grad/commit/7a36a92443089d05a18259946b6e1628087f3b34)), closes [#35](https://github.com/BirknerAlex/hacs_1komma5grad/issues/35)
+
+### 📔 Docs
+
+* Update README with EV SoC sync example and fix automation format ([2f35ba7](https://github.com/BirknerAlex/hacs_1komma5grad/commit/2f35ba7fa27c86eaf8b401c1ced014e7b822f37d))
+
 ## [1.4.0](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.3.1...v1.4.0) (2026-02-27)
 
 ### 🛠️ Fixes
