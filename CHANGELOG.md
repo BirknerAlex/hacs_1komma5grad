@@ -1,3 +1,9 @@
+## [1.5.0-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.4.1...v1.5.0-dev.1) (2026-03-29)
+
+### 🚀 Features
+
+* Add device registry support for entities ([#33](https://github.com/BirknerAlex/hacs_1komma5grad/issues/33)) ([8f4f07e](https://github.com/BirknerAlex/hacs_1komma5grad/commit/8f4f07e525185cffb7528c809aaf873077a97d84))
+
 ## [1.4.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.4.0...v1.4.1) (2026-03-29)
 
 ### 🛠️ Fixes
