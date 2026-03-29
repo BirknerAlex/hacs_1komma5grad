@@ -2,21 +2,21 @@
   "energyMarket": {
     "averagePrice": {
       "price": {
-        "amount": "0.0536",
+        "amount": "0.06354893617021276596",
         "currency": "EUR"
       },
       "unit": "kWh"
     },
     "highestPrice": {
       "price": {
-        "amount": "0.08885",
+        "amount": "0.13599",
         "currency": "EUR"
       },
       "unit": "kWh"
     },
     "lowestPrice": {
       "price": {
-        "amount": "0.00389",
+        "amount": "-0.00281",
         "currency": "EUR"
       },
       "unit": "kWh"
@@ -25,21 +25,21 @@
   "energyMarketWithGridCosts": {
     "averagePrice": {
       "price": {
-        "amount": "0.1814",
+        "amount": "0.19130893617021276596",
         "currency": "EUR"
       },
       "unit": "kWh"
     },
     "highestPrice": {
       "price": {
-        "amount": "0.21661",
+        "amount": "0.26375",
         "currency": "EUR"
       },
       "unit": "kWh"
     },
     "lowestPrice": {
       "price": {
-        "amount": "0.13165",
+        "amount": "0.12495",
         "currency": "EUR"
       },
       "unit": "kWh"
@@ -48,502 +48,1902 @@
   "energyMarketWithGridCostsAndVat": {
     "averagePrice": {
       "price": {
-        "amount": "0.2158",
+        "amount": "0.22765763404255319149",
         "currency": "EUR"
       },
       "unit": "kWh"
     },
     "highestPrice": {
       "price": {
-        "amount": "0.2578",
+        "amount": "0.3138625",
         "currency": "EUR"
       },
       "unit": "kWh"
     },
     "lowestPrice": {
       "price": {
-        "amount": "0.1567",
+        "amount": "0.1486905",
         "currency": "EUR"
       },
       "unit": "kWh"
     }
   },
   "timeseries": {
-    "2026-02-27T00:00Z": {
-      "marketPrice": "0.04200",
-      "marketPriceWithVat": "0.04998",
-      "marketPriceWithGridCost": "0.16976",
-      "marketPriceWithGridCostAndVat": "0.20201",
+    "2026-03-28T23:00Z": {
+      "marketPrice": "0.12588",
+      "marketPriceWithVat": "0.1497972",
+      "marketPriceWithGridCost": "0.25364",
+      "marketPriceWithGridCostAndVat": "0.3018316",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.002,
-      "gridFeedIn": 0.0
+      "gridConsumption": 0.0028055,
+      "gridFeedIn": 0.0025575000000000003
     },
-    "2026-02-27T01:00Z": {
-      "marketPrice": "0.03800",
-      "marketPriceWithVat": "0.04522",
-      "marketPriceWithGridCost": "0.16576",
-      "marketPriceWithGridCostAndVat": "0.19725",
+    "2026-03-28T23:15Z": {
+      "marketPrice": "0.12023",
+      "marketPriceWithVat": "0.1430737",
+      "marketPriceWithGridCost": "0.24799",
+      "marketPriceWithGridCostAndVat": "0.2951081",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.001,
-      "gridFeedIn": 0.0
+      "gridConsumption": 0.00423775,
+      "gridFeedIn": 0.00420125
     },
-    "2026-02-27T02:00Z": {
-      "marketPrice": "0.03500",
-      "marketPriceWithVat": "0.04165",
-      "marketPriceWithGridCost": "0.16276",
-      "marketPriceWithGridCostAndVat": "0.19368",
+    "2026-03-28T23:30Z": {
+      "marketPrice": "0.10828",
+      "marketPriceWithVat": "0.1288532",
+      "marketPriceWithGridCost": "0.23604",
+      "marketPriceWithGridCostAndVat": "0.2808876",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.001,
-      "gridFeedIn": 0.0
+      "gridConsumption": 0.005450999999999999,
+      "gridFeedIn": 0.0041595
     },
-    "2026-02-27T03:00Z": {
-      "marketPrice": "0.03300",
-      "marketPriceWithVat": "0.03927",
-      "marketPriceWithGridCost": "0.16076",
-      "marketPriceWithGridCostAndVat": "0.19130",
+    "2026-03-28T23:45Z": {
+      "marketPrice": "0.10385",
+      "marketPriceWithVat": "0.1235815",
+      "marketPriceWithGridCost": "0.23161",
+      "marketPriceWithGridCostAndVat": "0.2756159",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.001,
-      "gridFeedIn": 0.0
+      "gridConsumption": 0.0036345,
+      "gridFeedIn": 0.004502
     },
-    "2026-02-27T04:00Z": {
-      "marketPrice": "0.03600",
-      "marketPriceWithVat": "0.04284",
-      "marketPriceWithGridCost": "0.16376",
-      "marketPriceWithGridCostAndVat": "0.19487",
+    "2026-03-29T00:00Z": {
+      "marketPrice": "0.11205",
+      "marketPriceWithVat": "0.1333395",
+      "marketPriceWithGridCost": "0.23981",
+      "marketPriceWithGridCostAndVat": "0.2853739",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.001,
-      "gridFeedIn": 0.0
+      "gridConsumption": 0.00199525,
+      "gridFeedIn": 0.002012
     },
-    "2026-02-27T05:00Z": {
-      "marketPrice": "0.05200",
-      "marketPriceWithVat": "0.06188",
-      "marketPriceWithGridCost": "0.17976",
-      "marketPriceWithGridCostAndVat": "0.21391",
+    "2026-03-29T00:15Z": {
+      "marketPrice": "0.10751",
+      "marketPriceWithVat": "0.1279369",
+      "marketPriceWithGridCost": "0.23527",
+      "marketPriceWithGridCostAndVat": "0.2799713",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.003,
-      "gridFeedIn": 0.0
+      "gridConsumption": 0.00329,
+      "gridFeedIn": 0.001926
     },
-    "2026-02-27T06:00Z": {
-      "marketPrice": "0.08885",
-      "marketPriceWithVat": "0.1057315",
-      "marketPriceWithGridCost": "0.21661",
-      "marketPriceWithGridCostAndVat": "0.2577659",
+    "2026-03-29T00:30Z": {
+      "marketPrice": "0.10701",
+      "marketPriceWithVat": "0.1273419",
+      "marketPriceWithGridCost": "0.23477",
+      "marketPriceWithGridCostAndVat": "0.2793763",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.00448,
-      "gridFeedIn": 0.00631
+      "gridConsumption": 0.00164725,
+      "gridFeedIn": 0.0021035
     },
-    "2026-02-27T07:00Z": {
-      "marketPrice": "0.07933",
-      "marketPriceWithVat": "0.0944027",
-      "marketPriceWithGridCost": "0.20709",
-      "marketPriceWithGridCostAndVat": "0.2464371",
+    "2026-03-29T00:45Z": {
+      "marketPrice": "0.10422",
+      "marketPriceWithVat": "0.1240218",
+      "marketPriceWithGridCost": "0.23198",
+      "marketPriceWithGridCostAndVat": "0.2760562",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.01662,
-      "gridFeedIn": 0.02527
+      "gridConsumption": 0.00176325,
+      "gridFeedIn": 0.002664
     },
-    "2026-02-27T08:00Z": {
-      "marketPrice": "0.064415",
-      "marketPriceWithVat": "0.07665385",
-      "marketPriceWithGridCost": "0.192175",
-      "marketPriceWithGridCostAndVat": "0.22868825",
+    "2026-03-29T01:00Z": {
+      "marketPrice": "0.10211",
+      "marketPriceWithVat": "0.1215109",
+      "marketPriceWithGridCost": "0.22987",
+      "marketPriceWithGridCostAndVat": "0.2735453",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.0011,
-      "gridFeedIn": 0.00437
+      "gridConsumption": 0.365416,
+      "gridFeedIn": 0.000002
     },
-    "2026-02-27T09:00Z": {
-      "marketPrice": "0.0315475",
-      "marketPriceWithVat": "0.037541525",
-      "marketPriceWithGridCost": "0.1593075",
-      "marketPriceWithGridCostAndVat": "0.189575925",
+    "2026-03-29T01:15Z": {
+      "marketPrice": "0.10026",
+      "marketPriceWithVat": "0.1193094",
+      "marketPriceWithGridCost": "0.22802",
+      "marketPriceWithGridCostAndVat": "0.2713438",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.4085705,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T01:30Z": {
+      "marketPrice": "0.10118",
+      "marketPriceWithVat": "0.1204042",
+      "marketPriceWithGridCost": "0.22894",
+      "marketPriceWithGridCostAndVat": "0.2724386",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.5308635,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T01:45Z": {
+      "marketPrice": "0.10111",
+      "marketPriceWithVat": "0.1203209",
+      "marketPriceWithGridCost": "0.22887",
+      "marketPriceWithGridCostAndVat": "0.2723553",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.43352675,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T02:00Z": {
+      "marketPrice": "0.10941",
+      "marketPriceWithVat": "0.1301979",
+      "marketPriceWithGridCost": "0.23717",
+      "marketPriceWithGridCostAndVat": "0.2822323",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.00420925,
+      "gridFeedIn": 0.0020724999999999997
+    },
+    "2026-03-29T02:15Z": {
+      "marketPrice": "0.10335",
+      "marketPriceWithVat": "0.1229865",
+      "marketPriceWithGridCost": "0.23111",
+      "marketPriceWithGridCostAndVat": "0.2750209",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.408784,
+      "gridFeedIn": 0.000001
+    },
+    "2026-03-29T02:30Z": {
+      "marketPrice": "0.10432",
+      "marketPriceWithVat": "0.1241408",
+      "marketPriceWithGridCost": "0.23208",
+      "marketPriceWithGridCostAndVat": "0.2761752",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.0064080000000000005,
+      "gridFeedIn": 0.0039375
+    },
+    "2026-03-29T02:45Z": {
+      "marketPrice": "0.10382",
+      "marketPriceWithVat": "0.1235458",
+      "marketPriceWithGridCost": "0.23158",
+      "marketPriceWithGridCostAndVat": "0.2755802",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.30271,
+      "gridFeedIn": 0.0000125
+    },
+    "2026-03-29T03:00Z": {
+      "marketPrice": "0.10357",
+      "marketPriceWithVat": "0.1232483",
+      "marketPriceWithGridCost": "0.23133",
+      "marketPriceWithGridCostAndVat": "0.2752827",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.23333725000000002,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T03:15Z": {
+      "marketPrice": "0.10368",
+      "marketPriceWithVat": "0.1233792",
+      "marketPriceWithGridCost": "0.23144",
+      "marketPriceWithGridCostAndVat": "0.2754136",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.20513050000000002,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T03:30Z": {
+      "marketPrice": "0.10524",
+      "marketPriceWithVat": "0.1252356",
+      "marketPriceWithGridCost": "0.233",
+      "marketPriceWithGridCostAndVat": "0.27727",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.00317875,
+      "gridFeedIn": 0.001259
+    },
+    "2026-03-29T03:45Z": {
+      "marketPrice": "0.10593",
+      "marketPriceWithVat": "0.1260567",
+      "marketPriceWithGridCost": "0.23369",
+      "marketPriceWithGridCostAndVat": "0.2780911",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.00171225,
+      "gridFeedIn": 0.0016645000000000002
+    },
+    "2026-03-29T04:00Z": {
+      "marketPrice": "0.10233",
+      "marketPriceWithVat": "0.1217727",
+      "marketPriceWithGridCost": "0.23009",
+      "marketPriceWithGridCostAndVat": "0.2738071",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.20654075,
+      "gridFeedIn": 0.00001025
+    },
+    "2026-03-29T04:15Z": {
+      "marketPrice": "0.1053",
+      "marketPriceWithVat": "0.125307",
+      "marketPriceWithGridCost": "0.23306",
+      "marketPriceWithGridCostAndVat": "0.2773414",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.25440225,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T04:30Z": {
+      "marketPrice": "0.11359",
+      "marketPriceWithVat": "0.1351721",
+      "marketPriceWithGridCost": "0.24135",
+      "marketPriceWithGridCostAndVat": "0.2872065",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.00570125,
+      "gridFeedIn": 0.00572375
+    },
+    "2026-03-29T04:45Z": {
+      "marketPrice": "0.1178",
+      "marketPriceWithVat": "0.140182",
+      "marketPriceWithGridCost": "0.24556",
+      "marketPriceWithGridCostAndVat": "0.2922164",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.0035009999999999998,
+      "gridFeedIn": 0.0033675000000000003
+    },
+    "2026-03-29T05:00Z": {
+      "marketPrice": "0.11967",
+      "marketPriceWithVat": "0.1424073",
+      "marketPriceWithGridCost": "0.24743",
+      "marketPriceWithGridCostAndVat": "0.2944417",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.0034700000000000004,
+      "gridFeedIn": 0.00353775
+    },
+    "2026-03-29T05:15Z": {
+      "marketPrice": "0.11524",
+      "marketPriceWithVat": "0.1371356",
+      "marketPriceWithGridCost": "0.243",
+      "marketPriceWithGridCostAndVat": "0.28917",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.0032294999999999997,
+      "gridFeedIn": 0.0043095
+    },
+    "2026-03-29T05:30Z": {
+      "marketPrice": "0.113",
+      "marketPriceWithVat": "0.13447",
+      "marketPriceWithGridCost": "0.24076",
+      "marketPriceWithGridCostAndVat": "0.2865044",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.07852475,
+      "gridFeedIn": 0.0024537499999999998
+    },
+    "2026-03-29T05:45Z": {
+      "marketPrice": "0.11221",
+      "marketPriceWithVat": "0.1335299",
+      "marketPriceWithGridCost": "0.23997",
+      "marketPriceWithGridCostAndVat": "0.2855643",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.0954865,
+      "gridFeedIn": 0.0000075
+    },
+    "2026-03-29T06:00Z": {
+      "marketPrice": "0.12247",
+      "marketPriceWithVat": "0.1457393",
+      "marketPriceWithGridCost": "0.25023",
+      "marketPriceWithGridCostAndVat": "0.2977737",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.44836225,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T06:15Z": {
+      "marketPrice": "0.125",
+      "marketPriceWithVat": "0.14875",
+      "marketPriceWithGridCost": "0.25276",
+      "marketPriceWithGridCostAndVat": "0.3007844",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.42748775,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T06:30Z": {
+      "marketPrice": "0.10899",
+      "marketPriceWithVat": "0.1296981",
+      "marketPriceWithGridCost": "0.23675",
+      "marketPriceWithGridCostAndVat": "0.2817325",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.05756375,
+      "gridFeedIn": 0.0079265
+    },
+    "2026-03-29T06:45Z": {
+      "marketPrice": "0.10291",
+      "marketPriceWithVat": "0.1224629",
+      "marketPriceWithGridCost": "0.23067",
+      "marketPriceWithGridCostAndVat": "0.2744973",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.014888750000000001,
+      "gridFeedIn": 0.0175545
+    },
+    "2026-03-29T07:00Z": {
+      "marketPrice": "0.11224",
+      "marketPriceWithVat": "0.1335656",
+      "marketPriceWithGridCost": "0.24",
+      "marketPriceWithGridCostAndVat": "0.2856",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.0153655,
+      "gridFeedIn": 0.013996000000000001
+    },
+    "2026-03-29T07:15Z": {
+      "marketPrice": "0.09482",
+      "marketPriceWithVat": "0.1128358",
+      "marketPriceWithGridCost": "0.22258",
+      "marketPriceWithGridCostAndVat": "0.2648702",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.0133165,
+      "gridFeedIn": 0.016598250000000002
+    },
+    "2026-03-29T07:30Z": {
+      "marketPrice": "0.08906",
+      "marketPriceWithVat": "0.1059814",
+      "marketPriceWithGridCost": "0.21682",
+      "marketPriceWithGridCostAndVat": "0.2580158",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.0035830000000000002,
+      "gridFeedIn": 0.0037175
+    },
+    "2026-03-29T07:45Z": {
+      "marketPrice": "0.08147",
+      "marketPriceWithVat": "0.0969493",
+      "marketPriceWithGridCost": "0.20923",
+      "marketPriceWithGridCostAndVat": "0.2489837",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.00719375,
+      "gridFeedIn": 0.008224750000000001
+    },
+    "2026-03-29T08:00Z": {
+      "marketPrice": "0.09796",
+      "marketPriceWithVat": "0.1165724",
+      "marketPriceWithGridCost": "0.22572",
+      "marketPriceWithGridCostAndVat": "0.2686068",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.020483,
+      "gridFeedIn": 0.018601
+    },
+    "2026-03-29T08:15Z": {
+      "marketPrice": "0.08391",
+      "marketPriceWithVat": "0.0998529",
+      "marketPriceWithGridCost": "0.21167",
+      "marketPriceWithGridCostAndVat": "0.2518873",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.0038610000000000003,
+      "gridFeedIn": 0.005449
+    },
+    "2026-03-29T08:30Z": {
+      "marketPrice": "0.07055",
+      "marketPriceWithVat": "0.0839545",
+      "marketPriceWithGridCost": "0.19831",
+      "marketPriceWithGridCostAndVat": "0.2359889",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.0088255,
+      "gridFeedIn": 0.00985425
+    },
+    "2026-03-29T08:45Z": {
+      "marketPrice": "0.04681",
+      "marketPriceWithVat": "0.0557039",
+      "marketPriceWithGridCost": "0.17457",
+      "marketPriceWithGridCostAndVat": "0.2077383",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.03340875,
+      "gridFeedIn": 0.034293
+    },
+    "2026-03-29T09:00Z": {
+      "marketPrice": "0.0706",
+      "marketPriceWithVat": "0.084014",
+      "marketPriceWithGridCost": "0.19836",
+      "marketPriceWithGridCostAndVat": "0.2360484",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.01935875,
+      "gridFeedIn": 0.013457
+    },
+    "2026-03-29T09:15Z": {
+      "marketPrice": "0.05529",
+      "marketPriceWithVat": "0.0657951",
+      "marketPriceWithGridCost": "0.18305",
+      "marketPriceWithGridCostAndVat": "0.2178295",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.0167495,
+      "gridFeedIn": 0.02190575
+    },
+    "2026-03-29T09:30Z": {
+      "marketPrice": "0.04291",
+      "marketPriceWithVat": "0.0510629",
+      "marketPriceWithGridCost": "0.17067",
+      "marketPriceWithGridCostAndVat": "0.2030973",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.03070825,
+      "gridFeedIn": 0.031242750000000003
+    },
+    "2026-03-29T09:45Z": {
+      "marketPrice": "0.00999",
+      "marketPriceWithVat": "0.0118881",
+      "marketPriceWithGridCost": "0.13775",
+      "marketPriceWithGridCostAndVat": "0.1639225",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.020858250000000002,
+      "gridFeedIn": 0.01960825
+    },
+    "2026-03-29T10:00Z": {
+      "marketPrice": "0.02623",
+      "marketPriceWithVat": "0.0312137",
+      "marketPriceWithGridCost": "0.15399",
+      "marketPriceWithGridCostAndVat": "0.1832481",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.03091725,
+      "gridFeedIn": 0.030791250000000003
+    },
+    "2026-03-29T10:15Z": {
+      "marketPrice": "0.00778",
+      "marketPriceWithVat": "0.0092582",
+      "marketPriceWithGridCost": "0.13554",
+      "marketPriceWithGridCostAndVat": "0.1612926",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.019342500000000002,
+      "gridFeedIn": 0.014753249999999999
+    },
+    "2026-03-29T10:30Z": {
+      "marketPrice": "0.00469",
+      "marketPriceWithVat": "0.0055811",
+      "marketPriceWithGridCost": "0.13245",
+      "marketPriceWithGridCostAndVat": "0.1576155",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.01096575,
+      "gridFeedIn": 0.015441000000000002
+    },
+    "2026-03-29T10:45Z": {
+      "marketPrice": "0.00022",
+      "marketPriceWithVat": "0.0002618",
+      "marketPriceWithGridCost": "0.12798",
+      "marketPriceWithGridCostAndVat": "0.1522962",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.03505475,
+      "gridFeedIn": 0.0334985
+    },
+    "2026-03-29T11:00Z": {
+      "marketPrice": "0.00109",
+      "marketPriceWithVat": "0.0012971",
+      "marketPriceWithGridCost": "0.12885",
+      "marketPriceWithGridCostAndVat": "0.1533315",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.03060875,
+      "gridFeedIn": 0.02844325
+    },
+    "2026-03-29T11:15Z": {
+      "marketPrice": "0",
+      "marketPriceWithVat": "0",
+      "marketPriceWithGridCost": "0.12776",
+      "marketPriceWithGridCostAndVat": "0.1520344",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.032622,
+      "gridFeedIn": 0.03785725
+    },
+    "2026-03-29T11:30Z": {
+      "marketPrice": "-0.00006",
+      "marketPriceWithVat": "-0.0000714",
+      "marketPriceWithGridCost": "0.1277",
+      "marketPriceWithGridCostAndVat": "0.151963",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.022143,
+      "gridFeedIn": 0.0210325
+    },
+    "2026-03-29T11:45Z": {
+      "marketPrice": "-0.00105",
+      "marketPriceWithVat": "-0.0012495",
+      "marketPriceWithGridCost": "0.12671",
+      "marketPriceWithGridCostAndVat": "0.1507849",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.02014525,
+      "gridFeedIn": 0.026408
+    },
+    "2026-03-29T12:00Z": {
+      "marketPrice": "-0.00101",
+      "marketPriceWithVat": "-0.0012019",
+      "marketPriceWithGridCost": "0.12675",
+      "marketPriceWithGridCostAndVat": "0.1508325",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.0164515,
+      "gridFeedIn": 0.49854475000000004
+    },
+    "2026-03-29T12:15Z": {
+      "marketPrice": "-0.00121",
+      "marketPriceWithVat": "-0.0014399",
+      "marketPriceWithGridCost": "0.12655",
+      "marketPriceWithGridCostAndVat": "0.1505945",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.020265250000000002,
+      "gridFeedIn": 0.20326175000000002
+    },
+    "2026-03-29T12:30Z": {
+      "marketPrice": "-0.00211",
+      "marketPriceWithVat": "-0.0025109",
+      "marketPriceWithGridCost": "0.12565",
+      "marketPriceWithGridCostAndVat": "0.1495235",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0.52056325
+    },
+    "2026-03-29T12:45Z": {
+      "marketPrice": "-0.00281",
+      "marketPriceWithVat": "-0.0033439",
+      "marketPriceWithGridCost": "0.12495",
+      "marketPriceWithGridCostAndVat": "0.1486905",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0.0010907500000000001,
+      "gridFeedIn": 0.67458125
+    },
+    "2026-03-29T13:00Z": {
+      "marketPrice": "-0.00202",
+      "marketPriceWithVat": "-0.0024038",
+      "marketPriceWithGridCost": "0.12574",
+      "marketPriceWithGridCostAndVat": "0.1496306",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0.69486
+    },
+    "2026-03-29T13:15Z": {
+      "marketPrice": "-0.0024",
+      "marketPriceWithVat": "-0.002856",
+      "marketPriceWithGridCost": "0.12536",
+      "marketPriceWithGridCostAndVat": "0.1491784",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-27T10:00Z": {
-      "marketPrice": "0.00389",
-      "marketPriceWithVat": "0.0046291",
-      "marketPriceWithGridCost": "0.13165",
-      "marketPriceWithGridCostAndVat": "0.1566635",
+    "2026-03-29T13:30Z": {
+      "marketPrice": "-0.00207",
+      "marketPriceWithVat": "-0.0024633",
+      "marketPriceWithGridCost": "0.12569",
+      "marketPriceWithGridCostAndVat": "0.1495711",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-27T11:00Z": {
-      "marketPrice": "-0.00120",
-      "marketPriceWithVat": "-0.001428",
-      "marketPriceWithGridCost": "0.12656",
-      "marketPriceWithGridCostAndVat": "0.15060",
-      "gridCosts": "0.12776",
-      "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0,
-      "gridFeedIn": 0.005
-    },
-    "2026-02-27T12:00Z": {
-      "marketPrice": "-0.00550",
-      "marketPriceWithVat": "-0.006545",
-      "marketPriceWithGridCost": "0.12226",
-      "marketPriceWithGridCostAndVat": "0.14549",
-      "gridCosts": "0.12776",
-      "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0,
-      "gridFeedIn": 0.012
-    },
-    "2026-02-27T13:00Z": {
-      "marketPrice": "-0.00300",
-      "marketPriceWithVat": "-0.00357",
-      "marketPriceWithGridCost": "0.12476",
-      "marketPriceWithGridCostAndVat": "0.14846",
-      "gridCosts": "0.12776",
-      "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0,
-      "gridFeedIn": 0.008
-    },
-    "2026-02-27T14:00Z": {
-      "marketPrice": "0.01200",
-      "marketPriceWithVat": "0.01428",
-      "marketPriceWithGridCost": "0.13976",
-      "marketPriceWithGridCostAndVat": "0.16631",
-      "gridCosts": "0.12776",
-      "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.001,
-      "gridFeedIn": 0.003
-    },
-    "2026-02-27T15:00Z": {
-      "marketPrice": "0.02500",
-      "marketPriceWithVat": "0.02975",
-      "marketPriceWithGridCost": "0.15276",
-      "marketPriceWithGridCostAndVat": "0.18178",
-      "gridCosts": "0.12776",
-      "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.002,
-      "gridFeedIn": 0.001
-    },
-    "2026-02-27T16:00Z": {
-      "marketPrice": "0.05800",
-      "marketPriceWithVat": "0.06902",
-      "marketPriceWithGridCost": "0.18576",
-      "marketPriceWithGridCostAndVat": "0.22105",
-      "gridCosts": "0.12776",
-      "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.005,
-      "gridFeedIn": 0.0
-    },
-    "2026-02-27T17:00Z": {
-      "marketPrice": "0.07800",
-      "marketPriceWithVat": "0.09282",
-      "marketPriceWithGridCost": "0.20576",
-      "marketPriceWithGridCostAndVat": "0.24485",
-      "gridCosts": "0.12776",
-      "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.012,
-      "gridFeedIn": 0.0
-    },
-    "2026-02-27T18:00Z": {
-      "marketPrice": "0.08200",
-      "marketPriceWithVat": "0.09758",
-      "marketPriceWithGridCost": "0.20976",
-      "marketPriceWithGridCostAndVat": "0.24961",
-      "gridCosts": "0.12776",
-      "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.015,
-      "gridFeedIn": 0.0
-    },
-    "2026-02-27T19:00Z": {
-      "marketPrice": "0.07100",
-      "marketPriceWithVat": "0.08449",
-      "marketPriceWithGridCost": "0.19876",
-      "marketPriceWithGridCostAndVat": "0.23652",
-      "gridCosts": "0.12776",
-      "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.010,
-      "gridFeedIn": 0.0
-    },
-    "2026-02-27T20:00Z": {
-      "marketPrice": "0.06000",
-      "marketPriceWithVat": "0.07140",
-      "marketPriceWithGridCost": "0.18776",
-      "marketPriceWithGridCostAndVat": "0.22343",
-      "gridCosts": "0.12776",
-      "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.008,
-      "gridFeedIn": 0.0
-    },
-    "2026-02-27T21:00Z": {
-      "marketPrice": "0.05000",
-      "marketPriceWithVat": "0.05950",
-      "marketPriceWithGridCost": "0.17776",
-      "marketPriceWithGridCostAndVat": "0.21153",
-      "gridCosts": "0.12776",
-      "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.005,
-      "gridFeedIn": 0.0
-    },
-    "2026-02-27T22:00Z": {
-      "marketPrice": "0.04500",
-      "marketPriceWithVat": "0.05355",
-      "marketPriceWithGridCost": "0.17276",
-      "marketPriceWithGridCostAndVat": "0.20558",
-      "gridCosts": "0.12776",
-      "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.003,
-      "gridFeedIn": 0.0
-    },
-    "2026-02-27T23:00Z": {
-      "marketPrice": "0.04000",
-      "marketPriceWithVat": "0.04760",
-      "marketPriceWithGridCost": "0.16776",
-      "marketPriceWithGridCostAndVat": "0.19963",
-      "gridCosts": "0.12776",
-      "gridCostsWithVat": "0.1520344",
-      "gridConsumption": 0.002,
-      "gridFeedIn": 0.0
-    },
-    "2026-02-28T00:00Z": {
-      "marketPrice": "0.04100",
-      "marketPriceWithVat": "0.04879",
-      "marketPriceWithGridCost": "0.16876",
-      "marketPriceWithGridCostAndVat": "0.20082",
+    "2026-03-29T13:45Z": {
+      "marketPrice": "-0.00191",
+      "marketPriceWithVat": "-0.0022729",
+      "marketPriceWithGridCost": "0.12585",
+      "marketPriceWithGridCostAndVat": "0.1497615",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T01:00Z": {
-      "marketPrice": "0.03700",
-      "marketPriceWithVat": "0.04403",
-      "marketPriceWithGridCost": "0.16476",
-      "marketPriceWithGridCostAndVat": "0.19606",
+    "2026-03-29T14:00Z": {
+      "marketPrice": "-0.00008",
+      "marketPriceWithVat": "-0.0000952",
+      "marketPriceWithGridCost": "0.12768",
+      "marketPriceWithGridCostAndVat": "0.1519392",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T02:00Z": {
-      "marketPrice": "0.03400",
-      "marketPriceWithVat": "0.04046",
-      "marketPriceWithGridCost": "0.16176",
-      "marketPriceWithGridCostAndVat": "0.19249",
+    "2026-03-29T14:15Z": {
+      "marketPrice": "0",
+      "marketPriceWithVat": "0",
+      "marketPriceWithGridCost": "0.12776",
+      "marketPriceWithGridCostAndVat": "0.1520344",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T03:00Z": {
-      "marketPrice": "0.03200",
-      "marketPriceWithVat": "0.03808",
-      "marketPriceWithGridCost": "0.15976",
-      "marketPriceWithGridCostAndVat": "0.19011",
+    "2026-03-29T14:30Z": {
+      "marketPrice": "0",
+      "marketPriceWithVat": "0",
+      "marketPriceWithGridCost": "0.12776",
+      "marketPriceWithGridCostAndVat": "0.1520344",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T04:00Z": {
-      "marketPrice": "0.03500",
-      "marketPriceWithVat": "0.04165",
-      "marketPriceWithGridCost": "0.16276",
-      "marketPriceWithGridCostAndVat": "0.19368",
+    "2026-03-29T14:45Z": {
+      "marketPrice": "0.00357",
+      "marketPriceWithVat": "0.0042483",
+      "marketPriceWithGridCost": "0.13133",
+      "marketPriceWithGridCostAndVat": "0.1562827",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T05:00Z": {
-      "marketPrice": "0.05000",
-      "marketPriceWithVat": "0.05950",
-      "marketPriceWithGridCost": "0.17776",
-      "marketPriceWithGridCostAndVat": "0.21153",
+    "2026-03-29T15:00Z": {
+      "marketPrice": "0.0025",
+      "marketPriceWithVat": "0.002975",
+      "marketPriceWithGridCost": "0.13026",
+      "marketPriceWithGridCostAndVat": "0.1550094",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T06:00Z": {
-      "marketPrice": "0.08500",
+    "2026-03-29T15:15Z": {
+      "marketPrice": "0.01441",
+      "marketPriceWithVat": "0.0171479",
+      "marketPriceWithGridCost": "0.14217",
+      "marketPriceWithGridCostAndVat": "0.1691823",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T15:30Z": {
+      "marketPrice": "0.03425",
+      "marketPriceWithVat": "0.0407575",
+      "marketPriceWithGridCost": "0.16201",
+      "marketPriceWithGridCostAndVat": "0.1927919",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T15:45Z": {
+      "marketPrice": "0.08208",
+      "marketPriceWithVat": "0.0976752",
+      "marketPriceWithGridCost": "0.20984",
+      "marketPriceWithGridCostAndVat": "0.2497096",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T16:00Z": {
+      "marketPrice": "0.05805",
+      "marketPriceWithVat": "0.0690795",
+      "marketPriceWithGridCost": "0.18581",
+      "marketPriceWithGridCostAndVat": "0.2211139",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T16:15Z": {
+      "marketPrice": "0.08091",
+      "marketPriceWithVat": "0.0962829",
+      "marketPriceWithGridCost": "0.20867",
+      "marketPriceWithGridCostAndVat": "0.2483173",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T16:30Z": {
+      "marketPrice": "0.09798",
+      "marketPriceWithVat": "0.1165962",
+      "marketPriceWithGridCost": "0.22574",
+      "marketPriceWithGridCostAndVat": "0.2686306",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T16:45Z": {
+      "marketPrice": "0.1201",
+      "marketPriceWithVat": "0.142919",
+      "marketPriceWithGridCost": "0.24786",
+      "marketPriceWithGridCostAndVat": "0.2949534",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T17:00Z": {
+      "marketPrice": "0.09924",
+      "marketPriceWithVat": "0.1180956",
+      "marketPriceWithGridCost": "0.227",
+      "marketPriceWithGridCostAndVat": "0.27013",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T17:15Z": {
+      "marketPrice": "0.10884",
+      "marketPriceWithVat": "0.1295196",
+      "marketPriceWithGridCost": "0.2366",
+      "marketPriceWithGridCostAndVat": "0.281554",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T17:30Z": {
+      "marketPrice": "0.10862",
+      "marketPriceWithVat": "0.1292578",
+      "marketPriceWithGridCost": "0.23638",
+      "marketPriceWithGridCostAndVat": "0.2812922",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T17:45Z": {
+      "marketPrice": "0.10601",
+      "marketPriceWithVat": "0.1261519",
+      "marketPriceWithGridCost": "0.23377",
+      "marketPriceWithGridCostAndVat": "0.2781863",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T18:00Z": {
+      "marketPrice": "0.11971",
+      "marketPriceWithVat": "0.1424549",
+      "marketPriceWithGridCost": "0.24747",
+      "marketPriceWithGridCostAndVat": "0.2944893",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T18:15Z": {
+      "marketPrice": "0.10791",
+      "marketPriceWithVat": "0.1284129",
+      "marketPriceWithGridCost": "0.23567",
+      "marketPriceWithGridCostAndVat": "0.2804473",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T18:30Z": {
+      "marketPrice": "0.08118",
+      "marketPriceWithVat": "0.0966042",
+      "marketPriceWithGridCost": "0.20894",
+      "marketPriceWithGridCostAndVat": "0.2486386",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T18:45Z": {
+      "marketPrice": "0.07192",
+      "marketPriceWithVat": "0.0855848",
+      "marketPriceWithGridCost": "0.19968",
+      "marketPriceWithGridCostAndVat": "0.2376192",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T19:00Z": {
+      "marketPrice": "0.09633",
+      "marketPriceWithVat": "0.1146327",
+      "marketPriceWithGridCost": "0.22409",
+      "marketPriceWithGridCostAndVat": "0.2666671",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T19:15Z": {
+      "marketPrice": "0.08531",
+      "marketPriceWithVat": "0.1015189",
+      "marketPriceWithGridCost": "0.21307",
+      "marketPriceWithGridCostAndVat": "0.2535533",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T19:30Z": {
+      "marketPrice": "0.06392",
+      "marketPriceWithVat": "0.0760648",
+      "marketPriceWithGridCost": "0.19168",
+      "marketPriceWithGridCostAndVat": "0.2280992",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T19:45Z": {
+      "marketPrice": "0.05369",
+      "marketPriceWithVat": "0.0638911",
+      "marketPriceWithGridCost": "0.18145",
+      "marketPriceWithGridCostAndVat": "0.2159255",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T20:00Z": {
+      "marketPrice": "0.09659",
+      "marketPriceWithVat": "0.1149421",
+      "marketPriceWithGridCost": "0.22435",
+      "marketPriceWithGridCostAndVat": "0.2669765",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T20:15Z": {
+      "marketPrice": "0.07799",
+      "marketPriceWithVat": "0.0928081",
+      "marketPriceWithGridCost": "0.20575",
+      "marketPriceWithGridCostAndVat": "0.2448425",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T20:30Z": {
+      "marketPrice": "0.06223",
+      "marketPriceWithVat": "0.0740537",
+      "marketPriceWithGridCost": "0.18999",
+      "marketPriceWithGridCostAndVat": "0.2260881",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T20:45Z": {
+      "marketPrice": "0.03059",
+      "marketPriceWithVat": "0.0364021",
+      "marketPriceWithGridCost": "0.15835",
+      "marketPriceWithGridCostAndVat": "0.1884365",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T21:00Z": {
+      "marketPrice": "0.05519",
+      "marketPriceWithVat": "0.0656761",
+      "marketPriceWithGridCost": "0.18295",
+      "marketPriceWithGridCostAndVat": "0.2177105",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T21:15Z": {
+      "marketPrice": "0.0248",
+      "marketPriceWithVat": "0.029512",
+      "marketPriceWithGridCost": "0.15256",
+      "marketPriceWithGridCostAndVat": "0.1815464",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T21:30Z": {
+      "marketPrice": "0.01759",
+      "marketPriceWithVat": "0.0209321",
+      "marketPriceWithGridCost": "0.14535",
+      "marketPriceWithGridCostAndVat": "0.1729665",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T21:45Z": {
+      "marketPrice": "0.00496",
+      "marketPriceWithVat": "0.0059024",
+      "marketPriceWithGridCost": "0.13272",
+      "marketPriceWithGridCostAndVat": "0.1579368",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T22:00Z": {
+      "marketPrice": "0.01776",
+      "marketPriceWithVat": "0.0211344",
+      "marketPriceWithGridCost": "0.14552",
+      "marketPriceWithGridCostAndVat": "0.1731688",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T22:15Z": {
+      "marketPrice": "0.00943",
+      "marketPriceWithVat": "0.0112217",
+      "marketPriceWithGridCost": "0.13719",
+      "marketPriceWithGridCostAndVat": "0.1632561",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T22:30Z": {
+      "marketPrice": "0.00517",
+      "marketPriceWithVat": "0.0061523",
+      "marketPriceWithGridCost": "0.13293",
+      "marketPriceWithGridCostAndVat": "0.1581867",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T22:45Z": {
+      "marketPrice": "0.00443",
+      "marketPriceWithVat": "0.0052717",
+      "marketPriceWithGridCost": "0.13219",
+      "marketPriceWithGridCostAndVat": "0.1573061",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T23:00Z": {
+      "marketPrice": "0.00425",
+      "marketPriceWithVat": "0.0050575",
+      "marketPriceWithGridCost": "0.13201",
+      "marketPriceWithGridCostAndVat": "0.1570919",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T23:15Z": {
+      "marketPrice": "0.00314",
+      "marketPriceWithVat": "0.0037366",
+      "marketPriceWithGridCost": "0.1309",
+      "marketPriceWithGridCostAndVat": "0.155771",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T23:30Z": {
+      "marketPrice": "0.00159",
+      "marketPriceWithVat": "0.0018921",
+      "marketPriceWithGridCost": "0.12935",
+      "marketPriceWithGridCostAndVat": "0.1539265",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-29T23:45Z": {
+      "marketPrice": "0.00022",
+      "marketPriceWithVat": "0.0002618",
+      "marketPriceWithGridCost": "0.12798",
+      "marketPriceWithGridCostAndVat": "0.1522962",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T00:00Z": {
+      "marketPrice": "0.00548",
+      "marketPriceWithVat": "0.0065212",
+      "marketPriceWithGridCost": "0.13324",
+      "marketPriceWithGridCostAndVat": "0.1585556",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T00:15Z": {
+      "marketPrice": "0.0045",
+      "marketPriceWithVat": "0.005355",
+      "marketPriceWithGridCost": "0.13226",
+      "marketPriceWithGridCostAndVat": "0.1573894",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T00:30Z": {
+      "marketPrice": "0.00497",
+      "marketPriceWithVat": "0.0059143",
+      "marketPriceWithGridCost": "0.13273",
+      "marketPriceWithGridCostAndVat": "0.1579487",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T00:45Z": {
+      "marketPrice": "0.00513",
+      "marketPriceWithVat": "0.0061047",
+      "marketPriceWithGridCost": "0.13289",
+      "marketPriceWithGridCostAndVat": "0.1581391",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T01:00Z": {
+      "marketPrice": "0.00308",
+      "marketPriceWithVat": "0.0036652",
+      "marketPriceWithGridCost": "0.13084",
+      "marketPriceWithGridCostAndVat": "0.1556996",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T01:15Z": {
+      "marketPrice": "0.0038",
+      "marketPriceWithVat": "0.004522",
+      "marketPriceWithGridCost": "0.13156",
+      "marketPriceWithGridCostAndVat": "0.1565564",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T01:30Z": {
+      "marketPrice": "0.00391",
+      "marketPriceWithVat": "0.0046529",
+      "marketPriceWithGridCost": "0.13167",
+      "marketPriceWithGridCostAndVat": "0.1566873",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T01:45Z": {
+      "marketPrice": "0.00451",
+      "marketPriceWithVat": "0.0053669",
+      "marketPriceWithGridCost": "0.13227",
+      "marketPriceWithGridCostAndVat": "0.1574013",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T02:00Z": {
+      "marketPrice": "0.00219",
+      "marketPriceWithVat": "0.0026061",
+      "marketPriceWithGridCost": "0.12995",
+      "marketPriceWithGridCostAndVat": "0.1546405",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T02:15Z": {
+      "marketPrice": "0.00354",
+      "marketPriceWithVat": "0.0042126",
+      "marketPriceWithGridCost": "0.1313",
+      "marketPriceWithGridCostAndVat": "0.156247",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T02:30Z": {
+      "marketPrice": "0.00408",
+      "marketPriceWithVat": "0.0048552",
+      "marketPriceWithGridCost": "0.13184",
+      "marketPriceWithGridCostAndVat": "0.1568896",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T02:45Z": {
+      "marketPrice": "0.00762",
+      "marketPriceWithVat": "0.0090678",
+      "marketPriceWithGridCost": "0.13538",
+      "marketPriceWithGridCostAndVat": "0.1611022",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T03:00Z": {
+      "marketPrice": "0.00354",
+      "marketPriceWithVat": "0.0042126",
+      "marketPriceWithGridCost": "0.1313",
+      "marketPriceWithGridCostAndVat": "0.156247",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T03:15Z": {
+      "marketPrice": "0.00762",
+      "marketPriceWithVat": "0.0090678",
+      "marketPriceWithGridCost": "0.13538",
+      "marketPriceWithGridCostAndVat": "0.1611022",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T03:30Z": {
+      "marketPrice": "0.01723",
+      "marketPriceWithVat": "0.0205037",
+      "marketPriceWithGridCost": "0.14499",
+      "marketPriceWithGridCostAndVat": "0.1725381",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T03:45Z": {
+      "marketPrice": "0.0453",
+      "marketPriceWithVat": "0.053907",
+      "marketPriceWithGridCost": "0.17306",
+      "marketPriceWithGridCostAndVat": "0.2059414",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T04:00Z": {
+      "marketPrice": "0.02605",
+      "marketPriceWithVat": "0.0309995",
+      "marketPriceWithGridCost": "0.15381",
+      "marketPriceWithGridCostAndVat": "0.1830339",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T04:15Z": {
+      "marketPrice": "0.0635",
+      "marketPriceWithVat": "0.075565",
+      "marketPriceWithGridCost": "0.19126",
+      "marketPriceWithGridCostAndVat": "0.2275994",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T04:30Z": {
+      "marketPrice": "0.08796",
+      "marketPriceWithVat": "0.1046724",
+      "marketPriceWithGridCost": "0.21572",
+      "marketPriceWithGridCostAndVat": "0.2567068",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T04:45Z": {
+      "marketPrice": "0.08997",
+      "marketPriceWithVat": "0.1070643",
+      "marketPriceWithGridCost": "0.21773",
+      "marketPriceWithGridCostAndVat": "0.2590987",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T05:00Z": {
+      "marketPrice": "0.07312",
+      "marketPriceWithVat": "0.0870128",
+      "marketPriceWithGridCost": "0.20088",
+      "marketPriceWithGridCostAndVat": "0.2390472",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T05:15Z": {
+      "marketPrice": "0.08948",
+      "marketPriceWithVat": "0.1064812",
+      "marketPriceWithGridCost": "0.21724",
+      "marketPriceWithGridCostAndVat": "0.2585156",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T05:30Z": {
+      "marketPrice": "0.10052",
+      "marketPriceWithVat": "0.1196188",
+      "marketPriceWithGridCost": "0.22828",
+      "marketPriceWithGridCostAndVat": "0.2716532",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T05:45Z": {
+      "marketPrice": "0.09813",
+      "marketPriceWithVat": "0.1167747",
+      "marketPriceWithGridCost": "0.22589",
+      "marketPriceWithGridCostAndVat": "0.2688091",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T06:00Z": {
+      "marketPrice": "0.11673",
+      "marketPriceWithVat": "0.1389087",
+      "marketPriceWithGridCost": "0.24449",
+      "marketPriceWithGridCostAndVat": "0.2909431",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T06:15Z": {
+      "marketPrice": "0.10826",
+      "marketPriceWithVat": "0.1288294",
+      "marketPriceWithGridCost": "0.23602",
+      "marketPriceWithGridCostAndVat": "0.2808638",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T06:30Z": {
+      "marketPrice": "0.10839",
+      "marketPriceWithVat": "0.1289841",
+      "marketPriceWithGridCost": "0.23615",
+      "marketPriceWithGridCostAndVat": "0.2810185",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T06:45Z": {
+      "marketPrice": "0.10351",
+      "marketPriceWithVat": "0.1231769",
+      "marketPriceWithGridCost": "0.23127",
+      "marketPriceWithGridCostAndVat": "0.2752113",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T07:00Z": {
+      "marketPrice": "0.11185",
+      "marketPriceWithVat": "0.1331015",
+      "marketPriceWithGridCost": "0.23961",
+      "marketPriceWithGridCostAndVat": "0.2851359",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T07:15Z": {
+      "marketPrice": "0.10216",
+      "marketPriceWithVat": "0.1215704",
+      "marketPriceWithGridCost": "0.22992",
+      "marketPriceWithGridCostAndVat": "0.2736048",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T07:30Z": {
+      "marketPrice": "0.09634",
+      "marketPriceWithVat": "0.1146446",
+      "marketPriceWithGridCost": "0.2241",
+      "marketPriceWithGridCostAndVat": "0.266679",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T07:45Z": {
+      "marketPrice": "0.077",
+      "marketPriceWithVat": "0.09163",
+      "marketPriceWithGridCost": "0.20476",
+      "marketPriceWithGridCostAndVat": "0.2436644",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T08:00Z": {
+      "marketPrice": "0.08599",
+      "marketPriceWithVat": "0.1023281",
+      "marketPriceWithGridCost": "0.21375",
+      "marketPriceWithGridCostAndVat": "0.2543625",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T08:15Z": {
+      "marketPrice": "0.07154",
+      "marketPriceWithVat": "0.0851326",
+      "marketPriceWithGridCost": "0.1993",
+      "marketPriceWithGridCostAndVat": "0.237167",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T08:30Z": {
+      "marketPrice": "0.08224",
+      "marketPriceWithVat": "0.0978656",
+      "marketPriceWithGridCost": "0.21",
+      "marketPriceWithGridCostAndVat": "0.2499",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T08:45Z": {
+      "marketPrice": "0.05562",
+      "marketPriceWithVat": "0.0661878",
+      "marketPriceWithGridCost": "0.18338",
+      "marketPriceWithGridCostAndVat": "0.2182222",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T09:00Z": {
+      "marketPrice": "0.07128",
+      "marketPriceWithVat": "0.0848232",
+      "marketPriceWithGridCost": "0.19904",
+      "marketPriceWithGridCostAndVat": "0.2368576",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T09:15Z": {
+      "marketPrice": "0.0503",
+      "marketPriceWithVat": "0.059857",
+      "marketPriceWithGridCost": "0.17806",
+      "marketPriceWithGridCostAndVat": "0.2118914",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T09:30Z": {
+      "marketPrice": "0.03917",
+      "marketPriceWithVat": "0.0466123",
+      "marketPriceWithGridCost": "0.16693",
+      "marketPriceWithGridCostAndVat": "0.1986467",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T09:45Z": {
+      "marketPrice": "0.02324",
+      "marketPriceWithVat": "0.0276556",
+      "marketPriceWithGridCost": "0.151",
+      "marketPriceWithGridCostAndVat": "0.17969",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T10:00Z": {
+      "marketPrice": "0.03941",
+      "marketPriceWithVat": "0.0468979",
+      "marketPriceWithGridCost": "0.16717",
+      "marketPriceWithGridCostAndVat": "0.1989323",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T10:15Z": {
+      "marketPrice": "0.02503",
+      "marketPriceWithVat": "0.0297857",
+      "marketPriceWithGridCost": "0.15279",
+      "marketPriceWithGridCostAndVat": "0.1818201",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T10:30Z": {
+      "marketPrice": "0.01991",
+      "marketPriceWithVat": "0.0236929",
+      "marketPriceWithGridCost": "0.14767",
+      "marketPriceWithGridCostAndVat": "0.1757273",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T10:45Z": {
+      "marketPrice": "0.01",
+      "marketPriceWithVat": "0.0119",
+      "marketPriceWithGridCost": "0.13776",
+      "marketPriceWithGridCostAndVat": "0.1639344",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T11:00Z": {
+      "marketPrice": "0.01755",
+      "marketPriceWithVat": "0.0208845",
+      "marketPriceWithGridCost": "0.14531",
+      "marketPriceWithGridCostAndVat": "0.1729189",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T11:15Z": {
+      "marketPrice": "0.01555",
+      "marketPriceWithVat": "0.0185045",
+      "marketPriceWithGridCost": "0.14331",
+      "marketPriceWithGridCostAndVat": "0.1705389",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T11:30Z": {
+      "marketPrice": "0.00991",
+      "marketPriceWithVat": "0.0117929",
+      "marketPriceWithGridCost": "0.13767",
+      "marketPriceWithGridCostAndVat": "0.1638273",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T11:45Z": {
+      "marketPrice": "0.00259",
+      "marketPriceWithVat": "0.0030821",
+      "marketPriceWithGridCost": "0.13035",
+      "marketPriceWithGridCostAndVat": "0.1551165",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T12:00Z": {
+      "marketPrice": "0.0094",
+      "marketPriceWithVat": "0.011186",
+      "marketPriceWithGridCost": "0.13716",
+      "marketPriceWithGridCostAndVat": "0.1632204",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T12:15Z": {
+      "marketPrice": "0.00867",
+      "marketPriceWithVat": "0.0103173",
+      "marketPriceWithGridCost": "0.13643",
+      "marketPriceWithGridCostAndVat": "0.1623517",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T12:30Z": {
+      "marketPrice": "0.00759",
+      "marketPriceWithVat": "0.0090321",
+      "marketPriceWithGridCost": "0.13535",
+      "marketPriceWithGridCostAndVat": "0.1610665",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T12:45Z": {
+      "marketPrice": "0.00451",
+      "marketPriceWithVat": "0.0053669",
+      "marketPriceWithGridCost": "0.13227",
+      "marketPriceWithGridCostAndVat": "0.1574013",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T13:00Z": {
+      "marketPrice": "0.00938",
+      "marketPriceWithVat": "0.0111622",
+      "marketPriceWithGridCost": "0.13714",
+      "marketPriceWithGridCostAndVat": "0.1631966",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T13:15Z": {
+      "marketPrice": "0.01073",
+      "marketPriceWithVat": "0.0127687",
+      "marketPriceWithGridCost": "0.13849",
+      "marketPriceWithGridCostAndVat": "0.1648031",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T13:30Z": {
+      "marketPrice": "0.01166",
+      "marketPriceWithVat": "0.0138754",
+      "marketPriceWithGridCost": "0.13942",
+      "marketPriceWithGridCostAndVat": "0.1659098",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T13:45Z": {
+      "marketPrice": "0.01998",
+      "marketPriceWithVat": "0.0237762",
+      "marketPriceWithGridCost": "0.14774",
+      "marketPriceWithGridCostAndVat": "0.1758106",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T14:00Z": {
+      "marketPrice": "0.00998",
+      "marketPriceWithVat": "0.0118762",
+      "marketPriceWithGridCost": "0.13774",
+      "marketPriceWithGridCostAndVat": "0.1639106",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T14:15Z": {
+      "marketPrice": "0.02334",
+      "marketPriceWithVat": "0.0277746",
+      "marketPriceWithGridCost": "0.1511",
+      "marketPriceWithGridCostAndVat": "0.179809",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T14:30Z": {
+      "marketPrice": "0.04426",
+      "marketPriceWithVat": "0.0526694",
+      "marketPriceWithGridCost": "0.17202",
+      "marketPriceWithGridCostAndVat": "0.2047038",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T14:45Z": {
+      "marketPrice": "0.063",
+      "marketPriceWithVat": "0.07497",
+      "marketPriceWithGridCost": "0.19076",
+      "marketPriceWithGridCostAndVat": "0.2270044",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T15:00Z": {
+      "marketPrice": "0.04546",
+      "marketPriceWithVat": "0.0540974",
+      "marketPriceWithGridCost": "0.17322",
+      "marketPriceWithGridCostAndVat": "0.2061318",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T15:15Z": {
+      "marketPrice": "0.06546",
+      "marketPriceWithVat": "0.0778974",
+      "marketPriceWithGridCost": "0.19322",
+      "marketPriceWithGridCostAndVat": "0.2299318",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T15:30Z": {
+      "marketPrice": "0.08679",
+      "marketPriceWithVat": "0.1032801",
+      "marketPriceWithGridCost": "0.21455",
+      "marketPriceWithGridCostAndVat": "0.2553145",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T15:45Z": {
+      "marketPrice": "0.11209",
+      "marketPriceWithVat": "0.1333871",
+      "marketPriceWithGridCost": "0.23985",
+      "marketPriceWithGridCostAndVat": "0.2854215",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T16:00Z": {
+      "marketPrice": "0.085",
       "marketPriceWithVat": "0.10115",
       "marketPriceWithGridCost": "0.21276",
-      "marketPriceWithGridCostAndVat": "0.25318",
+      "marketPriceWithGridCostAndVat": "0.2531844",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T07:00Z": {
-      "marketPrice": "0.07500",
-      "marketPriceWithVat": "0.08925",
-      "marketPriceWithGridCost": "0.20276",
-      "marketPriceWithGridCostAndVat": "0.24128",
+    "2026-03-30T16:15Z": {
+      "marketPrice": "0.10503",
+      "marketPriceWithVat": "0.1249857",
+      "marketPriceWithGridCost": "0.23279",
+      "marketPriceWithGridCostAndVat": "0.2770201",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T08:00Z": {
-      "marketPrice": "0.06000",
-      "marketPriceWithVat": "0.07140",
-      "marketPriceWithGridCost": "0.18776",
-      "marketPriceWithGridCostAndVat": "0.22343",
+    "2026-03-30T16:30Z": {
+      "marketPrice": "0.10938",
+      "marketPriceWithVat": "0.1301622",
+      "marketPriceWithGridCost": "0.23714",
+      "marketPriceWithGridCostAndVat": "0.2821966",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T09:00Z": {
-      "marketPrice": "0.03000",
-      "marketPriceWithVat": "0.03570",
-      "marketPriceWithGridCost": "0.15776",
-      "marketPriceWithGridCostAndVat": "0.18773",
+    "2026-03-30T16:45Z": {
+      "marketPrice": "0.1199",
+      "marketPriceWithVat": "0.142681",
+      "marketPriceWithGridCost": "0.24766",
+      "marketPriceWithGridCostAndVat": "0.2947154",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T10:00Z": {
-      "marketPrice": "0.00500",
-      "marketPriceWithVat": "0.00595",
-      "marketPriceWithGridCost": "0.13276",
-      "marketPriceWithGridCostAndVat": "0.15798",
+    "2026-03-30T17:00Z": {
+      "marketPrice": "0.11406",
+      "marketPriceWithVat": "0.1357314",
+      "marketPriceWithGridCost": "0.24182",
+      "marketPriceWithGridCostAndVat": "0.2877658",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T11:00Z": {
-      "marketPrice": "-0.00200",
-      "marketPriceWithVat": "-0.00238",
-      "marketPriceWithGridCost": "0.12576",
-      "marketPriceWithGridCostAndVat": "0.14965",
+    "2026-03-30T17:15Z": {
+      "marketPrice": "0.11728",
+      "marketPriceWithVat": "0.1395632",
+      "marketPriceWithGridCost": "0.24504",
+      "marketPriceWithGridCostAndVat": "0.2915976",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T12:00Z": {
-      "marketPrice": "-0.00800",
-      "marketPriceWithVat": "-0.00952",
-      "marketPriceWithGridCost": "0.11976",
-      "marketPriceWithGridCostAndVat": "0.14251",
+    "2026-03-30T17:30Z": {
+      "marketPrice": "0.12227",
+      "marketPriceWithVat": "0.1455013",
+      "marketPriceWithGridCost": "0.25003",
+      "marketPriceWithGridCostAndVat": "0.2975357",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T13:00Z": {
-      "marketPrice": "-0.00400",
-      "marketPriceWithVat": "-0.00476",
-      "marketPriceWithGridCost": "0.12376",
-      "marketPriceWithGridCostAndVat": "0.14727",
+    "2026-03-30T17:45Z": {
+      "marketPrice": "0.133",
+      "marketPriceWithVat": "0.15827",
+      "marketPriceWithGridCost": "0.26076",
+      "marketPriceWithGridCostAndVat": "0.3103044",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T14:00Z": {
-      "marketPrice": "0.01500",
-      "marketPriceWithVat": "0.01785",
-      "marketPriceWithGridCost": "0.14276",
-      "marketPriceWithGridCostAndVat": "0.16988",
+    "2026-03-30T18:00Z": {
+      "marketPrice": "0.12479",
+      "marketPriceWithVat": "0.1485001",
+      "marketPriceWithGridCost": "0.25255",
+      "marketPriceWithGridCostAndVat": "0.3005345",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T15:00Z": {
-      "marketPrice": "0.02800",
-      "marketPriceWithVat": "0.03332",
-      "marketPriceWithGridCost": "0.15576",
-      "marketPriceWithGridCostAndVat": "0.18535",
+    "2026-03-30T18:15Z": {
+      "marketPrice": "0.1244",
+      "marketPriceWithVat": "0.148036",
+      "marketPriceWithGridCost": "0.25216",
+      "marketPriceWithGridCostAndVat": "0.3000704",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T16:00Z": {
-      "marketPrice": "0.06200",
-      "marketPriceWithVat": "0.07378",
-      "marketPriceWithGridCost": "0.18976",
-      "marketPriceWithGridCostAndVat": "0.22581",
+    "2026-03-30T18:30Z": {
+      "marketPrice": "0.12735",
+      "marketPriceWithVat": "0.1515465",
+      "marketPriceWithGridCost": "0.25511",
+      "marketPriceWithGridCostAndVat": "0.3035809",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T17:00Z": {
-      "marketPrice": "0.08000",
-      "marketPriceWithVat": "0.09520",
-      "marketPriceWithGridCost": "0.20776",
-      "marketPriceWithGridCostAndVat": "0.24723",
+    "2026-03-30T18:45Z": {
+      "marketPrice": "0.12589",
+      "marketPriceWithVat": "0.1498091",
+      "marketPriceWithGridCost": "0.25365",
+      "marketPriceWithGridCostAndVat": "0.3018435",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T18:00Z": {
-      "marketPrice": "0.08400",
-      "marketPriceWithVat": "0.09996",
-      "marketPriceWithGridCost": "0.21176",
-      "marketPriceWithGridCostAndVat": "0.25199",
+    "2026-03-30T19:00Z": {
+      "marketPrice": "0.13599",
+      "marketPriceWithVat": "0.1618281",
+      "marketPriceWithGridCost": "0.26375",
+      "marketPriceWithGridCostAndVat": "0.3138625",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T19:00Z": {
-      "marketPrice": "0.07200",
-      "marketPriceWithVat": "0.08568",
-      "marketPriceWithGridCost": "0.19976",
-      "marketPriceWithGridCostAndVat": "0.23771",
+    "2026-03-30T19:15Z": {
+      "marketPrice": "0.12482",
+      "marketPriceWithVat": "0.1485358",
+      "marketPriceWithGridCost": "0.25258",
+      "marketPriceWithGridCostAndVat": "0.3005702",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T20:00Z": {
-      "marketPrice": "0.06100",
-      "marketPriceWithVat": "0.07259",
-      "marketPriceWithGridCost": "0.18876",
-      "marketPriceWithGridCostAndVat": "0.22462",
+    "2026-03-30T19:30Z": {
+      "marketPrice": "0.12798",
+      "marketPriceWithVat": "0.1522962",
+      "marketPriceWithGridCost": "0.25574",
+      "marketPriceWithGridCostAndVat": "0.3043306",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T21:00Z": {
-      "marketPrice": "0.05100",
-      "marketPriceWithVat": "0.06069",
-      "marketPriceWithGridCost": "0.17876",
-      "marketPriceWithGridCostAndVat": "0.21272",
+    "2026-03-30T19:45Z": {
+      "marketPrice": "0.11587",
+      "marketPriceWithVat": "0.1378853",
+      "marketPriceWithGridCost": "0.24363",
+      "marketPriceWithGridCostAndVat": "0.2899197",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T22:00Z": {
-      "marketPrice": "0.04600",
-      "marketPriceWithVat": "0.05474",
-      "marketPriceWithGridCost": "0.17376",
-      "marketPriceWithGridCostAndVat": "0.20677",
+    "2026-03-30T20:00Z": {
+      "marketPrice": "0.12952",
+      "marketPriceWithVat": "0.1541288",
+      "marketPriceWithGridCost": "0.25728",
+      "marketPriceWithGridCostAndVat": "0.3061632",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,
       "gridFeedIn": 0
     },
-    "2026-02-28T23:00Z": {
-      "marketPrice": "0.04100",
-      "marketPriceWithVat": "0.04879",
-      "marketPriceWithGridCost": "0.16876",
-      "marketPriceWithGridCostAndVat": "0.20082",
+    "2026-03-30T20:15Z": {
+      "marketPrice": "0.11943",
+      "marketPriceWithVat": "0.1421217",
+      "marketPriceWithGridCost": "0.24719",
+      "marketPriceWithGridCostAndVat": "0.2941561",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T20:30Z": {
+      "marketPrice": "0.1201",
+      "marketPriceWithVat": "0.142919",
+      "marketPriceWithGridCost": "0.24786",
+      "marketPriceWithGridCostAndVat": "0.2949534",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T20:45Z": {
+      "marketPrice": "0.11565",
+      "marketPriceWithVat": "0.1376235",
+      "marketPriceWithGridCost": "0.24341",
+      "marketPriceWithGridCostAndVat": "0.2896579",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T21:00Z": {
+      "marketPrice": "0.11523",
+      "marketPriceWithVat": "0.1371237",
+      "marketPriceWithGridCost": "0.24299",
+      "marketPriceWithGridCostAndVat": "0.2891581",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T21:15Z": {
+      "marketPrice": "0.11015",
+      "marketPriceWithVat": "0.1310785",
+      "marketPriceWithGridCost": "0.23791",
+      "marketPriceWithGridCostAndVat": "0.2831129",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T21:30Z": {
+      "marketPrice": "0.1076",
+      "marketPriceWithVat": "0.128044",
+      "marketPriceWithGridCost": "0.23536",
+      "marketPriceWithGridCostAndVat": "0.2800784",
+      "gridCosts": "0.12776",
+      "gridCostsWithVat": "0.1520344",
+      "gridConsumption": 0,
+      "gridFeedIn": 0
+    },
+    "2026-03-30T21:45Z": {
+      "marketPrice": "0.10254",
+      "marketPriceWithVat": "0.1220226",
+      "marketPriceWithGridCost": "0.2303",
+      "marketPriceWithGridCostAndVat": "0.274057",
       "gridCosts": "0.12776",
       "gridCostsWithVat": "0.1520344",
       "gridConsumption": 0,

@@ -8,5 +8,4 @@ MAX_SCAN_INTERVAL = 3600
 
 DOMAIN = "einskomma5grad"
 
-TIMEZONE = "Europe/Berlin"
 CURRENCY_ICON = "mdi:cash"

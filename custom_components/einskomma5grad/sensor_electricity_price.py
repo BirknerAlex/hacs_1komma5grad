@@ -1,4 +1,5 @@
-from datetime import datetime
+from collections import defaultdict
+from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 from homeassistant.components.sensor import SensorEntity
@@ -9,6 +10,11 @@ from homeassistant.util import dt as dt_util
 
 from .const import CURRENCY_ICON, DOMAIN
 from .coordinator import Coordinator
+
+# The 1KOMMA5° API returns timeseries keys labeled with "Z" suffix but
+# they are actually in CET (UTC+1 fixed, no DST), following the European
+# energy market convention (EPEX SPOT).
+_CET = timezone(timedelta(hours=1))
 
 class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
     """Representation of an Energy Price Sensor."""
@@ -48,10 +54,10 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
     def native_value(self) -> None | float:
         """Return the state of the entity."""
 
+        now_cet = dt_util.now().astimezone(_CET)
         current_time = (
-            dt_util.now()
-            .replace(minute=0, second=0, microsecond=0)
-            .astimezone(ZoneInfo("UTC"))
+            now_cet
+            .replace(minute=(now_cet.minute // 15) * 15, second=0, microsecond=0)
             .strftime("%Y-%m-%dT%H:%MZ")
         )
 
@@ -75,29 +81,29 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         if not self._prices:
             return attrs
 
-        now_utc = (
-            dt_util.now()
-            .replace(minute=0, second=0, microsecond=0)
-            .astimezone(ZoneInfo("UTC"))
-        )
+        now_cet = dt_util.now().astimezone(_CET)
+        now_cet_floored = now_cet.replace(minute=(now_cet.minute // 15) * 15, second=0, microsecond=0)
 
-        # Build forecast list: future hours only, sorted chronologically
+        # Build forecast list: future 15-min slots, sorted chronologically
+        # API keys are CET (UTC+1) despite the "Z" suffix
         forecast = []
         for timestamp_str, price_data in sorted(self._prices.items()):
             try:
-                ts = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%MZ").replace(
-                    tzinfo=ZoneInfo("UTC")
+                ts_cet = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%MZ").replace(
+                    tzinfo=_CET
                 )
             except (ValueError, TypeError):
                 continue
 
-            if ts <= now_utc:
+            if ts_cet <= now_cet_floored:
                 continue
 
             price_value = price_data.get("marketPriceWithGridCostAndVat")
             if price_value is not None:
+                # Convert CET to real UTC for the forecast output
+                ts_utc = ts_cet.astimezone(ZoneInfo("UTC"))
                 forecast.append({
-                    "datetime": ts.isoformat(),
+                    "datetime": ts_utc.isoformat(),
                     "price": round(float(price_value), 4),
                 })
 
@@ -112,11 +118,23 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         except (KeyError, TypeError, ValueError):
             pass
 
-        # Cheapest upcoming hour
+        # Cheapest upcoming hour (average of 4 × 15-min slots per hour)
         if forecast:
-            cheapest = min(forecast, key=lambda x: x["price"])
-            attrs["cheapest_upcoming_hour"] = cheapest["datetime"]
-            attrs["cheapest_upcoming_price"] = cheapest["price"]
+            hourly_prices = defaultdict(list)
+            for entry in forecast:
+                hour_start = datetime.fromisoformat(entry["datetime"]).replace(minute=0)
+                hourly_prices[hour_start].append(entry["price"])
+
+            # Only consider hours with all 4 slots for a fair average
+            complete_hours = {
+                hour: sum(prices) / len(prices)
+                for hour, prices in hourly_prices.items()
+                if len(prices) == 4
+            }
+            if complete_hours:
+                cheapest_hour = min(complete_hours, key=complete_hours.get)
+                attrs["cheapest_upcoming_hour"] = cheapest_hour.isoformat()
+                attrs["cheapest_upcoming_price"] = round(complete_hours[cheapest_hour], 4)
 
         attrs["forecast_hours_available"] = len(forecast)
 
