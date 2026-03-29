@@ -11,8 +11,9 @@ from tests.conftest import SYSTEM_SLUG
 
 PRICE_ENTITY = f"sensor.electricity_price_{SYSTEM_SLUG}"
 
-# Frozen time for price forecast tests: 2026-02-27 08:30 UTC
-FROZEN_NOW = datetime(2026, 2, 27, 8, 30, 0, tzinfo=ZoneInfo("UTC"))
+# Frozen time for price forecast tests: 2026-03-29 08:30 UTC (= 09:30 CET)
+# The API returns timeseries keys in CET (UTC+1), so the current slot key is 09:30Z
+FROZEN_NOW = datetime(2026, 3, 29, 8, 30, 0, tzinfo=ZoneInfo("UTC"))
 
 
 async def test_electricity_price_sensor_exists(hass: HomeAssistant, setup_integration):
@@ -98,13 +99,13 @@ async def test_heat_pumps_aggregated_sensor_exists(
 
 
 # --- Electricity price forecast attribute tests ---
-# Mock timeseries: 2026-02-27T00:00Z..23:00Z (24h) + 2026-02-28T00:00Z..23:00Z (24h)
-# Frozen at 08:30 UTC → current hour = 08:00Z, future starts at 09:00Z
-# Future entries: 15 today (09-23) + 24 tomorrow (00-23) = 39
+# Mock timeseries keys are CET (UTC+1) despite "Z" suffix.
+# Frozen at 08:30 UTC = 09:30 CET → current CET slot = 09:30Z
+# Forecast starts at 09:45 CET (= 08:45 UTC) and outputs real UTC datetimes.
 
 
 async def _setup_with_frozen_time(hass, mock_config_entry, mock_api):
-    """Set up integration with time frozen at 2026-02-27T08:30 UTC."""
+    """Set up integration with time frozen at 2026-03-29T08:30 UTC."""
     mock_config_entry.add_to_hass(hass)
 
     with patch(
@@ -127,11 +128,11 @@ async def _setup_with_frozen_time(hass, mock_config_entry, mock_api):
 async def test_price_sensor_has_current_value(
     hass: HomeAssistant, mock_config_entry, mock_api, enable_custom_integrations
 ):
-    """Test that the price sensor shows the current hour's price."""
+    """Test that the price sensor shows the current 15-min slot's price."""
     state = await _setup_with_frozen_time(hass, mock_config_entry, mock_api)
     assert state is not None
-    # 08:00Z entry: marketPriceWithGridCostAndVat = 0.22868825 → rounded to 0.2287
-    assert float(state.state) == 0.2287
+    # 09:30 CET entry (key "09:30Z"): marketPriceWithGridCostAndVat → rounded to 0.2031
+    assert float(state.state) == 0.2031
 
 
 async def test_price_forecast_is_list(
@@ -162,21 +163,21 @@ async def test_price_forecast_count(
 ):
     """Test forecast_hours_available matches expected count."""
     state = await _setup_with_frozen_time(hass, mock_config_entry, mock_api)
-    # 15 remaining today (09-23) + 24 tomorrow (00-23) = 39
-    assert state.attributes["forecast_hours_available"] == 39
-    assert len(state.attributes["forecast"]) == 39
+    # 145 future 15-min slots (09:45 CET through 21:45 CET next day, output as real UTC)
+    assert state.attributes["forecast_hours_available"] == 145
+    assert len(state.attributes["forecast"]) == 145
 
 
 async def test_price_forecast_excludes_past_and_current(
     hass: HomeAssistant, mock_config_entry, mock_api, enable_custom_integrations
 ):
-    """Test that forecast only contains future hours, not current or past."""
+    """Test that forecast only contains future slots, not current or past."""
     state = await _setup_with_frozen_time(hass, mock_config_entry, mock_api)
     forecast = state.attributes["forecast"]
-    # First forecast entry should be 09:00Z (one hour after frozen 08:00Z)
-    assert forecast[0]["datetime"] == "2026-02-27T09:00:00+00:00"
-    # Last entry should be 2026-02-28T23:00Z
-    assert forecast[-1]["datetime"] == "2026-02-28T23:00:00+00:00"
+    # First forecast: 09:45 CET = 08:45 UTC (next slot after frozen 09:30 CET)
+    assert forecast[0]["datetime"] == "2026-03-29T08:45:00+00:00"
+    # Last entry: 21:45 CET next day = 20:45 UTC
+    assert forecast[-1]["datetime"] == "2026-03-30T20:45:00+00:00"
 
 
 async def test_price_forecast_sorted_chronologically(
@@ -202,22 +203,22 @@ async def test_price_summary_attributes(
     assert isinstance(attrs["price_today_max"], float)
     assert isinstance(attrs["price_today_avg"], float)
     # From mock: energyMarketWithGridCostsAndVat summary
-    assert attrs["price_today_min"] == 0.1567
-    assert attrs["price_today_max"] == 0.2578
-    assert attrs["price_today_avg"] == 0.2158
+    assert attrs["price_today_min"] == 0.1487
+    assert attrs["price_today_max"] == 0.3139
+    assert attrs["price_today_avg"] == 0.2277
 
 
 async def test_price_cheapest_upcoming_hour(
     hass: HomeAssistant, mock_config_entry, mock_api, enable_custom_integrations
 ):
-    """Test cheapest upcoming hour attributes."""
+    """Test cheapest upcoming hour attributes (average of 4 × 15-min slots)."""
     state = await _setup_with_frozen_time(hass, mock_config_entry, mock_api)
     attrs = state.attributes
     assert "cheapest_upcoming_hour" in attrs
     assert "cheapest_upcoming_price" in attrs
-    # 2026-02-28T12:00Z has the lowest future price: 0.14251 → rounded to 0.1425
-    assert attrs["cheapest_upcoming_hour"] == "2026-02-28T12:00:00+00:00"
-    assert attrs["cheapest_upcoming_price"] == 0.1425
+    # 13:00 CET = 12:00 UTC hour has the lowest average price across 4 slots
+    assert attrs["cheapest_upcoming_hour"] == "2026-03-29T12:00:00+00:00"
+    assert attrs["cheapest_upcoming_price"] == 0.1496
 
 
 async def test_price_unit_from_metadata(

@@ -1,6 +1,7 @@
 """Integration 101 Template integration using DataUpdateCoordinator."""
 
 from dataclasses import dataclass
+import datetime
 from datetime import timedelta
 import logging
 
@@ -87,8 +88,8 @@ class Coordinator(DataUpdateCoordinator):
         try:
             systems = await self.hass.async_add_executor_job(systems_client.get_systems)
 
-            now = dt_util.now()
-            start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+            now_utc = dt_util.now().astimezone(datetime.timezone.utc)
+            start = now_utc.replace(hour=0, minute=0, second=0, microsecond=0)
             end = start + timedelta(days=2)
 
             prices = {}
