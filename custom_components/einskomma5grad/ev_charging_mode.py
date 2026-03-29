@@ -2,10 +2,12 @@ import logging
 
 from homeassistant.components.select import SelectEntity
 from homeassistant.core import callback
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN
+from .const import DOMAIN, DeviceType
 from .coordinator import Coordinator
+from .device_info import get_device_info
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -54,6 +56,10 @@ class EVChargingModeSelect(CoordinatorEntity, SelectEntity):
     def name(self) -> str:
         """Return the name of the select entity."""
         return f"EV Charging Mode {self._ev_name}"
+
+    @property
+    def device_info(self) -> DeviceInfo | None:
+        return get_device_info(self.coordinator, self._system_id, DeviceType.EV_CHARGER)
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""

@@ -29,6 +29,30 @@ class EVData:
     system_id: str | None
 
 @dataclass
+class AssetInfo:
+    """Individual device asset info from status-and-assets endpoint."""
+    asset_id: str
+    asset_type: str  # EV_CHARGER, HYBRID, HEAT_PUMP, METER
+    manufacturer: str | None
+    model: str | None
+    serial_number: str | None
+    name: str | None
+
+@dataclass
+class GatewayInfo:
+    """Gateway device info."""
+    gateway_id: str
+    serial_number: str
+    system_name: str
+    system_id: str
+
+@dataclass
+class DeviceData:
+    """Holds all device registry info for a system."""
+    gateway: GatewayInfo | None = None
+    assets_by_type: dict[str, AssetInfo] | None = None
+
+@dataclass
 class SystemsData:
     """Class to hold api data."""
 
@@ -43,6 +67,8 @@ class SystemsData:
     ev_data: dict[str, EVData] = None
 
     ev_charging_modes: dict[str, list[str]] = None
+
+    device_data: dict[str, DeviceData] | None = None
 
 class Coordinator(DataUpdateCoordinator):
     """1KOMMA5GRAD coordinator."""
@@ -97,6 +123,7 @@ class Coordinator(DataUpdateCoordinator):
             live_overview = {}
             ev_data = {}
             ev_charging_modes = {}
+            device_data = {}
             for system in systems:
                 prices[system.id()] = await self.hass.async_add_executor_job(
                     system.get_prices,
@@ -135,6 +162,9 @@ class Coordinator(DataUpdateCoordinator):
                     system.get_displayed_ev_charging_modes,
                 )
 
+                # Fetch device info (gateway + assets) — purely optional
+                device_data[system.id()] = await self._fetch_device_data(system)
+
             # What is returned here is stored in self.data by the DataUpdateCoordinator
             return SystemsData(
                 systems=systems,
@@ -143,6 +173,7 @@ class Coordinator(DataUpdateCoordinator):
                 ems_settings=ems_settings,
                 ev_data=ev_data,
                 ev_charging_modes=ev_charging_modes,
+                device_data=device_data,
             )
         except ApiError as err:
             raise UpdateFailed(err) from err
@@ -192,6 +223,57 @@ class Coordinator(DataUpdateCoordinator):
         """Enable EMS auto mode."""
         systems = Systems(self.api)
         systems.get_system(system_id).set_ems_mode(enable)
+
+    def get_device_data_by_id(self, system_id: str) -> DeviceData | None:
+        """Return device data by system id."""
+        if self.data.device_data is None:
+            return None
+        return self.data.device_data.get(system_id)
+
+    async def _fetch_device_data(self, system: System) -> DeviceData:
+        """Fetch gateway and asset device info. Never raises."""
+        result = DeviceData()
+
+        # Gateway info from existing system data
+        try:
+            gateways = system.data.get("deviceGateways", [])
+            if gateways:
+                gw = gateways[0]
+                serial = gw.get("serialNumber")
+                if serial:
+                    result.gateway = GatewayInfo(
+                        gateway_id=gw.get("id", ""),
+                        serial_number=serial,
+                        system_name=system.data.get("systemName", ""),
+                        system_id=system.id(),
+                    )
+        except Exception:
+            _LOGGER.debug("Could not extract gateway info for system %s", system.id())
+
+        # Assets from status-and-assets endpoint
+        try:
+            response = await self.hass.async_add_executor_job(
+                system.get_status_and_assets,
+            )
+            if response and "assets" in response:
+                assets_by_type = {}
+                for asset in response["assets"]:
+                    asset_type = asset.get("type")
+                    if not asset_type:
+                        continue
+                    assets_by_type[asset_type] = AssetInfo(
+                        asset_id=asset.get("id", ""),
+                        asset_type=asset_type,
+                        manufacturer=asset.get("manufacturer"),
+                        model=asset.get("model"),
+                        serial_number=asset.get("serialnumber"),
+                        name=asset.get("name"),
+                    )
+                result.assets_by_type = assets_by_type
+        except Exception:
+            _LOGGER.debug("Could not fetch assets for system %s", system.id())
+
+        return result
 
     def get_live_data_by_id(self, system_id: str) -> dict | None:
         """Return prices by system id."""

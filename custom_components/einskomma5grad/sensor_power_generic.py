@@ -5,17 +5,20 @@ from homeassistant.components.sensor import (
 )
 from homeassistant.const import UnitOfPower
 from homeassistant.core import callback
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN
+from .const import DOMAIN, DeviceType
 from .coordinator import Coordinator
+from .device_info import get_device_info
 
 
 class GenericPowerSensor(CoordinatorEntity, SensorEntity):
     """Representation of Generic Power Sensor."""
 
     def __init__(
-        self, coordinator: Coordinator, system_id: str, key: str, name: str, icon: str
+        self, coordinator: Coordinator, system_id: str, key: str, name: str, icon: str,
+        device_type: DeviceType | None = None,
     ) -> None:
         """Initialise sensor."""
         super().__init__(coordinator)
@@ -24,6 +27,7 @@ class GenericPowerSensor(CoordinatorEntity, SensorEntity):
         self._key = key
         self._name = name
         self._icon = icon
+        self._device_type = device_type
         self._live_data = {}
 
     @property
@@ -81,6 +85,10 @@ class GenericPowerSensor(CoordinatorEntity, SensorEntity):
     def state_class(self) -> SensorStateClass | str | None:
         """Return the state class of the sensor."""
         return SensorStateClass.MEASUREMENT
+
+    @property
+    def device_info(self) -> DeviceInfo | None:
+        return get_device_info(self.coordinator, self._system_id, self._device_type)
 
     @callback
     def _handle_coordinator_update(self) -> None:

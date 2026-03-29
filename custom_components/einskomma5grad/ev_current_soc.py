@@ -3,10 +3,12 @@ import logging
 from homeassistant.components.number import NumberEntity
 from homeassistant.const import PERCENTAGE
 from homeassistant.core import callback
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN
+from .const import DOMAIN, DeviceType
 from .coordinator import Coordinator
+from .device_info import get_device_info
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -72,6 +74,10 @@ class EVCurrentStateOfCharge(CoordinatorEntity, NumberEntity):
     def name(self) -> str:
         """Return the name of the EV SoC entity."""
         return f"EV Current State of Charge {self._ev_name}"
+
+    @property
+    def device_info(self) -> DeviceInfo | None:
+        return get_device_info(self.coordinator, self._system_id, DeviceType.EV_CHARGER)
 
     @property
     def native_value(self) -> float | None:

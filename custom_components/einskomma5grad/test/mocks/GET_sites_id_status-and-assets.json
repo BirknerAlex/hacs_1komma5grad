@@ -1,0 +1,65 @@
+{
+  "status": "CONNECTED",
+  "assets": [
+    {
+      "id": "00000000-0000-0000-0000-000000000010",
+      "type": "EV_CHARGER",
+      "empType": "GRIDX",
+      "name": "Wallbox",
+      "connectionStatus": {
+        "status": "CONNECTED"
+      },
+      "manufacturer": "Mennekes",
+      "model": "AMTRON Compact 2.0S 11kW",
+      "serialnumber": "SN-EV-000001",
+      "firmware": "2023.21.11024-20",
+      "network": {
+        "address": "/dev/ttyAMA0"
+      }
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000011",
+      "type": "HYBRID",
+      "empType": "GRIDX",
+      "connectionStatus": {
+        "status": "CONNECTED"
+      },
+      "manufacturer": "Sungrow",
+      "model": "SH8.0RT-V112",
+      "serialnumber": "SN-HY-000001",
+      "firmware": "ARM_SAPPHIRE-H_V11_V01_B",
+      "network": {
+        "address": "10.0.0.1"
+      }
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000012",
+      "type": "HEAT_PUMP",
+      "empType": "GRIDX",
+      "connectionStatus": {
+        "status": "DISCONNECTED"
+      },
+      "manufacturer": "Vaillant",
+      "model": "VR940",
+      "serialnumber": "SN-HP-000001",
+      "network": {
+        "address": "wss://VR940.local:12480/ship/"
+      },
+      "heatPumpMeterType": "SEPARATE"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000013",
+      "type": "METER",
+      "empType": "GRIDX",
+      "connectionStatus": {
+        "status": "CONNECTED"
+      },
+      "manufacturer": "Chint",
+      "model": "DTSU666",
+      "serialnumber": "SN-MT-000001",
+      "network": {
+        "address": "10.0.0.1"
+      }
+    }
+  ]
+}
