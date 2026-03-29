@@ -1,10 +1,13 @@
 import datetime
+import logging
 
 import requests
 
 from .client import Client, REQUEST_TIMEOUT
 from .error import RequestError
 from .ev_charger import EVCharger
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class System:
@@ -14,6 +17,34 @@ class System:
 
     def id(self) -> str:
         return self.data["id"]
+
+    def get_status_and_assets(self) -> dict | None:
+        """Fetch site status and assets. Returns None on any failure."""
+        try:
+            res = requests.get(
+                url=self.client.HEARTBEAT_API
+                + "/api/v2/sites/"
+                + self.id()
+                + "/status-and-assets",
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + self.client.get_token(),
+                },
+                timeout=REQUEST_TIMEOUT,
+            )
+        except requests.exceptions.RequestException:
+            _LOGGER.debug("Failed to fetch status-and-assets for system %s", self.id())
+            return None
+
+        if res.status_code != 200:
+            _LOGGER.debug(
+                "status-and-assets returned %s for system %s",
+                res.status_code,
+                self.id(),
+            )
+            return None
+
+        return res.json()
 
     def get_live_overview(self):
         try:

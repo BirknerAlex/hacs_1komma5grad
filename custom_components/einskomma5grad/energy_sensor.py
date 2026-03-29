@@ -3,21 +3,24 @@ from datetime import datetime, UTC
 from homeassistant.components.sensor import SensorEntity, SensorDeviceClass, SensorStateClass
 from homeassistant.const import UnitOfEnergy
 from homeassistant.core import callback
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN
+from .const import DOMAIN, DeviceType
 from .coordinator import Coordinator
+from .device_info import get_device_info
 
 class EnergySensor(CoordinatorEntity, SensorEntity):
     """Sensor to track the energy consumed or produced by the referenced power sensor."""
 
-    def __init__(self, coordinator: Coordinator, system_id: str, power_sensor: SensorEntity, direction: str, name: str) -> None:
+    def __init__(self, coordinator: Coordinator, system_id: str, power_sensor: SensorEntity, direction: str, name: str, device_type: DeviceType | None = None) -> None:
         """Initalize the sensor."""
         super().__init__(coordinator)
         self._system_id = system_id
         self._power_sensor = power_sensor
         self._direction = direction
         self._name = name
+        self._device_type = device_type
         self._last_update = None
         self._energy = 0.0  # Accumulated energy in kWh
 
@@ -52,6 +55,10 @@ class EnergySensor(CoordinatorEntity, SensorEntity):
     def state_class(self) -> SensorStateClass | str | None:
         """Returns the state class of the sensor."""
         return SensorStateClass.TOTAL_INCREASING
+
+    @property
+    def device_info(self) -> DeviceInfo | None:
+        return get_device_info(self.coordinator, self._system_id, self._device_type)
 
     @callback
     def _handle_coordinator_update(self) -> None:

@@ -5,10 +5,12 @@ from homeassistant.components.sensor import (
 )
 from homeassistant.const import UnitOfPower
 from homeassistant.core import callback
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN
+from .const import DOMAIN, DeviceType
 from .coordinator import Coordinator
+from .device_info import get_device_info
 
 class BatteryPowerInSensor(CoordinatorEntity, SensorEntity):
     """Representation of Battery Power In Sensor."""
@@ -62,6 +64,10 @@ class BatteryPowerInSensor(CoordinatorEntity, SensorEntity):
     def state_class(self) -> SensorStateClass | str | None:
         """Return the state class of the sensor."""
         return SensorStateClass.MEASUREMENT
+
+    @property
+    def device_info(self) -> DeviceInfo | None:
+        return get_device_info(self.coordinator, self._system_id, DeviceType.HYBRID)
 
     @callback
     def _handle_coordinator_update(self) -> None:
@@ -125,6 +131,10 @@ class BatteryPowerOutSensor(CoordinatorEntity, SensorEntity):
     def state_class(self) -> SensorStateClass | str | None:
         """Return the state class of the sensor."""
         return SensorStateClass.MEASUREMENT
+
+    @property
+    def device_info(self) -> DeviceInfo | None:
+        return get_device_info(self.coordinator, self._system_id, DeviceType.HYBRID)
 
     @callback
     def _handle_coordinator_update(self) -> None:

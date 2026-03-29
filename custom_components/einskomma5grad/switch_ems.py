@@ -1,9 +1,11 @@
 from homeassistant.components.switch import SwitchDeviceClass, SwitchEntity
 from homeassistant.core import callback
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN
+from .const import DOMAIN, DeviceType
 from .coordinator import Coordinator
+from .device_info import get_device_info
 
 
 class EmsSwitch(CoordinatorEntity, SwitchEntity):
@@ -41,6 +43,10 @@ class EmsSwitch(CoordinatorEntity, SwitchEntity):
     def available(self) -> bool:
         """Return False when EMS settings are not available."""
         return self._enabled is not None
+
+    @property
+    def device_info(self) -> DeviceInfo | None:
+        return get_device_info(self.coordinator, self._system_id, DeviceType.GATEWAY)
 
     @property
     def device_class(self) -> SwitchDeviceClass | None:

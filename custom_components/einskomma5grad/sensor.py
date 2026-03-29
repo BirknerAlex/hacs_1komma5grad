@@ -5,7 +5,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .energy_sensor import EnergySensor
-from .const import DOMAIN
+from .const import DOMAIN, DeviceType
 from .coordinator import Coordinator
 from .sensor_electricity_price import ElectricityPriceSensor
 from .sensor_power_generic import GenericPowerSensor
@@ -39,6 +39,7 @@ async def async_setup_entry(
             icon="mdi:transmission-tower-export",
             system_id=system.id(),
             name="Grid Feed Out",
+            device_type=DeviceType.GATEWAY,
         )
         sensors.append(grid_feed_out_power_sensor)
         sensors.append(
@@ -47,7 +48,8 @@ async def async_setup_entry(
                 system_id=system.id(),
                 power_sensor=grid_feed_out_power_sensor,
                 name="Grid Feed",
-                direction="out"
+                direction="out",
+                device_type=DeviceType.GATEWAY,
             )
         )
 
@@ -58,6 +60,7 @@ async def async_setup_entry(
             key="gridFeedIn",
             system_id=system.id(),
             name="Grid Feed In",
+            device_type=DeviceType.GATEWAY,
         )
         sensors.append(grid_feed_in_power_sensor)
         sensors.append(
@@ -66,7 +69,8 @@ async def async_setup_entry(
                 system_id=system.id(),
                 power_sensor=grid_feed_in_power_sensor,
                 name="Grid Feed",
-                direction="in"
+                direction="in",
+                device_type=DeviceType.GATEWAY,
             )
         )
 
@@ -77,6 +81,7 @@ async def async_setup_entry(
             key="grid",
             system_id=system.id(),
             name="Grid Feed",
+            device_type=DeviceType.GATEWAY,
         )
         sensors.append(grid_feed_total_sensor)
 
@@ -87,6 +92,7 @@ async def async_setup_entry(
             key="consumption",
             system_id=system.id(),
             name="Consumption",
+            device_type=DeviceType.GATEWAY,
         )
         sensors.append(consumption_total_power_sensor)
 
@@ -97,6 +103,7 @@ async def async_setup_entry(
             key="production",
             system_id=system.id(),
             name="Solar Production",
+            device_type=DeviceType.GATEWAY,
         )
         sensors.append(solar_power_production_sensor)
         sensors.append(
@@ -105,7 +112,8 @@ async def async_setup_entry(
                 system_id=system.id(),
                 power_sensor=solar_power_production_sensor,
                 name="Solar",
-                direction="production"
+                direction="production",
+                device_type=DeviceType.GATEWAY,
             )
         )
 
@@ -116,6 +124,7 @@ async def async_setup_entry(
             key="evChargersAggregated",
             system_id=system.id(),
             name="EV Chargers Aggregated",
+            device_type=DeviceType.EV_CHARGER,
         )
         sensors.append(ev_chargers_power_sensor)
         sensors.append(
@@ -124,7 +133,8 @@ async def async_setup_entry(
                 system_id=system.id(),
                 power_sensor=ev_chargers_power_sensor,
                 name="EV Chargers",
-                direction="consumption"
+                direction="consumption",
+                device_type=DeviceType.EV_CHARGER,
             )
         )
 
@@ -135,6 +145,7 @@ async def async_setup_entry(
             key="heatPumpsAggregated",
             system_id=system.id(),
             name="Heat Pumps Aggregated",
+            device_type=DeviceType.HEAT_PUMP,
         )
         sensors.append(heat_pumps_power_sensor)
         sensors.append(
@@ -143,7 +154,8 @@ async def async_setup_entry(
                 system_id=system.id(),
                 power_sensor=heat_pumps_power_sensor,
                 name="Heat Pumps",
-                direction="consumption"
+                direction="consumption",
+                device_type=DeviceType.HEAT_PUMP,
             )
         )
 
@@ -164,6 +176,7 @@ async def async_setup_entry(
                 power_sensor=battery_power_in_sensor,
                 name="Battery",
                 direction="in",
+                device_type=DeviceType.HYBRID,
             )
         )
 
@@ -176,7 +189,8 @@ async def async_setup_entry(
                 system_id=system.id(),
                 power_sensor=battery_power_out_sensor,
                 name="Battery",
-                direction="out"
+                direction="out",
+                device_type=DeviceType.HYBRID,
             )
         )
 

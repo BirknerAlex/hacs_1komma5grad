@@ -5,11 +5,13 @@ from zoneinfo import ZoneInfo
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.const import UnitOfEnergy
 from homeassistant.core import callback
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 
-from .const import CURRENCY_ICON, DOMAIN
+from .const import CURRENCY_ICON, DOMAIN, DeviceType
 from .coordinator import Coordinator
+from .device_info import get_device_info
 
 # The 1KOMMA5° API returns timeseries keys labeled with "Z" suffix but
 # they are actually in CET (UTC+1 fixed, no DST), following the European
@@ -72,6 +74,10 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
     def device_class(self):
         """Return the device class of the sensor."""
         return UnitOfEnergy.KILO_WATT_HOUR
+
+    @property
+    def device_info(self) -> DeviceInfo | None:
+        return get_device_info(self.coordinator, self._system_id, DeviceType.GATEWAY)
 
     @property
     def extra_state_attributes(self) -> dict:
