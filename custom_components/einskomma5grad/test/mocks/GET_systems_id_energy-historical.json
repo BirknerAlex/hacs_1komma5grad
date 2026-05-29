@@ -1,0 +1,75 @@
+{
+  "productionSurplus": null,
+  "energyProduced": {
+    "value": 12.5,
+    "unit": "kWh"
+  },
+  "selfSufficiencyPercent": 0.75,
+  "grid": {
+    "feedIn": {
+      "value": 3.0,
+      "unit": "kWh"
+    },
+    "supply": {
+      "value": 2.0,
+      "unit": "kWh"
+    }
+  },
+  "battery": {
+    "charge": {
+      "value": 1.5,
+      "unit": "kWh"
+    },
+    "discharge": {
+      "value": 0.75,
+      "unit": "kWh"
+    }
+  },
+  "consumption": {
+    "direct": {
+      "value": 9.5,
+      "unit": "kWh"
+    },
+    "self": null,
+    "total": {
+      "value": 11.5,
+      "unit": "kWh"
+    },
+    "consumers": {
+      "ev": {
+        "value": 0,
+        "unit": "kWh"
+      },
+      "heatPump": {
+        "value": 0,
+        "unit": "kWh"
+      },
+      "ac": null,
+      "household": {
+        "value": 10.0,
+        "unit": "kWh"
+      },
+      "battery": {
+        "value": 0,
+        "unit": "kWh"
+      }
+    },
+    "consumersTotal": {
+      "ev": {
+        "value": 0,
+        "unit": "kWh"
+      },
+      "heatPump": null,
+      "ac": null,
+      "household": {
+        "value": 11.5,
+        "unit": "kWh"
+      }
+    }
+  },
+  "updatedAt": "2026-01-01T23:00Z",
+  "heartbeatSavings": {
+    "value": 0,
+    "unit": "€"
+  }
+}

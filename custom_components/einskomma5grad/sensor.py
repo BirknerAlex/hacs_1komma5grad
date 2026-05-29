@@ -31,19 +31,35 @@ async def async_setup_entry(
         for system in coordinator.data.systems
     ]
 
-    def append_energy_sensors(power_sensor, name, direction, device_type, system_id):
-        """Append the cumulative and (disabled-by-default) daily energy sensors."""
-        for sensor_cls in (EnergySensor, DailyEnergySensor):
-            sensors.append(
-                sensor_cls(
-                    coordinator=coordinator,
-                    system_id=system_id,
-                    power_sensor=power_sensor,
-                    name=name,
-                    direction=direction,
-                    device_type=device_type,
-                )
+    def append_energy_sensors(
+        power_sensor, name, direction, device_type, system_id, metric_path
+    ):
+        """Append the cumulative (integrated) and daily (measured) energy sensors.
+
+        The cumulative sensor integrates instantaneous power; the daily sensor
+        (disabled by default) reads the measured daily total from the API so it
+        matches the dashboard and resets at midnight.
+        """
+        sensors.append(
+            EnergySensor(
+                coordinator=coordinator,
+                system_id=system_id,
+                power_sensor=power_sensor,
+                name=name,
+                direction=direction,
+                device_type=device_type,
             )
+        )
+        sensors.append(
+            DailyEnergySensor(
+                coordinator=coordinator,
+                system_id=system_id,
+                name=name,
+                direction=direction,
+                metric_path=metric_path,
+                device_type=device_type,
+            )
+        )
 
     for system in coordinator.data.systems:
         # Grid feed out power sensor
@@ -62,6 +78,7 @@ async def async_setup_entry(
             direction="out",
             device_type=DeviceType.GATEWAY,
             system_id=system.id(),
+            metric_path=("grid", "supply"),
         )
 
         # Grid feed in power sensor
@@ -80,6 +97,7 @@ async def async_setup_entry(
             direction="in",
             device_type=DeviceType.GATEWAY,
             system_id=system.id(),
+            metric_path=("grid", "feedIn"),
         )
 
         # Grid power total sensor
@@ -120,6 +138,7 @@ async def async_setup_entry(
             direction="production",
             device_type=DeviceType.GATEWAY,
             system_id=system.id(),
+            metric_path=("energyProduced",),
         )
 
         # Electric vehicle chargers and heat pumps aggregated power sensor
@@ -138,6 +157,7 @@ async def async_setup_entry(
             direction="consumption",
             device_type=DeviceType.EV_CHARGER,
             system_id=system.id(),
+            metric_path=("consumption", "consumers", "ev"),
         )
 
         # Heat pumps aggregated power sensor
@@ -156,6 +176,7 @@ async def async_setup_entry(
             direction="consumption",
             device_type=DeviceType.HEAT_PUMP,
             system_id=system.id(),
+            metric_path=("consumption", "consumers", "heatPump"),
         )
 
         # Battery SOC sensor
@@ -174,6 +195,7 @@ async def async_setup_entry(
             direction="in",
             device_type=DeviceType.HYBRID,
             system_id=system.id(),
+            metric_path=("battery", "charge"),
         )
 
         # Battery Power Out sensor
@@ -185,6 +207,7 @@ async def async_setup_entry(
             direction="out",
             device_type=DeviceType.HYBRID,
             system_id=system.id(),
+            metric_path=("battery", "discharge"),
         )
 
     async_add_entities(sensors)

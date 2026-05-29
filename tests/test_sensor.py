@@ -8,7 +8,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
 
 from custom_components.einskomma5grad.const import DOMAIN
-from tests.conftest import SYSTEM_SLUG
+from tests.conftest import SYSTEM_ID, SYSTEM_SLUG
 
 PRICE_ENTITY = f"sensor.electricity_price_{SYSTEM_SLUG}"
 
@@ -124,6 +124,86 @@ async def test_solar_daily_energy_sensor_disabled_by_default(
     entry = registry.async_get(entity_id)
     assert entry is not None
     assert entry.disabled_by is not None
+
+
+async def test_daily_solar_energy_sensor_value_when_enabled(
+    hass: HomeAssistant, mock_config_entry, mock_api, enable_custom_integrations
+):
+    """Test that the daily solar sensor reports the measured API value when enabled."""
+    entity_id = f"sensor.solar_energy_production_today_{SYSTEM_SLUG}"
+
+    mock_config_entry.add_to_hass(hass)
+
+    # Pre-register the entity as enabled so it produces a state on setup.
+    registry = er.async_get(hass)
+    registry.async_get_or_create(
+        "sensor",
+        DOMAIN,
+        f"{DOMAIN}_solar_energy_production_today_{SYSTEM_ID}",
+        suggested_object_id=f"solar_energy_production_today_{SYSTEM_SLUG}",
+        config_entry=mock_config_entry,
+        disabled_by=None,
+    )
+
+    await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
+    coordinator = hass.data[DOMAIN][mock_config_entry.entry_id].coordinator
+    await coordinator.async_refresh()
+    await hass.async_block_till_done()
+
+    state = hass.states.get(entity_id)
+    assert state is not None
+    # Mock energyProduced.value = 12.5 kWh
+    assert float(state.state) == 12.5
+
+
+def test_daily_energy_sensor_reads_measured_metric():
+    """Test that DailyEnergySensor reads the measured value from the API data."""
+    from unittest.mock import MagicMock
+
+    from custom_components.einskomma5grad.energy_sensor import DailyEnergySensor
+
+    energy_today = {
+        "energyProduced": {"value": 12.5, "unit": "kWh"},
+        "grid": {"feedIn": {"value": 3.0, "unit": "kWh"}},
+        "consumption": {"consumers": {"ev": {"value": 0, "unit": "kWh"}}},
+    }
+    coordinator = MagicMock()
+    coordinator.get_energy_today_by_id.return_value = energy_today
+
+    # Top-level metric
+    solar = DailyEnergySensor(
+        coordinator=coordinator,
+        system_id="x",
+        direction="production",
+        name="Solar",
+        metric_path=("energyProduced",),
+    )
+    assert solar.native_value == 12.5
+
+    # Nested metric
+    grid_in = DailyEnergySensor(
+        coordinator=coordinator,
+        system_id="x",
+        direction="in",
+        name="Grid Feed",
+        metric_path=("grid", "feedIn"),
+    )
+    assert grid_in.native_value == 3.0
+
+    # Missing path → None (not an error)
+    missing = DailyEnergySensor(
+        coordinator=coordinator,
+        system_id="x",
+        direction="consumption",
+        name="Heat Pumps",
+        metric_path=("consumption", "consumers", "heatPump"),
+    )
+    assert missing.native_value is None
+
+    # No data at all → None
+    coordinator.get_energy_today_by_id.return_value = None
+    assert solar.native_value is None
 
 
 # --- Electricity price forecast attribute tests ---

@@ -70,11 +70,14 @@ def mock_api():
             "GET_sites_id_assets_evs_displayed-ev-charging-modes.json"
         ),
         "status_and_assets": load_mock("GET_sites_id_status-and-assets.json"),
+        "energy_today": load_mock("GET_systems_id_energy-historical.json"),
     }
 
     def get_router(url, **kwargs):
         if "status-and-assets" in url:
             return _make_response(mock_data["status_and_assets"])
+        if "energy-historical" in url:
+            return _make_response(mock_data["energy_today"])
         if "/api/v2/systems" in url:
             # Distinguish list vs single system: /api/v2/systems vs /api/v2/systems/{id}
             path = url.split("/api/v2/systems")[1]

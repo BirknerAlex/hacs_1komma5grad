@@ -64,6 +64,7 @@ async def test_setup_entry_ems_settings_error(
         "ev_modes": load_mock(
             "GET_sites_id_assets_evs_displayed-ev-charging-modes.json"
         ),
+        "energy_today": load_mock("GET_systems_id_energy-historical.json"),
     }
 
     def get_router(url, **kwargs):
@@ -72,6 +73,8 @@ async def test_setup_entry_ems_settings_error(
             if path and path != "/":
                 return _make_response(mock_data["systems"]["data"][0])
             return _make_response(mock_data["systems"])
+        if "energy-historical" in url:
+            return _make_response(mock_data["energy_today"])
         if "live-overview" in url:
             return _make_response(mock_data["live_overview"])
         if "market-prices" in url:

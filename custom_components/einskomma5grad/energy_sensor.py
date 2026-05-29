@@ -6,7 +6,6 @@ from homeassistant.const import UnitOfEnergy
 from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-from homeassistant.util import dt as dt_util
 
 from .const import DOMAIN, DeviceType
 from .coordinator import Coordinator
@@ -103,36 +102,29 @@ class EnergySensor(CoordinatorEntity, RestoreSensor):
         return re.sub(r'\s+', '_', self._name.strip().lower())
 
 
-class DailyEnergySensor(EnergySensor):
-    """Energy sensor that resets to zero at local midnight (daily total).
+class DailyEnergySensor(CoordinatorEntity, SensorEntity):
+    """Daily energy total read directly from the measured energy-historical API.
 
-    Disabled by default; intended for users who want a value that matches the
-    1KOMMA5GRAD dashboard's daily figures.
+    Unlike EnergySensor (which integrates instantaneous power), this reports the
+    server-side measured daily total, so it matches the 1KOMMA5GRAD dashboard
+    exactly and resets at local midnight when the API rolls over to a new day.
+
+    Disabled by default.
     """
 
     _attr_entity_registry_enabled_default = False
 
-    def __init__(self, *args, **kwargs) -> None:
-        """Initialize the daily energy sensor."""
-        super().__init__(*args, **kwargs)
-        self._current_day = None  # local date the accumulated energy belongs to
-
-    async def async_added_to_hass(self) -> None:
-        """Restore the accumulated energy, discarding it if it is from a past day."""
-        await super().async_added_to_hass()
-
-        today = dt_util.now().date()
-        last_state = await self.async_get_last_state()
-        if last_state is not None:
-            last_day = dt_util.as_local(last_state.last_updated).date()
-            if last_day != today:
-                self._energy = 0.0
-                _LOGGER.debug(
-                    "Discarded stale daily energy for %s (last update %s), reset to 0 kWh",
-                    self.unique_id,
-                    last_day,
-                )
-        self._current_day = today
+    def __init__(
+        self, coordinator: Coordinator, system_id: str, direction: str, name: str,
+        metric_path: tuple[str, ...], device_type: DeviceType | None = None,
+    ) -> None:
+        """Initialize the sensor."""
+        super().__init__(coordinator)
+        self._system_id = system_id
+        self._direction = direction
+        self._name = name
+        self._metric_path = metric_path
+        self._device_type = device_type
 
     @property
     def name(self):
@@ -140,19 +132,45 @@ class DailyEnergySensor(EnergySensor):
         return f"{self._name} Energy {self._direction.capitalize()} Today {self._system_id}"
 
     @property
+    def icon(self) -> str:
+        return "mdi:lightning-bolt"
+
+    @property
+    def native_unit_of_measurement(self):
+        return UnitOfEnergy.KILO_WATT_HOUR
+
+    @property
     def unique_id(self) -> str:
         return f"{DOMAIN}_{self.key_from_name()}_energy_{self._direction}_today_{self._system_id}"
 
-    @callback
-    def _handle_coordinator_update(self) -> None:
-        """Reset at local midnight, then accumulate as usual."""
-        today = dt_util.now().date()
-        if self._current_day is not None and today != self._current_day:
-            self._energy = 0.0
-            # Drop the timestamp so the cross-midnight interval is not counted
-            # into the new day; accumulation restarts from this update.
-            self._last_update = None
-            _LOGGER.debug("Daily energy reset for %s at %s", self.unique_id, today)
-        self._current_day = today
+    @property
+    def native_value(self) -> float | None:
+        """Return today's measured energy for this metric, or None if unavailable."""
+        data = self.coordinator.get_energy_today_by_id(self._system_id)
+        if not data:
+            return None
 
-        super()._handle_coordinator_update()
+        node = data
+        for key in self._metric_path:
+            if not isinstance(node, dict) or key not in node:
+                return None
+            node = node[key]
+
+        if isinstance(node, dict):
+            node = node.get("value")
+        return node
+
+    @property
+    def device_class(self):
+        return SensorDeviceClass.ENERGY
+
+    @property
+    def state_class(self) -> SensorStateClass | str | None:
+        return SensorStateClass.TOTAL_INCREASING
+
+    @property
+    def device_info(self) -> DeviceInfo | None:
+        return get_device_info(self.coordinator, self._system_id, self._device_type)
+
+    def key_from_name(self) -> str:
+        return re.sub(r'\s+', '_', self._name.strip().lower())

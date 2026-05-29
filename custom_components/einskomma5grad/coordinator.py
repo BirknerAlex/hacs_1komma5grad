@@ -70,6 +70,8 @@ class SystemsData:
 
     device_data: dict[str, DeviceData] | None = None
 
+    energy_today: dict[str, dict] = None
+
 class Coordinator(DataUpdateCoordinator):
     """1KOMMA5GRAD coordinator."""
 
@@ -118,18 +120,34 @@ class Coordinator(DataUpdateCoordinator):
             start = now_utc.replace(hour=0, minute=0, second=0, microsecond=0)
             end = start + timedelta(days=2)
 
+            # Local calendar day, so daily energy totals align with the dashboard.
+            today = dt_util.now().date()
+
             prices = {}
             ems_settings = {}
             live_overview = {}
             ev_data = {}
             ev_charging_modes = {}
             device_data = {}
+            energy_today = {}
             for system in systems:
                 prices[system.id()] = await self.hass.async_add_executor_job(
                     system.get_prices,
                     start,
                     end,
                 )
+
+                try:
+                    energy_today[system.id()] = await self.hass.async_add_executor_job(
+                        system.get_energy_historical,
+                        today,
+                    )
+                except ApiError:
+                    _LOGGER.warning(
+                        "Failed to get historical energy for system %s, skipping",
+                        system.id(),
+                    )
+                    energy_today[system.id()] = None
 
                 try:
                     ems_settings[system.id()] = await self.hass.async_add_executor_job(
@@ -174,6 +192,7 @@ class Coordinator(DataUpdateCoordinator):
                 ev_data=ev_data,
                 ev_charging_modes=ev_charging_modes,
                 device_data=device_data,
+                energy_today=energy_today,
             )
         except ApiError as err:
             raise UpdateFailed(err) from err
@@ -279,3 +298,9 @@ class Coordinator(DataUpdateCoordinator):
         """Return prices by system id."""
 
         return self.data.live_overview[system_id]
+
+    def get_energy_today_by_id(self, system_id: str) -> dict | None:
+        """Return today's measured energy totals by system id."""
+        if self.data.energy_today is None:
+            return None
+        return self.data.energy_today.get(system_id)

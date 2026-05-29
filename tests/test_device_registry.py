@@ -138,6 +138,8 @@ async def test_entities_still_work_without_gateway(
             return _make_response(modified)
         # Fall through to existing router for other URLs
         from tests.conftest import _make_response
+        if "energy-historical" in url:
+            return _make_response(mock_api["data"]["energy_today"])
         if "live-overview" in url:
             return _make_response(mock_api["data"]["live_overview"])
         if "market-prices" in url:

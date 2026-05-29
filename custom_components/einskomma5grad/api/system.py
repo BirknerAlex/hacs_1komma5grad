@@ -181,3 +181,38 @@ class System:
             raise RequestError("Failed to get prices: " + res.text)
 
         return res.json()
+
+    def get_energy_historical(self, day: datetime.date, resolution: str = "1d"):
+        """Fetch measured historical energy totals for a single day.
+
+        Returns the API's aggregated daily energy values (production, grid,
+        battery, consumption) in kWh, matching the figures shown in the
+        1KOMMA5GRAD dashboard.
+        """
+        date_str = day.strftime("%Y-%m-%d")
+        try:
+            res = requests.get(
+                url=self.client.HEARTBEAT_API
+                + "/api/v3/systems/"
+                + self.id()
+                + "/energy-historical",
+                params={
+                    "from": date_str,
+                    "to": date_str,
+                    "resolution": resolution,
+                },
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + self.client.get_token(),
+                },
+                timeout=REQUEST_TIMEOUT,
+            )
+        except requests.exceptions.RequestException as err:
+            raise RequestError(
+                f"Failed to get historical energy due to network error: {err}"
+            ) from err
+
+        if res.status_code != 200:
+            raise RequestError("Failed to get historical energy: " + res.text)
+
+        return res.json()
