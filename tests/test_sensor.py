@@ -5,6 +5,7 @@ from unittest.mock import patch
 from zoneinfo import ZoneInfo
 
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import entity_registry as er
 
 from custom_components.einskomma5grad.const import DOMAIN
 from tests.conftest import SYSTEM_SLUG
@@ -96,6 +97,33 @@ async def test_heat_pumps_aggregated_sensor_exists(
     """Test that the heat pumps aggregated power sensor is created."""
     state = hass.states.get(f"sensor.heat_pumps_aggregated_power_{SYSTEM_SLUG}")
     assert state is not None
+
+
+# --- Energy sensor tests ---
+
+
+async def test_solar_energy_production_sensor_exists(
+    hass: HomeAssistant, setup_integration
+):
+    """Test that the cumulative solar energy production sensor is enabled by default."""
+    state = hass.states.get(f"sensor.solar_energy_production_{SYSTEM_SLUG}")
+    assert state is not None
+
+
+async def test_solar_daily_energy_sensor_disabled_by_default(
+    hass: HomeAssistant, setup_integration
+):
+    """Test that the daily solar energy sensor is registered but disabled by default."""
+    entity_id = f"sensor.solar_energy_production_today_{SYSTEM_SLUG}"
+
+    # Disabled-by-default entities do not have a state...
+    assert hass.states.get(entity_id) is None
+
+    # ...but they are present in the entity registry, marked disabled.
+    registry = er.async_get(hass)
+    entry = registry.async_get(entity_id)
+    assert entry is not None
+    assert entry.disabled_by is not None
 
 
 # --- Electricity price forecast attribute tests ---

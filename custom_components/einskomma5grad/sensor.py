@@ -4,7 +4,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .energy_sensor import EnergySensor
+from .energy_sensor import EnergySensor, DailyEnergySensor
 from .const import DOMAIN, DeviceType
 from .coordinator import Coordinator
 from .sensor_electricity_price import ElectricityPriceSensor
@@ -31,6 +31,20 @@ async def async_setup_entry(
         for system in coordinator.data.systems
     ]
 
+    def append_energy_sensors(power_sensor, name, direction, device_type, system_id):
+        """Append the cumulative and (disabled-by-default) daily energy sensors."""
+        for sensor_cls in (EnergySensor, DailyEnergySensor):
+            sensors.append(
+                sensor_cls(
+                    coordinator=coordinator,
+                    system_id=system_id,
+                    power_sensor=power_sensor,
+                    name=name,
+                    direction=direction,
+                    device_type=device_type,
+                )
+            )
+
     for system in coordinator.data.systems:
         # Grid feed out power sensor
         grid_feed_out_power_sensor = GenericPowerSensor(
@@ -42,15 +56,12 @@ async def async_setup_entry(
             device_type=DeviceType.GATEWAY,
         )
         sensors.append(grid_feed_out_power_sensor)
-        sensors.append(
-            EnergySensor(
-                coordinator=coordinator,
-                system_id=system.id(),
-                power_sensor=grid_feed_out_power_sensor,
-                name="Grid Feed",
-                direction="out",
-                device_type=DeviceType.GATEWAY,
-            )
+        append_energy_sensors(
+            power_sensor=grid_feed_out_power_sensor,
+            name="Grid Feed",
+            direction="out",
+            device_type=DeviceType.GATEWAY,
+            system_id=system.id(),
         )
 
         # Grid feed in power sensor
@@ -63,15 +74,12 @@ async def async_setup_entry(
             device_type=DeviceType.GATEWAY,
         )
         sensors.append(grid_feed_in_power_sensor)
-        sensors.append(
-            EnergySensor(
-                coordinator=coordinator,
-                system_id=system.id(),
-                power_sensor=grid_feed_in_power_sensor,
-                name="Grid Feed",
-                direction="in",
-                device_type=DeviceType.GATEWAY,
-            )
+        append_energy_sensors(
+            power_sensor=grid_feed_in_power_sensor,
+            name="Grid Feed",
+            direction="in",
+            device_type=DeviceType.GATEWAY,
+            system_id=system.id(),
         )
 
         # Grid power total sensor
@@ -106,15 +114,12 @@ async def async_setup_entry(
             device_type=DeviceType.GATEWAY,
         )
         sensors.append(solar_power_production_sensor)
-        sensors.append(
-            EnergySensor(
-                coordinator=coordinator,
-                system_id=system.id(),
-                power_sensor=solar_power_production_sensor,
-                name="Solar",
-                direction="production",
-                device_type=DeviceType.GATEWAY,
-            )
+        append_energy_sensors(
+            power_sensor=solar_power_production_sensor,
+            name="Solar",
+            direction="production",
+            device_type=DeviceType.GATEWAY,
+            system_id=system.id(),
         )
 
         # Electric vehicle chargers and heat pumps aggregated power sensor
@@ -127,15 +132,12 @@ async def async_setup_entry(
             device_type=DeviceType.EV_CHARGER,
         )
         sensors.append(ev_chargers_power_sensor)
-        sensors.append(
-            EnergySensor(
-                coordinator=coordinator,
-                system_id=system.id(),
-                power_sensor=ev_chargers_power_sensor,
-                name="EV Chargers",
-                direction="consumption",
-                device_type=DeviceType.EV_CHARGER,
-            )
+        append_energy_sensors(
+            power_sensor=ev_chargers_power_sensor,
+            name="EV Chargers",
+            direction="consumption",
+            device_type=DeviceType.EV_CHARGER,
+            system_id=system.id(),
         )
 
         # Heat pumps aggregated power sensor
@@ -148,15 +150,12 @@ async def async_setup_entry(
             device_type=DeviceType.HEAT_PUMP,
         )
         sensors.append(heat_pumps_power_sensor)
-        sensors.append(
-            EnergySensor(
-                coordinator=coordinator,
-                system_id=system.id(),
-                power_sensor=heat_pumps_power_sensor,
-                name="Heat Pumps",
-                direction="consumption",
-                device_type=DeviceType.HEAT_PUMP,
-            )
+        append_energy_sensors(
+            power_sensor=heat_pumps_power_sensor,
+            name="Heat Pumps",
+            direction="consumption",
+            device_type=DeviceType.HEAT_PUMP,
+            system_id=system.id(),
         )
 
         # Battery SOC sensor
@@ -169,29 +168,23 @@ async def async_setup_entry(
         # Battery Power In sensor
         battery_power_in_sensor = BatteryPowerInSensor(coordinator, system.id())
         sensors.append(battery_power_in_sensor)
-        sensors.append(
-            EnergySensor(
-                coordinator=coordinator,
-                system_id=system.id(),
-                power_sensor=battery_power_in_sensor,
-                name="Battery",
-                direction="in",
-                device_type=DeviceType.HYBRID,
-            )
+        append_energy_sensors(
+            power_sensor=battery_power_in_sensor,
+            name="Battery",
+            direction="in",
+            device_type=DeviceType.HYBRID,
+            system_id=system.id(),
         )
 
         # Battery Power Out sensor
         battery_power_out_sensor = BatteryPowerOutSensor(coordinator, system.id())
         sensors.append(battery_power_out_sensor)
-        sensors.append(
-            EnergySensor(
-                coordinator=coordinator,
-                system_id=system.id(),
-                power_sensor=battery_power_out_sensor,
-                name="Battery",
-                direction="out",
-                device_type=DeviceType.HYBRID,
-            )
+        append_energy_sensors(
+            power_sensor=battery_power_out_sensor,
+            name="Battery",
+            direction="out",
+            device_type=DeviceType.HYBRID,
+            system_id=system.id(),
         )
 
     async_add_entities(sensors)
