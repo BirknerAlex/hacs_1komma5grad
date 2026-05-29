@@ -1,3 +1,9 @@
+## [1.5.0-dev.3](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.5.0-dev.2...v1.5.0-dev.3) (2026-05-29)
+
+### 🚀 Features
+
+* Source daily energy sensors from measured energy-historical API ([bb9a0e6](https://github.com/BirknerAlex/hacs_1komma5grad/commit/bb9a0e6b98bbacb558b190f35a4a40dd0e673aa4))
+
 ## [1.5.0-dev.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.5.0-dev.1...v1.5.0-dev.2) (2026-05-29)
 
 ### 🚀 Features
