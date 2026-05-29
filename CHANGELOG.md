@@ -1,3 +1,9 @@
+## [1.5.0-dev.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.5.0-dev.1...v1.5.0-dev.2) (2026-05-29)
+
+### 🚀 Features
+
+* Persist energy sensors across restarts and add daily energy sensors ([b986849](https://github.com/BirknerAlex/hacs_1komma5grad/commit/b9868498c1c4b1b5d88624c95a03554d665b5a19)), closes [#38](https://github.com/BirknerAlex/hacs_1komma5grad/issues/38)
+
 ## [1.5.0-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.4.1...v1.5.0-dev.1) (2026-03-29)
 
 ### 🚀 Features
