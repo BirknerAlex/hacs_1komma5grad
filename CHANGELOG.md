@@ -1,3 +1,11 @@
+## [1.5.0](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.4.1...v1.5.0) (2026-06-03)
+
+### 🚀 Features
+
+* Add device registry support for entities ([#33](https://github.com/BirknerAlex/hacs_1komma5grad/issues/33)) ([8f4f07e](https://github.com/BirknerAlex/hacs_1komma5grad/commit/8f4f07e525185cffb7528c809aaf873077a97d84))
+* Persist energy sensors across restarts and add daily energy sensors ([b986849](https://github.com/BirknerAlex/hacs_1komma5grad/commit/b9868498c1c4b1b5d88624c95a03554d665b5a19)), closes [#38](https://github.com/BirknerAlex/hacs_1komma5grad/issues/38)
+* Source daily energy sensors from measured energy-historical API ([bb9a0e6](https://github.com/BirknerAlex/hacs_1komma5grad/commit/bb9a0e6b98bbacb558b190f35a4a40dd0e673aa4))
+
 ## [1.5.0-dev.3](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.5.0-dev.2...v1.5.0-dev.3) (2026-05-29)
 
 ### 🚀 Features
