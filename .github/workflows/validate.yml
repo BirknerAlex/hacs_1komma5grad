@@ -1,6 +1,11 @@
 name: Validate
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
 
 jobs:
   validate-hacs:
