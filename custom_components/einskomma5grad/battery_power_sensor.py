@@ -12,7 +12,8 @@ from .const import DOMAIN, DeviceType
 from .coordinator import Coordinator
 from .device_info import get_device_info
 
-class BatteryPowerInSensor(CoordinatorEntity, SensorEntity):
+
+class BatteryPowerInSensor(CoordinatorEntity[Coordinator], SensorEntity):
     """Representation of Battery Power In Sensor."""
 
     def __init__(self, coordinator: Coordinator, system_id: str) -> None:
@@ -72,14 +73,13 @@ class BatteryPowerInSensor(CoordinatorEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Update sensor with latest data from coordinator."""
-        self._summary_cards = self.coordinator.get_live_data_by_id(self._system_id)[
-            "summaryCards"
-        ]
+        live_data = self.coordinator.get_live_data_by_id(self._system_id)
+        self._summary_cards = live_data["summaryCards"] if live_data else {}
 
         self.async_write_ha_state()
 
 
-class BatteryPowerOutSensor(CoordinatorEntity, SensorEntity):
+class BatteryPowerOutSensor(CoordinatorEntity[Coordinator], SensorEntity):
     """Representation of Battery Power Out Sensor."""
 
     def __init__(self, coordinator: Coordinator, system_id: str) -> None:
@@ -139,8 +139,7 @@ class BatteryPowerOutSensor(CoordinatorEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Update sensor with latest data from coordinator."""
-        self._summary_cards = self.coordinator.get_live_data_by_id(self._system_id)[
-            "summaryCards"
-        ]
+        live_data = self.coordinator.get_live_data_by_id(self._system_id)
+        self._summary_cards = live_data["summaryCards"] if live_data else {}
 
         self.async_write_ha_state()

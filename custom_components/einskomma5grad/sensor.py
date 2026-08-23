@@ -2,15 +2,16 @@ import logging
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .energy_sensor import EnergySensor, DailyEnergySensor
-from .const import DOMAIN, DeviceType
-from .coordinator import Coordinator
-from .sensor_electricity_price import ElectricityPriceSensor
-from .sensor_power_generic import GenericPowerSensor
 from .battery_power_sensor import BatteryPowerInSensor, BatteryPowerOutSensor
 from .battery_soc_sensor import BatteryStateOfChargeSensor
+from .const import DOMAIN, DeviceType
+from .coordinator import Coordinator
+from .energy_sensor import DailyEnergySensor, EnergySensor
+from .sensor_electricity_price import ElectricityPriceSensor
+from .sensor_power_generic import GenericPowerSensor
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -26,7 +27,7 @@ async def async_setup_entry(
     # Enumerate all the sensors in your data value from your DataUpdateCoordinator and add an instance of your sensor class
     # to a list for each one.
     # This maybe different in your specific case, depending on how your data is structured
-    sensors = [
+    sensors: list[Entity] = [
         ElectricityPriceSensor(coordinator, system.id())
         for system in coordinator.data.systems
     ]

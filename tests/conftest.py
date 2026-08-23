@@ -2,12 +2,12 @@
 
 import json
 from pathlib import Path
-from unittest.mock import patch, MagicMock
+from typing import cast
+from unittest.mock import MagicMock, patch
 
 import pytest
-from homeassistant.const import CONF_PASSWORD, CONF_USERNAME, CONF_SCAN_INTERVAL
+from homeassistant.const import CONF_PASSWORD, CONF_SCAN_INTERVAL, CONF_USERNAME
 from homeassistant.core import HomeAssistant
-
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.einskomma5grad.const import DOMAIN
@@ -83,7 +83,7 @@ def mock_api():
             path = url.split("/api/v2/systems")[1]
             if path and path != "/":
                 # Single system request — return the first system object directly
-                return _make_response(mock_data["systems"]["data"][0])
+                return _make_response(cast(dict, mock_data["systems"])["data"][0])
             return _make_response(mock_data["systems"])
         if "live-overview" in url:
             return _make_response(mock_data["live_overview"])

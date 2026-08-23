@@ -12,10 +12,10 @@ from .device_info import get_device_info
 _LOGGER = logging.getLogger(__name__)
 
 
-class EVChargingModeSelect(CoordinatorEntity, SelectEntity):
+class EVChargingModeSelect(CoordinatorEntity[Coordinator], SelectEntity):
     """Representation of an EV Charging Mode Select entity."""
 
-    def __init__(self, coordinator: Coordinator, system_id: str, ev_id=str) -> None:
+    def __init__(self, coordinator: Coordinator, system_id: str, ev_id: str) -> None:
         """Initialize the select entity."""
 
         super().__init__(coordinator)
@@ -23,7 +23,8 @@ class EVChargingModeSelect(CoordinatorEntity, SelectEntity):
         self._system_id = system_id
         self._ev_id = ev_id
         self._ev_name = ev_id
-        self._attr_options = coordinator.data.ev_charging_modes.get(system_id, [])
+        ev_charging_modes = coordinator.data.ev_charging_modes or {}
+        self._attr_options = ev_charging_modes.get(system_id, [])
 
         # Read initial state from already-fetched coordinator data
         ev_data = coordinator.get_ev_data(ev_id)
@@ -93,8 +94,7 @@ class EVChargingModeSelect(CoordinatorEntity, SelectEntity):
             if ev_data.ev_name:
                 self._ev_name = ev_data.ev_name
 
-        self._attr_options = self.coordinator.data.ev_charging_modes.get(
-            self._system_id, []
-        )
+        ev_charging_modes = self.coordinator.data.ev_charging_modes or {}
+        self._attr_options = ev_charging_modes.get(self._system_id, [])
 
         self.async_write_ha_state()

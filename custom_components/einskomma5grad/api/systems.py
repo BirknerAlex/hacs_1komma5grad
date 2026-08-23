@@ -1,6 +1,6 @@
 import requests
 
-from .client import Client, REQUEST_TIMEOUT
+from .client import REQUEST_TIMEOUT, Client
 from .error import RequestError
 from .system import System
 

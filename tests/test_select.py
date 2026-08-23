@@ -56,4 +56,5 @@ async def test_ev_charging_mode_select_option(
 
     # Verify the state changed
     state = hass.states.get(entity_id)
+    assert state is not None
     assert state.state == "SMART_CHARGE"

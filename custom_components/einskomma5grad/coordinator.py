@@ -1,9 +1,9 @@
 """Integration 101 Template integration using DataUpdateCoordinator."""
 
-from dataclasses import dataclass
 import datetime
-from datetime import timedelta
 import logging
+from dataclasses import dataclass
+from datetime import timedelta
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PASSWORD, CONF_SCAN_INTERVAL, CONF_USERNAME
@@ -58,24 +58,22 @@ class SystemsData:
 
     systems: list[System]
 
-    prices: dict[str, dict] = None
+    prices: dict[str, dict] | None = None
 
-    live_overview: dict[str, dict] = None
+    live_overview: dict[str, dict] | None = None
 
-    ems_settings: dict[str, bool] = None
+    ems_settings: dict[str, dict] | None = None
 
-    ev_data: dict[str, EVData] = None
+    ev_data: dict[str, EVData] | None = None
 
-    ev_charging_modes: dict[str, list[str]] = None
+    ev_charging_modes: dict[str, list[str]] | None = None
 
     device_data: dict[str, DeviceData] | None = None
 
-    energy_today: dict[str, dict] = None
+    energy_today: dict[str, dict] | None = None
 
-class Coordinator(DataUpdateCoordinator):
+class Coordinator(DataUpdateCoordinator[SystemsData]):
     """1KOMMA5GRAD coordinator."""
-
-    data: SystemsData
 
     def __init__(self, hass: HomeAssistant, config_entry: ConfigEntry) -> None:
         """Initialize coordinator."""
@@ -132,7 +130,7 @@ class Coordinator(DataUpdateCoordinator):
             _LOGGER.warning("Failed to get %s for system %s, skipping", label, system_id)
             return [] if fallback == "empty_list" else None
 
-    async def async_update_data(self):
+    async def async_update_data(self) -> SystemsData:
         """Fetch data from API endpoint.
 
         This is the place to pre-process the data to lookup tables
@@ -184,7 +182,7 @@ class Coordinator(DataUpdateCoordinator):
                     "EV chargers", "ev_chargers", sid,
                     system.get_ev_chargers, fallback="empty_list",
                 )
-                for ev_charger in ev_chargers:
+                for ev_charger in ev_chargers or []:
                     ev_data[ev_charger.id()] = EVData(
                         ev_name=ev_charger.name(),
                         current_soc=ev_charger.current_soc(),
@@ -232,10 +230,9 @@ class Coordinator(DataUpdateCoordinator):
 
     def get_ev_data(self, ev_id: str) -> EVData | None:
         """Return current state of charge by EV id."""
-        if ev_id in self.data.ev_data:
-            return self.data.ev_data[ev_id]
-
-        return None
+        if self.data.ev_data is None:
+            return None
+        return self.data.ev_data.get(ev_id)
 
     def get_system_by_id(self, system_id: str) -> System | None:
         """Return device by device id."""
@@ -247,8 +244,9 @@ class Coordinator(DataUpdateCoordinator):
 
     def get_prices_by_id(self, system_id: str) -> dict | None:
         """Return prices by system id."""
-
-        return self.data.prices[system_id]
+        if self.data.prices is None:
+            return None
+        return self.data.prices.get(system_id)
 
     def set_ems_auto_mode(self, system_id: str, enable: bool):
         """Enable EMS auto mode."""
@@ -278,7 +276,7 @@ class Coordinator(DataUpdateCoordinator):
                         system_name=system.data.get("systemName", ""),
                         system_id=system.id(),
                     )
-        except Exception:
+        except (KeyError, TypeError, AttributeError, IndexError):
             _LOGGER.debug("Could not extract gateway info for system %s", system.id())
 
         # Assets from status-and-assets endpoint
@@ -301,15 +299,16 @@ class Coordinator(DataUpdateCoordinator):
                         name=asset.get("name"),
                     )
                 result.assets_by_type = assets_by_type
-        except Exception:
+        except (KeyError, TypeError, AttributeError):
             _LOGGER.debug("Could not fetch assets for system %s", system.id())
 
         return result
 
     def get_live_data_by_id(self, system_id: str) -> dict | None:
         """Return prices by system id."""
-
-        return self.data.live_overview[system_id]
+        if self.data.live_overview is None:
+            return None
+        return self.data.live_overview.get(system_id)
 
     def get_energy_today_by_id(self, system_id: str) -> dict | None:
         """Return today's measured energy totals by system id."""

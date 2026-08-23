@@ -1,3 +1,22 @@
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
+
+[tool.basedpyright]
+# basedpyright's default preset is stricter than pyright's "standard" mode
+# (e.g. reportAny, reportUnknownMemberType, reportImplicitOverride,
+# reportUnannotatedClassAttribute). Those rules mostly fire on Home
+# Assistant's own loosely-typed Entity/DataUpdateCoordinator base classes
+# and would require extensive local stubbing to satisfy; "standard" mode
+# matches what pyright itself considers a clean bar.
+typeCheckingMode = "standard"
+
+# Home Assistant's Entity base class declares attributes like `name`,
+# `icon`, `native_value`, `device_info`, etc. as `cached_property`. Every
+# entity in this integration (and in HA core itself) overrides them with a
+# plain `@property`, which is functionally fine at runtime but technically
+# variance-incompatible. Same story for `available` where CoordinatorEntity
+# and the platform's own Entity subclass (e.g. SensorEntity) both declare it.
+# This is a structural false positive across the whole entity model, not a
+# real bug, so it's disabled project-wide rather than suppressed per line.
+reportIncompatibleVariableOverride = false

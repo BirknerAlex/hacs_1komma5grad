@@ -6,8 +6,8 @@ import secrets
 import time
 
 import jwt
-from jwt import PyJWKClient
 import requests
+from jwt import PyJWKClient
 
 from .error import AuthenticationError, RequestError
 
@@ -29,12 +29,15 @@ class Client:
     def __init__(self, username, password):
         self.jwks_client = PyJWKClient(self.JWKS_URL)
         self.state = None
-        self.token_set = None
+        self.token_set: dict | None = None
 
         self.username = username
         self.password = password
 
     def get_token_parsed(self) -> jwt.PyJWT:
+        if self.token_set is None:
+            raise AuthenticationError("No token set")
+
         signing_key = self.jwks_client.get_signing_key_from_jwt(
             self.token_set["access_token"]
         )
@@ -60,8 +63,9 @@ class Client:
                 algorithms=["RS256"],
             )
 
-            return token["exp"] - before < datetime.datetime.now().timestamp()
-        except Exception:
+            now = datetime.datetime.now(datetime.timezone.utc)
+            return token["exp"] - before < now.timestamp()
+        except (jwt.PyJWTError, KeyError, TypeError):
             return True
 
     def get_token(self) -> str:
@@ -92,7 +96,7 @@ class Client:
                     delay,
                 )
                 time.sleep(delay)
-        raise last_error
+        raise last_error or AuthenticationError("Login failed after retries")
 
     def login(self) -> str:
         try:
@@ -173,9 +177,10 @@ class Client:
             if res.status_code != 200:
                 raise AuthenticationError("Failed to get token: " + res.text)
 
-            self.token_set = res.json()
+            token_set = res.json()
+            self.token_set = token_set
 
-            return self.token_set["access_token"]
+            return token_set["access_token"]
         except AuthenticationError:
             raise
         except requests.exceptions.RequestException as err:

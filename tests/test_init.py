@@ -1,5 +1,6 @@
 """Test 1KOMMA5GRAD integration setup and unload."""
 
+from typing import cast
 from unittest.mock import MagicMock, patch
 
 from homeassistant.config_entries import ConfigEntryState
@@ -64,14 +65,17 @@ async def test_setup_entry_ems_settings_error(
         "ev_modes": load_mock(
             "GET_sites_id_assets_evs_displayed-ev-charging-modes.json"
         ),
+        "status_and_assets": load_mock("GET_sites_id_status-and-assets.json"),
         "energy_today": load_mock("GET_systems_id_energy-historical.json"),
     }
 
     def get_router(url, **kwargs):
+        if "status-and-assets" in url:
+            return _make_response(mock_data["status_and_assets"])
         if "/api/v2/systems" in url:
             path = url.split("/api/v2/systems")[1]
             if path and path != "/":
-                return _make_response(mock_data["systems"]["data"][0])
+                return _make_response(cast(dict, mock_data["systems"])["data"][0])
             return _make_response(mock_data["systems"])
         if "energy-historical" in url:
             return _make_response(mock_data["energy_today"])

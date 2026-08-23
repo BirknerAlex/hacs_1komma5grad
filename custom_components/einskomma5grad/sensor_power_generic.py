@@ -13,7 +13,7 @@ from .coordinator import Coordinator
 from .device_info import get_device_info
 
 
-class GenericPowerSensor(CoordinatorEntity, SensorEntity):
+class GenericPowerSensor(CoordinatorEntity[Coordinator], SensorEntity):
     """Representation of Generic Power Sensor."""
 
     def __init__(
@@ -93,8 +93,7 @@ class GenericPowerSensor(CoordinatorEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Update sensor with latest data from coordinator."""
-        self._live_data = self.coordinator.get_live_data_by_id(self._system_id)[
-            "liveHeroView"
-        ]
+        live_data = self.coordinator.get_live_data_by_id(self._system_id)
+        self._live_data = live_data["liveHeroView"] if live_data else {}
 
         self.async_write_ha_state()

@@ -13,6 +13,7 @@ successful poll — even though fresh price data was available.
 import copy
 import json
 from datetime import datetime
+from typing import cast
 from unittest.mock import MagicMock, patch
 from zoneinfo import ZoneInfo
 
@@ -47,12 +48,12 @@ def mock_api_flaky_second_poll():
     """
     from custom_components.einskomma5grad.api.error import RequestError
 
-    prices_full = load_mock("GET_systems_id_charts_market-prices.json")
+    prices_full = cast(dict, load_mock("GET_systems_id_charts_market-prices.json"))
     prices_today_only = copy.deepcopy(prices_full)
     prices_today_only["timeseries"] = {
         k: v
         for k, v in prices_full["timeseries"].items()
-        if k.startswith("2026-03-28") or k.startswith("2026-03-29")
+        if k.startswith(("2026-03-28", "2026-03-29"))
     }
 
     mock_data = {
@@ -77,7 +78,7 @@ def mock_api_flaky_second_poll():
         if "/api/v2/systems" in url:
             path = url.split("/api/v2/systems")[1]
             if path and path != "/":
-                return _make_response(mock_data["systems"]["data"][0])
+                return _make_response(cast(dict, mock_data["systems"])["data"][0])
             return _make_response(mock_data["systems"])
         if "live-overview" in url:
             call_counts["live-overview"] += 1
