@@ -1,3 +1,10 @@
+## [1.5.1-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.5.0...v1.5.1-dev.1) (2026-08-23)
+
+### 🛠️ Fixes
+
+* isolate per-endpoint API failures in coordinator refresh ([#40](https://github.com/BirknerAlex/hacs_1komma5grad/issues/40)) ([5013670](https://github.com/BirknerAlex/hacs_1komma5grad/commit/50136704643d789a9b5cc2d6144e3a766432f23d))
+* resolve lint findings and restore lint/basedpyright as blocking CI checks ([27e550c](https://github.com/BirknerAlex/hacs_1komma5grad/commit/27e550cc4ec3735c2649cd6850dc0f53ef7d1b19)), closes [#40](https://github.com/BirknerAlex/hacs_1komma5grad/issues/40)
+
 ## [1.5.0](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.4.1...v1.5.0) (2026-06-03)
 
 ### 🚀 Features
