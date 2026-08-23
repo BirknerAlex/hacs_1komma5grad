@@ -18,7 +18,7 @@ from .device_info import get_device_info
 # energy market convention (EPEX SPOT).
 _CET = timezone(timedelta(hours=1))
 
-class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
+class ElectricityPriceSensor(CoordinatorEntity[Coordinator], SensorEntity):
     """Representation of an Energy Price Sensor."""
 
     def __init__(self, coordinator: Coordinator, system_id: str) -> None:
@@ -138,7 +138,7 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
                 if len(prices) == 4
             }
             if complete_hours:
-                cheapest_hour = min(complete_hours, key=complete_hours.get)
+                cheapest_hour = min(complete_hours, key=lambda h: complete_hours[h])
                 attrs["cheapest_upcoming_hour"] = cheapest_hour.isoformat()
                 attrs["cheapest_upcoming_price"] = round(complete_hours[cheapest_hour], 4)
 
@@ -151,7 +151,7 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         """Update sensor with latest data from coordinator."""
         prices = self.coordinator.get_prices_by_id(self._system_id)
 
-        if "timeseries" not in prices:
+        if prices is None or "timeseries" not in prices:
             self.coordinator.logger.error("Timeseries data not found in coordinator data")
             return
 

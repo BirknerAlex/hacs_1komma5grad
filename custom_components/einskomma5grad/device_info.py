@@ -39,17 +39,16 @@ def _asset_device_info(
     identifier = asset.serial_number or asset.asset_id
     if not identifier:
         return None
-    via = None
-    if device_data.gateway:
-        via = (DOMAIN, device_data.gateway.serial_number)
-    return DeviceInfo(
+    info = DeviceInfo(
         identifiers={(DOMAIN, identifier)},
         name=asset.model or asset.name or fallback_name,
         manufacturer=asset.manufacturer,
         model=asset.model,
         serial_number=asset.serial_number,
-        via_device=via,
     )
+    if device_data.gateway:
+        info["via_device"] = (DOMAIN, device_data.gateway.serial_number)
+    return info
 
 
 def get_device_info(

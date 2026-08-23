@@ -3,7 +3,7 @@ import logging
 
 import requests
 
-from .client import Client, REQUEST_TIMEOUT
+from .client import REQUEST_TIMEOUT, Client
 from .error import RequestError
 from .ev_charger import EVCharger
 
@@ -156,7 +156,7 @@ class System:
             if not mode.get("disabled", False)
         ]
 
-    def get_prices(self, start: datetime, end: datetime):
+    def get_prices(self, start: datetime.datetime, end: datetime.datetime):
         try:
             res = requests.get(
                 url=self.client.HEARTBEAT_API

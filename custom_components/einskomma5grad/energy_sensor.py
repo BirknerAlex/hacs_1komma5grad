@@ -1,7 +1,14 @@
 import logging
 import re
-from datetime import datetime, UTC
-from homeassistant.components.sensor import RestoreSensor, SensorEntity, SensorDeviceClass, SensorStateClass
+from datetime import UTC, datetime
+from decimal import Decimal
+
+from homeassistant.components.sensor import (
+    RestoreSensor,
+    SensorDeviceClass,
+    SensorEntity,
+    SensorStateClass,
+)
 from homeassistant.const import UnitOfEnergy
 from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceInfo
@@ -13,7 +20,7 @@ from .device_info import get_device_info
 
 _LOGGER = logging.getLogger(__name__)
 
-class EnergySensor(CoordinatorEntity, RestoreSensor):
+class EnergySensor(CoordinatorEntity[Coordinator], RestoreSensor):
     """Sensor to track the energy consumed or produced by the referenced power sensor."""
 
     def __init__(self, coordinator: Coordinator, system_id: str, power_sensor: SensorEntity, direction: str, name: str, device_type: DeviceType | None = None) -> None:
@@ -32,7 +39,9 @@ class EnergySensor(CoordinatorEntity, RestoreSensor):
         await super().async_added_to_hass()
 
         last_data = await self.async_get_last_sensor_data()
-        if last_data is not None and last_data.native_value is not None:
+        if last_data is not None and isinstance(
+            last_data.native_value, (int, float, str, Decimal)
+        ):
             self._energy = float(last_data.native_value)
             _LOGGER.debug(
                 "Restored accumulated energy for %s: %s kWh",
@@ -91,7 +100,7 @@ class EnergySensor(CoordinatorEntity, RestoreSensor):
         current_time = datetime.now(UTC)
         power = self._power_sensor.native_value  # power in watt
 
-        if power is not None and self._last_update is not None:
+        if isinstance(power, (int, float)) and self._last_update is not None:
             time_diff = (current_time - self._last_update).total_seconds() / 3600.0  # Zeitdifferenz in Stunden
             self._energy += (power * time_diff) / 1000.0  # energy in kWh
 
@@ -102,7 +111,7 @@ class EnergySensor(CoordinatorEntity, RestoreSensor):
         return re.sub(r'\s+', '_', self._name.strip().lower())
 
 
-class DailyEnergySensor(CoordinatorEntity, SensorEntity):
+class DailyEnergySensor(CoordinatorEntity[Coordinator], SensorEntity):
     """Daily energy total read directly from the measured energy-historical API.
 
     Unlike EnergySensor (which integrates instantaneous power), this reports the

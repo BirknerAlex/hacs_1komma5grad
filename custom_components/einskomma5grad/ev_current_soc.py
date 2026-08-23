@@ -13,7 +13,7 @@ from .device_info import get_device_info
 _LOGGER = logging.getLogger(__name__)
 
 
-class EVCurrentStateOfCharge(CoordinatorEntity, NumberEntity):
+class EVCurrentStateOfCharge(CoordinatorEntity[Coordinator], NumberEntity):
     """Number entity representing the EV State of Charge (0-100%)."""
 
     def __init__(self, coordinator: Coordinator, system_id: str, ev_id: str) -> None:

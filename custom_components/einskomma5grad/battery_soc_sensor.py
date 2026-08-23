@@ -13,7 +13,7 @@ from .coordinator import Coordinator
 from .device_info import get_device_info
 
 
-class BatteryStateOfChargeSensor(CoordinatorEntity, SensorEntity):
+class BatteryStateOfChargeSensor(CoordinatorEntity[Coordinator], SensorEntity):
     """Representation of the Battery State of Charge Sensor."""
 
     def __init__(
@@ -76,10 +76,11 @@ class BatteryStateOfChargeSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self) -> None | float:
-        if self.get_soc() is None:
+        soc = self.get_soc()
+        if soc is None:
             return None
 
-        return float(self.get_soc() * 100)
+        return float(soc * 100)
 
     @property
     def device_class(self):
@@ -98,8 +99,7 @@ class BatteryStateOfChargeSensor(CoordinatorEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Update sensor with latest data from coordinator."""
-        self._summary_cards = self.coordinator.get_live_data_by_id(self._system_id)[
-            "summaryCards"
-        ]
+        live_data = self.coordinator.get_live_data_by_id(self._system_id)
+        self._summary_cards = live_data["summaryCards"] if live_data else {}
 
         self.async_write_ha_state()

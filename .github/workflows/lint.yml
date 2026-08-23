@@ -12,8 +12,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      # TODO: pre-existing ruff failures in tools/1komma5.py (DTZ005) make
-      # this job fail regardless of PR content. Remove continue-on-error
-      # once that file is fixed and this job is green again on its own.
       - uses: astral-sh/ruff-action@v1
-        continue-on-error: true

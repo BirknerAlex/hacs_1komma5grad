@@ -1,6 +1,6 @@
+import datetime
 import os
 import sys
-import datetime
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -17,10 +17,11 @@ def main():
     systems = Systems(api_client).get_systems()
 
     for system in systems:
+        now = datetime.datetime.now(datetime.timezone.utc)
         print(
             system.get_prices(
-                datetime.datetime.now(),
-                datetime.datetime.now() + datetime.timedelta(days=1),
+                now,
+                now + datetime.timedelta(days=1),
             )
         )
 

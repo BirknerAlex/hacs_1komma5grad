@@ -6,7 +6,6 @@ from dataclasses import dataclass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN
 from .coordinator import Coordinator
@@ -18,7 +17,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.SELECT, Platform.SWITCH, 
 class RuntimeData:
     """Class to hold your data."""
 
-    coordinator: DataUpdateCoordinator
+    coordinator: Coordinator
     cancel_update_listener: Callable
 
 

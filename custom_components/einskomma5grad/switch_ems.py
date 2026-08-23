@@ -8,7 +8,7 @@ from .coordinator import Coordinator
 from .device_info import get_device_info
 
 
-class EmsSwitch(CoordinatorEntity, SwitchEntity):
+class EmsSwitch(CoordinatorEntity[Coordinator], SwitchEntity):
     """Representation of the Heartbeat Auto Mode Switch."""
 
     def __init__(self, coordinator: Coordinator, system_id: str) -> None:
@@ -75,7 +75,8 @@ class EmsSwitch(CoordinatorEntity, SwitchEntity):
 
     @callback
     def _handle_coordinator_update(self) -> None:
-        settings = self.coordinator.data.ems_settings.get(self._system_id)
+        ems_settings = self.coordinator.data.ems_settings or {}
+        settings = ems_settings.get(self._system_id)
         if settings is None:
             self._enabled = None
         else:

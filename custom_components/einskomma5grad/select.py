@@ -21,7 +21,10 @@ async def async_setup_entry(
 
     entities = []
 
-    for ev_id, ev in coordinator.data.ev_data.items():
+    for ev_id, ev in (coordinator.data.ev_data or {}).items():
+        if ev.system_id is None:
+            _LOGGER.warning("Skipping EV %s with no system_id", ev_id)
+            continue
         entities.append(EVChargingModeSelect(coordinator, ev.system_id, ev_id))
 
     async_add_entities(entities)
