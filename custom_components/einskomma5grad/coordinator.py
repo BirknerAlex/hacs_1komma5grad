@@ -104,6 +104,34 @@ class Coordinator(DataUpdateCoordinator):
             update_interval=timedelta(seconds=self.poll_interval),
         )
 
+    def _previous_value(self, field: str, system_id: str):
+        """Return the last successfully fetched value for a field, if any."""
+        if self.data is None:
+            return None
+        return getattr(self.data, field, {}).get(system_id)
+
+    async def _fetch_field(self, label, field, system_id, func, *args, fallback="previous"):
+        """Run one API call, isolating its failure from the rest of the update.
+
+        A single flaky endpoint must not abort the whole coordinator refresh
+        (which would freeze unrelated data, e.g. price forecasts, at their
+        last-known values). On ApiError, `fallback` decides what's returned:
+        - "previous": last successfully fetched value for `field`/`system_id`
+        - "empty_list" / "none": a fixed placeholder, for fields we don't cache
+        """
+        try:
+            return await self.hass.async_add_executor_job(func, *args)
+        except ApiError:
+            if fallback == "previous":
+                _LOGGER.warning(
+                    "Failed to get %s for system %s, keeping previous data",
+                    label, system_id,
+                )
+                return self._previous_value(field, system_id)
+
+            _LOGGER.warning("Failed to get %s for system %s, skipping", label, system_id)
+            return [] if fallback == "empty_list" else None
+
     async def async_update_data(self):
         """Fetch data from API endpoint.
 
@@ -131,57 +159,41 @@ class Coordinator(DataUpdateCoordinator):
             device_data = {}
             energy_today = {}
             for system in systems:
-                prices[system.id()] = await self.hass.async_add_executor_job(
-                    system.get_prices,
-                    start,
-                    end,
+                sid = system.id()
+
+                prices[sid] = await self._fetch_field(
+                    "prices", "prices", sid, system.get_prices, start, end,
+                )
+                energy_today[sid] = await self._fetch_field(
+                    "historical energy", "energy_today", sid,
+                    system.get_energy_historical, today, fallback="none",
+                )
+                ems_settings[sid] = await self._fetch_field(
+                    "EMS settings", "ems_settings", sid,
+                    system.get_ems_settings, fallback="none",
+                )
+                live_overview[sid] = await self._fetch_field(
+                    "live overview", "live_overview", sid, system.get_live_overview,
+                )
+                ev_charging_modes[sid] = await self._fetch_field(
+                    "EV charging modes", "ev_charging_modes", sid,
+                    system.get_displayed_ev_charging_modes,
                 )
 
-                try:
-                    energy_today[system.id()] = await self.hass.async_add_executor_job(
-                        system.get_energy_historical,
-                        today,
-                    )
-                except ApiError:
-                    _LOGGER.warning(
-                        "Failed to get historical energy for system %s, skipping",
-                        system.id(),
-                    )
-                    energy_today[system.id()] = None
-
-                try:
-                    ems_settings[system.id()] = await self.hass.async_add_executor_job(
-                        system.get_ems_settings,
-                    )
-                except ApiError:
-                    _LOGGER.warning(
-                        "Failed to get EMS settings for system %s, skipping",
-                        system.id(),
-                    )
-                    ems_settings[system.id()] = None
-
-                live_overview[system.id()] = await self.hass.async_add_executor_job(
-                    system.get_live_overview,
+                ev_chargers = await self._fetch_field(
+                    "EV chargers", "ev_chargers", sid,
+                    system.get_ev_chargers, fallback="empty_list",
                 )
-
-                ev_chargers = await self.hass.async_add_executor_job(
-                    system.get_ev_chargers,
-                )
-
                 for ev_charger in ev_chargers:
                     ev_data[ev_charger.id()] = EVData(
                         ev_name=ev_charger.name(),
                         current_soc=ev_charger.current_soc(),
                         charging_mode=ev_charger.charging_mode().value,
-                        system_id=system.id(),
+                        system_id=sid,
                     )
 
-                ev_charging_modes[system.id()] = await self.hass.async_add_executor_job(
-                    system.get_displayed_ev_charging_modes,
-                )
-
                 # Fetch device info (gateway + assets) — purely optional
-                device_data[system.id()] = await self._fetch_device_data(system)
+                device_data[sid] = await self._fetch_device_data(system)
 
             # What is returned here is stored in self.data by the DataUpdateCoordinator
             return SystemsData(

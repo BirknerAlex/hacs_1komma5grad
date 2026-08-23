@@ -22,3 +22,7 @@ jobs:
 
       - name: Run tests
         run: pytest
+
+      - name: Lint (advisory, does not fail the build)
+        run: tools/lint.sh
+        continue-on-error: true
