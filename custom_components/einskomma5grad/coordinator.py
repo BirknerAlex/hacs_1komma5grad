@@ -7,7 +7,7 @@ from datetime import timedelta
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PASSWORD, CONF_SCAN_INTERVAL, CONF_USERNAME
-from homeassistant.core import DOMAIN, HomeAssistant
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util import dt as dt_util
 
@@ -16,7 +16,7 @@ from .api.error import ApiError
 from .api.ev_charger import ChargingMode
 from .api.system import System
 from .api.systems import Systems
-from .const import DEFAULT_SCAN_INTERVAL
+from .const import DEFAULT_SCAN_INTERVAL, DOMAIN, PRICE_REFRESH_INTERVAL
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -90,6 +90,11 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
             CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL
         )
 
+        # Market prices cover a 2-day window at 15m resolution and the API
+        # allows only 1 request/minute, so they are refetched far less often
+        # than the rest of the data.
+        self._prices_fetched_at: dict[str, datetime.datetime] = {}
+
         # Initialise DataUpdateCoordinator
         super().__init__(
             hass=hass,
@@ -130,6 +135,25 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
             _LOGGER.warning("Failed to get %s for system %s, skipping", label, system_id)
             return [] if fallback == "empty_list" else None
 
+    async def _fetch_prices(self, system: System, sid: str, start, end):
+        """Fetch prices, reusing the cached value within PRICE_REFRESH_INTERVAL."""
+        now = dt_util.utcnow()
+        previous = self._previous_value("prices", sid)
+        last = self._prices_fetched_at.get(sid)
+        if (
+            previous is not None
+            and last is not None
+            and now - last < PRICE_REFRESH_INTERVAL
+        ):
+            return previous
+
+        # Record the attempt even on failure so a rate-limited endpoint isn't
+        # hammered on every poll.
+        self._prices_fetched_at[sid] = now
+        return await self._fetch_field(
+            "prices", "prices", sid, system.get_prices, start, end,
+        )
+
     async def async_update_data(self) -> SystemsData:
         """Fetch data from API endpoint.
 
@@ -159,9 +183,7 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
             for system in systems:
                 sid = system.id()
 
-                prices[sid] = await self._fetch_field(
-                    "prices", "prices", sid, system.get_prices, start, end,
-                )
+                prices[sid] = await self._fetch_prices(system, sid, start, end)
                 energy_today[sid] = await self._fetch_field(
                     "historical energy", "energy_today", sid,
                     system.get_energy_historical, today, fallback="none",
