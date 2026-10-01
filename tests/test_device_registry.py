@@ -152,21 +152,15 @@ async def test_entities_still_work_without_gateway(
             return _make_response(mock_api["data"]["ev_chargers"])
         raise ValueError(f"Unexpected GET URL: {url}")
 
-    with patch(
-        "custom_components.einskomma5grad.api.systems.requests.get",
-        side_effect=get_router_no_gw,
-    ), patch(
-        "custom_components.einskomma5grad.api.system.requests.get",
-        side_effect=get_router_no_gw,
-    ):
-        mock_config_entry.add_to_hass(hass)
-        await hass.config_entries.async_setup(mock_config_entry.entry_id)
-        await hass.async_block_till_done()
+    mock_api["client"].get.side_effect = get_router_no_gw
+    mock_config_entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
 
-        from custom_components.einskomma5grad.const import DOMAIN
-        coordinator = hass.data[DOMAIN][mock_config_entry.entry_id].coordinator
-        await coordinator.async_refresh()
-        await hass.async_block_till_done()
+    from custom_components.einskomma5grad.const import DOMAIN
+    coordinator = hass.data[DOMAIN][mock_config_entry.entry_id].coordinator
+    await coordinator.async_refresh()
+    await hass.async_block_till_done()
 
     # Entities should still exist
     state = hass.states.get(f"sensor.electricity_price_{SYSTEM_ID}".replace("-", "_"))

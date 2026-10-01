@@ -21,7 +21,7 @@ class System:
     def get_status_and_assets(self) -> dict | None:
         """Fetch site status and assets. Returns None on any failure."""
         try:
-            res = requests.get(
+            res = self.client.get(
                 url=self.client.HEARTBEAT_API
                 + "/api/v2/sites/"
                 + self.id()
@@ -48,7 +48,7 @@ class System:
 
     def get_live_overview(self):
         try:
-            res = requests.get(
+            res = self.client.get(
                 url=self.client.HEARTBEAT_API
                 + "/api/v3/systems/"
                 + self.id()
@@ -69,7 +69,7 @@ class System:
 
     def get_ev_chargers(self) -> list[EVCharger]:
         try:
-            res = requests.get(
+            res = self.client.get(
                 url=self.client.HEARTBEAT_API
                 + "/api/v1/systems/"
                 + self.id()
@@ -90,7 +90,7 @@ class System:
 
     def get_ems_settings(self):
         try:
-            res = requests.get(
+            res = self.client.get(
                 url=self.client.HEARTBEAT_API
                 + "/api/v1/systems/"
                 + self.id()
@@ -112,7 +112,7 @@ class System:
     # Set the EMS mode of the system
     def set_ems_mode(self, auto: bool):
         try:
-            res = requests.post(
+            res = self.client.post(
                 url=self.client.HEARTBEAT_API
                 + "/api/v1/systems/"
                 + self.id()
@@ -132,7 +132,7 @@ class System:
 
     def get_displayed_ev_charging_modes(self) -> list[str]:
         try:
-            res = requests.get(
+            res = self.client.get(
                 url=self.client.HEARTBEAT_API
                 + "/api/v1/sites/"
                 + self.id()
@@ -158,7 +158,7 @@ class System:
 
     def get_prices(self, start: datetime.datetime, end: datetime.datetime):
         try:
-            res = requests.get(
+            res = self.client.get(
                 url=self.client.HEARTBEAT_API
                 + "/api/v4/systems/"
                 + self.id()
@@ -191,7 +191,7 @@ class System:
         """
         date_str = day.strftime("%Y-%m-%d")
         try:
-            res = requests.get(
+            res = self.client.get(
                 url=self.client.HEARTBEAT_API
                 + "/api/v3/systems/"
                 + self.id()

@@ -5,6 +5,9 @@ from enum import StrEnum
 
 DEFAULT_SCAN_INTERVAL = 60
 
+CONF_ERROR_REPORTING = "error_reporting"
+DEFAULT_ERROR_REPORTING = False
+
 # Minimum and maximum allowed scan interval (seconds)
 MIN_SCAN_INTERVAL = 10
 MAX_SCAN_INTERVAL = 3600

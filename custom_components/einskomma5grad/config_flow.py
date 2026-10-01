@@ -15,7 +15,14 @@ from homeassistant.exceptions import HomeAssistantError
 
 from .api.client import Client
 from .api.error import AuthenticationError
-from .const import DEFAULT_SCAN_INTERVAL, DOMAIN, MAX_SCAN_INTERVAL, MIN_SCAN_INTERVAL
+from .const import (
+    CONF_ERROR_REPORTING,
+    DEFAULT_ERROR_REPORTING,
+    DEFAULT_SCAN_INTERVAL,
+    DOMAIN,
+    MAX_SCAN_INTERVAL,
+    MIN_SCAN_INTERVAL,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -72,7 +79,8 @@ class HeartbeatConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 options = {
                     CONF_SCAN_INTERVAL: int(
                         user_input.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
-                    )
+                    ),
+                    CONF_ERROR_REPORTING: DEFAULT_ERROR_REPORTING,
                 }
                 return self.async_create_entry(
                     title=user["firstName"] + " " + user["lastName"],
@@ -140,7 +148,13 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 vol.Optional(CONF_SCAN_INTERVAL, default=current_interval): vol.All(
                     vol.Coerce(int),
                     vol.Range(min=MIN_SCAN_INTERVAL, max=MAX_SCAN_INTERVAL),
-                )
+                ),
+                vol.Optional(
+                    CONF_ERROR_REPORTING,
+                    default=self._config_entry.options.get(
+                        CONF_ERROR_REPORTING, DEFAULT_ERROR_REPORTING
+                    ),
+                ): bool,
             }
         )
 

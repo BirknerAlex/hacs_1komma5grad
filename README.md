@@ -154,6 +154,20 @@ mode: single
 
 Replace `sensor.my_tesla_battery_level` with your EV's battery level sensor entity and `number.ev_current_state_of_charge_YOUR_SYSTEM_ID` with your EV charger SoC entity.
 
+## Diagnostics (optional)
+
+The integration can send diagnostics to the developer so that errors and changes of the 1KOMMA5GRAD API can be found and fixed quickly. This is **disabled by default**; enable it under *Settings → Devices & services → 1KOMMA5GRAD → Configure → Send diagnostics*.
+
+When enabled, the following is sent to a [GlitchTip](https://glitchtip.com) instance (Sentry compatible) operated by the developer:
+
+- errors and warnings of this integration, with stack traces
+- log messages of this integration
+- performance traces of data refreshes and API requests (URLs without query parameters, status codes, timings)
+- if the API returns an error or an unexpected response: the *structure* of the response (field names and types, never your values)
+- the integration version and your Heartbeat system ID
+
+Your credentials, name, email address and host information are never sent. The integration uses its own Sentry client, separate from Home Assistant's own Sentry integration and from other integrations.
+
 ## Warning
 
 This integration is fully community driven and not officially supported by 1KOMMA5GRAD. Use at your own risk.

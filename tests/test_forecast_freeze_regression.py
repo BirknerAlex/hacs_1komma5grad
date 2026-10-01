@@ -137,6 +137,9 @@ def mock_api_flaky_second_poll():
         client = MagicMock()
         client.get_token.return_value = "mock_token"
         client.HEARTBEAT_API = "https://heartbeat.1komma5grad.com"
+        client.get.side_effect = get_router
+        client.post.side_effect = post_router
+        client.patch.side_effect = patch_router
         mock_client_cls.return_value = client
 
         yield {"client": client, "data": mock_data}

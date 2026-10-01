@@ -41,7 +41,7 @@ class EVCharger:
             return
 
         try:
-            res = requests.patch(
+            res = self._api.patch(
                 url=self._api.HEARTBEAT_API
                 + "/api/v1/systems/"
                 + self._system.id()
@@ -81,7 +81,7 @@ class EVCharger:
             soc_decimal = float(soc / 100.0)
 
         try:
-            res = requests.patch(
+            res = self._api.patch(
                 url=self._api.HEARTBEAT_API
                     + "/api/v1/systems/"
                     + self._system.id()
