@@ -18,6 +18,16 @@ from .device_info import get_device_info
 # energy market convention (EPEX SPOT).
 _CET = timezone(timedelta(hours=1))
 
+def current_slot_key() -> str:
+    """Return the timeseries key of the current 15 minute price slot."""
+    now_cet = dt_util.now().astimezone(_CET)
+    return (
+        now_cet
+        .replace(minute=(now_cet.minute // 15) * 15, second=0, microsecond=0)
+        .strftime("%Y-%m-%dT%H:%MZ")
+    )
+
+
 class ElectricityPriceSensor(CoordinatorEntity[Coordinator], SensorEntity):
     """Representation of an Energy Price Sensor."""
 
@@ -56,12 +66,7 @@ class ElectricityPriceSensor(CoordinatorEntity[Coordinator], SensorEntity):
     def native_value(self) -> None | float:
         """Return the state of the entity."""
 
-        now_cet = dt_util.now().astimezone(_CET)
-        current_time = (
-            now_cet
-            .replace(minute=(now_cet.minute // 15) * 15, second=0, microsecond=0)
-            .strftime("%Y-%m-%dT%H:%MZ")
-        )
+        current_time = current_slot_key()
 
         if current_time in self._prices:
             current_price_data = self._prices.get(current_time)

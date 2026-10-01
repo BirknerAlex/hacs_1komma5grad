@@ -1,0 +1,27 @@
+{
+  "type": "EV",
+  "empType": "GRIDX",
+  "connectionStatus": {
+    "status": "UNKNOWN"
+  },
+  "id": "00000000-0000-0000-0000-000000000000",
+  "name": "Tesla",
+  "manufacturer": "Tesla",
+  "model": "Model Y Performance",
+  "capacity": {
+    "value": 65000,
+    "unit": "Wh"
+  },
+  "chargingMode": "SMART_CHARGE",
+  "departureTime": "08:00",
+  "targetSoc": 0.59,
+  "chargerId": "00000000-0000-0000-0000-000000000001",
+  "manualSoc": 0.5,
+  "dataSource": "USER_INPUT",
+  "manualSocTimestamp": "2025-12-01T18:04:28.924Z",
+  "defaultSoc": 0.2,
+  "minChargingCurrent": {
+    "value": 5,
+    "unit": "A"
+  }
+}

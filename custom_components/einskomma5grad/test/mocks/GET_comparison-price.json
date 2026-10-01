@@ -1,0 +1,9 @@
+{
+  "comparisonPrice": {
+    "price": {
+      "amount": "0.4",
+      "currency": "EUR"
+    },
+    "unit": "kWh"
+  }
+}

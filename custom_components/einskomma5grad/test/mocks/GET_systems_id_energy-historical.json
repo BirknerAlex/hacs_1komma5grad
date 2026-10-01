@@ -71,5 +71,50 @@
   "heartbeatSavings": {
     "value": 0,
     "unit": "€"
+  },
+  "timestampedProductionAndConsumption": {
+    "data": {
+      "2026-10-01T00:00Z": {
+        "production": 7.2181239999999995,
+        "consumption": {
+          "household": 5.266525,
+          "householdTotal": 23.098666,
+          "ev": 0,
+          "evCharge": 0,
+          "heatPump": 0,
+          "heatPumpTotal": 1.4575960000000001,
+          "ac": null,
+          "acTotal": null,
+          "battery": 1.6416979999999999,
+          "direct": 1.6250199999999992
+        },
+        "gridSupply": 11.576454,
+        "gridFeedIn": 0.30990100000000004,
+        "batteryStateOfCharge": null,
+        "batteryCharge": 5.283203,
+        "batteryDischarge": 11.354788000000001
+      }
+    },
+    "metadata": {
+      "units": {
+        "production": "kWh",
+        "consumption": {
+          "household": "kWh",
+          "householdTotal": "kWh",
+          "ev": "kWh",
+          "evCharge": "kWh",
+          "heatPump": "kWh",
+          "heatPumpTotal": "kWh",
+          "ac": "kWh",
+          "acTotal": "kWh",
+          "battery": "kWh",
+          "direct": "kWh"
+        },
+        "gridSupply": "kWh",
+        "gridFeedIn": "kWh",
+        "batteryCharge": "kWh",
+        "batteryDischarge": "kWh"
+      }
+    }
   }
 }

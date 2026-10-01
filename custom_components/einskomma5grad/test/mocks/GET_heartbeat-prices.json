@@ -1,0 +1,492 @@
+{
+  "day": {
+    "shouldReportImplausiblePvAndFeedIn": false,
+    "shouldReportOverriddenPvCost": false,
+    "usesFeedInEarningsAsHbPrice": false,
+    "feedInDiscrepancy": 0.18,
+    "pvProduction": {
+      "cost": {
+        "amount": "0.4062",
+        "currency": "EUR"
+      },
+      "price": {
+        "price": {
+          "amount": "0.058",
+          "currency": "EUR"
+        },
+        "unit": "kWh"
+      },
+      "energyProduced": {
+        "value": 7.0,
+        "unit": "kWh"
+      }
+    },
+    "gridFeedIn": {
+      "compensation": {
+        "amount": "0.0093",
+        "currency": "EUR"
+      },
+      "price": {
+        "price": {
+          "amount": "0.0311",
+          "currency": "EUR"
+        },
+        "unit": "kWh"
+      },
+      "energyFedIn": {
+        "value": 0.12,
+        "unit": "kWh"
+      }
+    },
+    "gridConsumption": {
+      "energyConsumed": {
+        "value": 9.39,
+        "unit": "kWh"
+      },
+      "cost": {
+        "amount": "3.2304",
+        "currency": "EUR"
+      },
+      "price": {
+        "price": {
+          "amount": "0.3441",
+          "currency": "EUR"
+        },
+        "unit": "kWh"
+      }
+    },
+    "totalConsumption": {
+      "value": 16.28,
+      "unit": "kWh"
+    },
+    "heartbeatPrice": {
+      "price": {
+        "amount": "0.2229",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "vat": 0.19,
+    "gridElectricityCost": {
+      "amount": "0.467",
+      "currency": "EUR"
+    },
+    "energyTaxReduction": {
+      "amount": "0",
+      "currency": "EUR"
+    },
+    "fixedCostsAndSavings": {
+      "amount": "0.467",
+      "currency": "EUR"
+    },
+    "totalEnergyCost": {
+      "amount": "3.6273",
+      "currency": "EUR"
+    },
+    "comparisonTariff": {
+      "price": {
+        "amount": "0.3465",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "peakShavingSavings": null,
+    "grossModule1SavingsPerYear": null,
+    "grossModule1TotalSavings": null,
+    "module1ProvisioningDate": null,
+    "module1ActiveDaysCount": null,
+    "swedishCostsAndSavings": null
+  },
+  "week": {
+    "shouldReportImplausiblePvAndFeedIn": false,
+    "shouldReportOverriddenPvCost": false,
+    "usesFeedInEarningsAsHbPrice": false,
+    "feedInDiscrepancy": 0.18,
+    "pvProduction": {
+      "cost": {
+        "amount": "0.4062",
+        "currency": "EUR"
+      },
+      "price": {
+        "price": {
+          "amount": "0.058",
+          "currency": "EUR"
+        },
+        "unit": "kWh"
+      },
+      "energyProduced": {
+        "value": 7.0,
+        "unit": "kWh"
+      }
+    },
+    "gridFeedIn": {
+      "compensation": {
+        "amount": "0.0093",
+        "currency": "EUR"
+      },
+      "price": {
+        "price": {
+          "amount": "0.0311",
+          "currency": "EUR"
+        },
+        "unit": "kWh"
+      },
+      "energyFedIn": {
+        "value": 0.12,
+        "unit": "kWh"
+      }
+    },
+    "gridConsumption": {
+      "energyConsumed": {
+        "value": 9.39,
+        "unit": "kWh"
+      },
+      "cost": {
+        "amount": "3.2304",
+        "currency": "EUR"
+      },
+      "price": {
+        "price": {
+          "amount": "0.3441",
+          "currency": "EUR"
+        },
+        "unit": "kWh"
+      }
+    },
+    "totalConsumption": {
+      "value": 16.28,
+      "unit": "kWh"
+    },
+    "heartbeatPrice": {
+      "price": {
+        "amount": "0.2301",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "vat": 0.19,
+    "gridElectricityCost": {
+      "amount": "0.467",
+      "currency": "EUR"
+    },
+    "energyTaxReduction": {
+      "amount": "0",
+      "currency": "EUR"
+    },
+    "fixedCostsAndSavings": {
+      "amount": "0.467",
+      "currency": "EUR"
+    },
+    "totalEnergyCost": {
+      "amount": "3.6273",
+      "currency": "EUR"
+    },
+    "comparisonTariff": {
+      "price": {
+        "amount": "0.3465",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "peakShavingSavings": null,
+    "grossModule1SavingsPerYear": null,
+    "grossModule1TotalSavings": null,
+    "module1ProvisioningDate": null,
+    "module1ActiveDaysCount": null,
+    "swedishCostsAndSavings": null
+  },
+  "month": {
+    "shouldReportImplausiblePvAndFeedIn": false,
+    "shouldReportOverriddenPvCost": false,
+    "usesFeedInEarningsAsHbPrice": false,
+    "feedInDiscrepancy": 0.18,
+    "pvProduction": {
+      "cost": {
+        "amount": "0.4062",
+        "currency": "EUR"
+      },
+      "price": {
+        "price": {
+          "amount": "0.058",
+          "currency": "EUR"
+        },
+        "unit": "kWh"
+      },
+      "energyProduced": {
+        "value": 7.0,
+        "unit": "kWh"
+      }
+    },
+    "gridFeedIn": {
+      "compensation": {
+        "amount": "0.0093",
+        "currency": "EUR"
+      },
+      "price": {
+        "price": {
+          "amount": "0.0311",
+          "currency": "EUR"
+        },
+        "unit": "kWh"
+      },
+      "energyFedIn": {
+        "value": 0.12,
+        "unit": "kWh"
+      }
+    },
+    "gridConsumption": {
+      "energyConsumed": {
+        "value": 9.39,
+        "unit": "kWh"
+      },
+      "cost": {
+        "amount": "3.2304",
+        "currency": "EUR"
+      },
+      "price": {
+        "price": {
+          "amount": "0.3441",
+          "currency": "EUR"
+        },
+        "unit": "kWh"
+      }
+    },
+    "totalConsumption": {
+      "value": 16.28,
+      "unit": "kWh"
+    },
+    "heartbeatPrice": {
+      "price": {
+        "amount": "0.2415",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "vat": 0.19,
+    "gridElectricityCost": {
+      "amount": "0.467",
+      "currency": "EUR"
+    },
+    "energyTaxReduction": {
+      "amount": "0",
+      "currency": "EUR"
+    },
+    "fixedCostsAndSavings": {
+      "amount": "0.467",
+      "currency": "EUR"
+    },
+    "totalEnergyCost": {
+      "amount": "3.6273",
+      "currency": "EUR"
+    },
+    "comparisonTariff": {
+      "price": {
+        "amount": "0.3465",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "peakShavingSavings": null,
+    "grossModule1SavingsPerYear": null,
+    "grossModule1TotalSavings": null,
+    "module1ProvisioningDate": null,
+    "module1ActiveDaysCount": null,
+    "swedishCostsAndSavings": null
+  },
+  "halfYear": {
+    "shouldReportImplausiblePvAndFeedIn": false,
+    "shouldReportOverriddenPvCost": false,
+    "usesFeedInEarningsAsHbPrice": false,
+    "feedInDiscrepancy": 0.18,
+    "pvProduction": {
+      "cost": {
+        "amount": "0.4062",
+        "currency": "EUR"
+      },
+      "price": {
+        "price": {
+          "amount": "0.058",
+          "currency": "EUR"
+        },
+        "unit": "kWh"
+      },
+      "energyProduced": {
+        "value": 7.0,
+        "unit": "kWh"
+      }
+    },
+    "gridFeedIn": {
+      "compensation": {
+        "amount": "0.0093",
+        "currency": "EUR"
+      },
+      "price": {
+        "price": {
+          "amount": "0.0311",
+          "currency": "EUR"
+        },
+        "unit": "kWh"
+      },
+      "energyFedIn": {
+        "value": 0.12,
+        "unit": "kWh"
+      }
+    },
+    "gridConsumption": {
+      "energyConsumed": {
+        "value": 9.39,
+        "unit": "kWh"
+      },
+      "cost": {
+        "amount": "3.2304",
+        "currency": "EUR"
+      },
+      "price": {
+        "price": {
+          "amount": "0.3441",
+          "currency": "EUR"
+        },
+        "unit": "kWh"
+      }
+    },
+    "totalConsumption": {
+      "value": 16.28,
+      "unit": "kWh"
+    },
+    "heartbeatPrice": {
+      "price": {
+        "amount": "0.2533",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "vat": 0.19,
+    "gridElectricityCost": {
+      "amount": "0.467",
+      "currency": "EUR"
+    },
+    "energyTaxReduction": {
+      "amount": "0",
+      "currency": "EUR"
+    },
+    "fixedCostsAndSavings": {
+      "amount": "0.467",
+      "currency": "EUR"
+    },
+    "totalEnergyCost": {
+      "amount": "3.6273",
+      "currency": "EUR"
+    },
+    "comparisonTariff": {
+      "price": {
+        "amount": "0.3465",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "peakShavingSavings": null,
+    "grossModule1SavingsPerYear": null,
+    "grossModule1TotalSavings": null,
+    "module1ProvisioningDate": null,
+    "module1ActiveDaysCount": null,
+    "swedishCostsAndSavings": null
+  },
+  "year": {
+    "shouldReportImplausiblePvAndFeedIn": false,
+    "shouldReportOverriddenPvCost": false,
+    "usesFeedInEarningsAsHbPrice": false,
+    "feedInDiscrepancy": 0.18,
+    "pvProduction": {
+      "cost": {
+        "amount": "0.4062",
+        "currency": "EUR"
+      },
+      "price": {
+        "price": {
+          "amount": "0.058",
+          "currency": "EUR"
+        },
+        "unit": "kWh"
+      },
+      "energyProduced": {
+        "value": 7.0,
+        "unit": "kWh"
+      }
+    },
+    "gridFeedIn": {
+      "compensation": {
+        "amount": "0.0093",
+        "currency": "EUR"
+      },
+      "price": {
+        "price": {
+          "amount": "0.0311",
+          "currency": "EUR"
+        },
+        "unit": "kWh"
+      },
+      "energyFedIn": {
+        "value": 0.12,
+        "unit": "kWh"
+      }
+    },
+    "gridConsumption": {
+      "energyConsumed": {
+        "value": 9.39,
+        "unit": "kWh"
+      },
+      "cost": {
+        "amount": "3.2304",
+        "currency": "EUR"
+      },
+      "price": {
+        "price": {
+          "amount": "0.3441",
+          "currency": "EUR"
+        },
+        "unit": "kWh"
+      }
+    },
+    "totalConsumption": {
+      "value": 16.28,
+      "unit": "kWh"
+    },
+    "heartbeatPrice": {
+      "price": {
+        "amount": "0.2612",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "vat": 0.19,
+    "gridElectricityCost": {
+      "amount": "0.467",
+      "currency": "EUR"
+    },
+    "energyTaxReduction": {
+      "amount": "0",
+      "currency": "EUR"
+    },
+    "fixedCostsAndSavings": {
+      "amount": "0.467",
+      "currency": "EUR"
+    },
+    "totalEnergyCost": {
+      "amount": "3.6273",
+      "currency": "EUR"
+    },
+    "comparisonTariff": {
+      "price": {
+        "amount": "0.3465",
+        "currency": "EUR"
+      },
+      "unit": "kWh"
+    },
+    "peakShavingSavings": null,
+    "grossModule1SavingsPerYear": null,
+    "grossModule1TotalSavings": null,
+    "module1ProvisioningDate": null,
+    "module1ActiveDaysCount": null,
+    "swedishCostsAndSavings": null
+  }
+}

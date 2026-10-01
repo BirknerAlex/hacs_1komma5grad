@@ -57,15 +57,17 @@ class GenericPowerSensor(CoordinatorEntity[Coordinator], SensorEntity):
 
         try:
             # External devices like EV chargers and heat pumps have a "power" key in the data
-            if "power" in self._live_data[self._key]:
+            node = self._live_data[self._key]
+            if "power" in node:
                 # If power is None, you dont have access to the value (e.g. not supported on your heartbeat)
-                if (
-                    "value" not in self._live_data[self._key]["power"]
-                    or self._live_data[self._key]["power"]["value"] is None
-                ):
+                power = (node["power"] or {}).get("value")
+                # Heat pumps that are not controlled by the EMS report their draw
+                # as "powerExternal" while "power" stays at 0, so both add up.
+                external = (node.get("powerExternal") or {}).get("value")
+                if power is None and external is None:
                     return None
 
-                return self._live_data[self._key]["power"]["value"]
+                return (power or 0) + (external or 0)
 
             # Other data like energy meters have a "value" key in the data
             return self._live_data[self._key]["value"]

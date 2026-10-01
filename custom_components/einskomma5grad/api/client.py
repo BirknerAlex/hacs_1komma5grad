@@ -2,13 +2,14 @@ import base64
 import datetime
 import functools
 import hashlib
+import json
 import logging
 import secrets
 import time
 from collections.abc import Callable
 from contextlib import AbstractContextManager
 from typing import Any
-from urllib.parse import urlsplit, urlunsplit
+from urllib.parse import parse_qs, urlsplit, urlunsplit
 
 import jwt
 import requests
@@ -28,19 +29,79 @@ _EXPECTED_ERROR_STATUS = frozenset({401, 403, 429})
 # yields an object with `set_http_status(int)`, or None.
 HttpTracer = Callable[[str, str], AbstractContextManager[Any]]
 
+# Requests mirror the 1KOMMA5° iOS app (version 1.83.0, build 3320) so they look the same.
+APP_PACKAGE = "io.onecommafive.my.production.app"
+APP_VERSION = "1.83.0"
+APP_BUILD = "3320"
+IOS_VERSION = "27.0"
+APP_USER_AGENT = f"1KOMMA5%C2%B0/{APP_BUILD} CFNetwork/3896.100.1.2.1 Darwin/27.0.0"
+# The login pages are shown in the in-app browser.
+BROWSER_USER_AGENT = (
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 "
+    "(KHTML, like Gecko) Version/27.0 Mobile/15E148 Safari/604.1"
+)
+BROWSER_HEADERS = {
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "user-agent": BROWSER_USER_AGENT,
+    "accept-language": "de-DE,de;q=0.9",
+    "sec-fetch-dest": "document",
+    "sec-fetch-mode": "navigate",
+    "sec-fetch-site": "none",
+    "priority": "u=0, i",
+}
+# Sent with every Heartbeat and customer-identity request, next to x-user-id.
+APP_HEADERS = {
+    "x-app-package-name": APP_PACKAGE,
+    "x-system-version": IOS_VERSION,
+    "user-agent": APP_USER_AGENT,
+    "x-app-build-number": APP_BUILD,
+    "x-system-name": "iOS",
+    "x-model": "iPhone",
+    "x-app-version": APP_VERSION,
+    "x-platform": "ios",
+    "accept-language": "de",
+    "accept": "*/*",
+    "x-manufacturer": "apple",
+}
+
+
+def base64_url_encode(data):
+    return base64.urlsafe_b64encode(data).rstrip(b"=").decode("utf-8")
+
+
+# Auth0 SDK telemetry, sent as `auth0Client` on /authorize and `auth0-client` on API calls.
+AUTH0_CLIENT = base64_url_encode(
+    json.dumps(
+        {
+            "version": "1.14.0",
+            "name": "auth0-flutter",
+            "env": {"swift": "5.x", "iOS": IOS_VERSION, "core": "2.10.0"},
+        },
+        separators=(",", ":"),
+    ).encode()
+)
+# Headers of the Auth0 SDK's own requests (token exchange, refresh, JWKS).
+AUTH0_SDK_HEADERS = {
+    "accept": "*/*",
+    "content-type": "application/json",
+    "auth0-client": AUTH0_CLIENT,
+    "accept-language": "de-DE,de;q=0.9",
+    "priority": "u=3",
+    "user-agent": APP_USER_AGENT,
+}
+
 
 class Client:
     TOKEN_URL = "https://auth.1komma5grad.com/oauth/token"
     AUDIENCE = "https://1komma5grad.com/api"
     JWKS_URL = "https://auth.1komma5grad.com/.well-known/jwks.json"
     CLIENT_ID = "zJTm6GFGM5zHcmpl07xTsi6MP0TwRAw6"
-    OAUTH0_CLIENT_ID = "eyJuYW1lIjoiYXV0aDAtZmx1dHRlciIsInZlcnNpb24iOiIxLjcuMiIsImVudiI6eyJzd2lmdCI6IjUueCIsImlPUyI6IjE4LjAiLCJjb3JlIjoiMi43LjIifX0"
-    REDIRECT_URL = "io.onecommafive.my.production.app://auth.1komma5grad.com/ios/io.onecommafive.my.production.app/callback"
+    REDIRECT_URL = f"{APP_PACKAGE}://auth.1komma5grad.com/ios/{APP_PACKAGE}/callback"
 
     HEARTBEAT_API = "https://heartbeat.1komma5grad.com"
 
     def __init__(self, username, password):
-        self.jwks_client = PyJWKClient(self.JWKS_URL)
+        self.jwks_client = PyJWKClient(self.JWKS_URL, headers=AUTH0_SDK_HEADERS)
         self.state = None
         self.token_set: dict | None = None
 
@@ -102,13 +163,36 @@ class Client:
             return res
 
     def get(self, url: str, **kwargs):
-        return self._send("GET", url, requests.get, **kwargs)
+        return self._send("GET", url, requests.get, **self._with_app_headers(url, kwargs))
 
     def post(self, url: str, **kwargs):
-        return self._send("POST", url, requests.post, **kwargs)
+        return self._send("POST", url, requests.post, **self._with_app_headers(url, kwargs))
 
     def patch(self, url: str, **kwargs):
-        return self._send("PATCH", url, requests.patch, **kwargs)
+        return self._send("PATCH", url, requests.patch, **self._with_app_headers(url, kwargs))
+
+    def _with_app_headers(self, url: str, kwargs: dict) -> dict:
+        """Add the app's headers to API requests; the caller's headers win."""
+        host = urlsplit(url).hostname or ""
+        if not host.endswith(".1komma5grad.com") or host.startswith("auth."):
+            return kwargs
+        headers = dict(APP_HEADERS)
+        if user_id := self._user_id():
+            headers["x-user-id"] = user_id
+        return {**kwargs, "headers": {**headers, **(kwargs.get("headers") or {})}}
+
+    def _user_id(self) -> str | None:
+        """Auth0 user id (`sub`) of the current token, which the app sends as x-user-id."""
+        if self.token_set is None:
+            return None
+        try:
+            return jwt.decode(
+                self.token_set["access_token"],
+                options={"verify_signature": False, "verify_exp": False},
+                algorithms=["RS256"],
+            ).get("sub")
+        except (jwt.PyJWTError, KeyError, TypeError):
+            return None
 
     def get_token_parsed(self) -> jwt.PyJWT:
         if self.token_set is None:
@@ -177,25 +261,26 @@ class Client:
     def login(self) -> str:
         try:
             session = _TracedSession(self)
+            session.headers.update(BROWSER_HEADERS)
 
             verifier = generate_code_verifier()
             challenge = generate_code_challenge(verifier)
 
-            self.state = ""
-
-            # Authorize request
+            # Authorize request, parameters in the order the app sends them
             login_res = session.get(
                 "https://auth.1komma5grad.com/authorize",
                 params={
-                    "scope": "openid profile email offline_access",
-                    "client_id": self.CLIENT_ID,
-                    "code_challenge": challenge,
-                    "code_challenge_method": "S256",
+                    "state": secrets.token_urlsafe(32),
                     "response_type": "code",
-                    "audience": self.AUDIENCE,
                     "redirect_uri": self.REDIRECT_URL,
-                    "state": self.state,
-                    "auth0Client": self.OAUTH0_CLIENT_ID,
+                    "client_id": self.CLIENT_ID,
+                    "code_challenge_method": "S256",
+                    "login_hint": self.username,
+                    "audience": self.AUDIENCE,
+                    "code_challenge": challenge,
+                    "ui_locales": "de",
+                    "scope": "openid profile email offline_access",
+                    "auth0Client": AUTH0_CLIENT,
                 },
                 timeout=REQUEST_TIMEOUT,
             )
@@ -219,7 +304,11 @@ class Client:
                     "state": self.state,
                     "username": self.username,
                     "password": self.password,
-                    "action": "default",
+                },
+                headers={
+                    "origin": "https://auth.1komma5grad.com",
+                    "referer": login_res.url,
+                    "sec-fetch-site": "same-origin",
                 },
                 allow_redirects=False,
                 timeout=REQUEST_TIMEOUT,
@@ -229,13 +318,18 @@ class Client:
                 raise AuthenticationError("Failed to login: " + login_post_res.text)
 
             resume_url = "https://auth.1komma5grad.com" + login_post_res.headers["location"]
-            resume_res = session.get(resume_url, allow_redirects=False, timeout=REQUEST_TIMEOUT)
+            resume_res = session.get(
+                resume_url,
+                headers={"referer": login_res.url, "sec-fetch-site": "same-origin"},
+                allow_redirects=False,
+                timeout=REQUEST_TIMEOUT,
+            )
 
             if resume_res.status_code != 302:
                 raise AuthenticationError("Failed to resume login: " + resume_res.text)
 
-            # Extract code from location header
-            code = resume_res.headers["location"].split("code=")[1]
+            # Extract code from the callback URL, which also carries the state
+            code = parse_qs(urlsplit(resume_res.headers["location"]).query)["code"][0]
 
             # Make POST request to get token
             res = self.post(
@@ -245,8 +339,9 @@ class Client:
                     "code": code,
                     "code_verifier": verifier,
                     "grant_type": "authorization_code",
-                    "redirect_uri": "io.onecommafive.my.production.app://auth.1komma5grad.com/ios/io.onecommafive.my.production.app/callback",
+                    "redirect_uri": self.REDIRECT_URL,
                 },
+                headers=AUTH0_SDK_HEADERS,
                 timeout=REQUEST_TIMEOUT,
             )
 
@@ -277,6 +372,7 @@ class Client:
                     "refresh_token": self.token_set["refresh_token"],
                     "grant_type": "refresh_token",
                 },
+                headers=AUTH0_SDK_HEADERS,
                 timeout=REQUEST_TIMEOUT,
             )
         except requests.exceptions.RequestException as err:
@@ -335,10 +431,6 @@ class _TracedSession(requests.Session):
     def request(self, method, url, **kwargs):  # type: ignore[override]
         send = functools.partial(super().request, method)
         return self._client._send(str(method).upper(), url, send, **kwargs)
-
-
-def base64_url_encode(data):
-    return base64.urlsafe_b64encode(data).rstrip(b"=").decode("utf-8")
 
 
 def generate_code_verifier():

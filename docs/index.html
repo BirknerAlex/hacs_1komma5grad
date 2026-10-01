@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>1KOMMA5° Heartbeat API (unofficial)</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.33.1/swagger-ui.css"
+      integrity="sha384-Ov4/wv3j2bmct8cDc5X4ngJZohVPzEmc6uDPH8WeljUxO5vtoykvMEfbu9Vh6RaW"
+      crossorigin="anonymous"
+    />
+    <style>
+      body { margin: 0; background: #fafafa; font-family: system-ui, sans-serif; }
+      .banner {
+        display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; align-items: baseline;
+        padding: 1rem 2rem; background: #1b2b34; color: #e8eef1;
+      }
+      .banner strong { font-size: 1.1rem; }
+      .banner span { color: #aebcc4; font-size: 0.9rem; }
+      .banner a { color: #7fd1ae; margin-left: auto; }
+      .swagger-ui .topbar { display: none; }
+    </style>
+  </head>
+  <body>
+    <div class="banner">
+      <strong>1KOMMA5° Heartbeat API</strong>
+      <span>Unofficial, reverse-engineered from app traffic. May change at any time.</span>
+      <a href="https://github.com/BirknerAlex/hacs_1komma5grad">hacs_1komma5grad on GitHub</a>
+    </div>
+    <div id="swagger-ui"></div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.33.1/swagger-ui-bundle.js"
+      integrity="sha384-ZPehFMQommnnuaZ4rpxgkgTT2DKFVp4hZC/7pLit+9Lek9T1YGSo23eHFbvNkXkw"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      window.ui = SwaggerUIBundle({
+        url: "heartbeat-openapi.json",
+        dom_id: "#swagger-ui",
+        deepLinking: true,
+        docExpansion: "none",
+        defaultModelsExpandDepth: 0,
+        filter: true,
+        showExtensions: true,
+        tagsSorter: "alpha",
+        operationsSorter: "alpha",
+        // Browsers cannot call the API from here (CORS), and it would invite pasting tokens.
+        supportedSubmitMethods: [],
+      });
+    </script>
+  </body>
+</html>

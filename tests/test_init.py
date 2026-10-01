@@ -1,5 +1,6 @@
 """Test 1KOMMA5GRAD integration setup and unload."""
 
+import re
 from typing import cast
 from unittest.mock import MagicMock, patch
 
@@ -7,7 +8,7 @@ from homeassistant.config_entries import ConfigEntryState
 from homeassistant.core import HomeAssistant
 
 from custom_components.einskomma5grad.const import DOMAIN
-from tests.conftest import _make_response
+from tests.conftest import _make_response, insight_response
 
 
 async def test_setup_entry(hass: HomeAssistant, setup_integration):
@@ -61,7 +62,7 @@ async def test_setup_entry_ems_settings_error(
         "systems": load_mock("GET_systems.json"),
         "live_overview": load_mock("GET_systems_id_live-overview.json"),
         "prices": load_mock("GET_systems_id_charts_market-prices.json"),
-        "ev_chargers": load_mock("GET_systems_id_devices_evs.json"),
+        "ev_chargers": load_mock("GET_sites_id_assets_evs.json"),
         "ev_modes": load_mock(
             "GET_sites_id_assets_evs_displayed-ev-charging-modes.json"
         ),
@@ -70,6 +71,12 @@ async def test_setup_entry_ems_settings_error(
     }
 
     def get_router(url, **kwargs):
+        if "/api/v1/systems/" in url and url.endswith("/details"):
+            return _make_response(cast(dict, mock_data["systems"])["data"][0])
+        if re.search(r"/api/v4/systems/[^/]+$", url):
+            return _make_response(cast(dict, mock_data["systems"])["data"][0])
+        if (insight := insight_response(url)) is not None:
+            return insight
         if "status-and-assets" in url:
             return _make_response(mock_data["status_and_assets"])
         if "/api/v2/systems" in url:
@@ -88,7 +95,7 @@ async def test_setup_entry_ems_settings_error(
             return _make_response({"error": "Internal Server Error"}, status=500)
         if "displayed-ev-charging-modes" in url:
             return _make_response(mock_data["ev_modes"])
-        if "/devices/evs" in url:
+        if "/assets/evs" in url:
             return _make_response(mock_data["ev_chargers"])
         raise ValueError(f"Unexpected GET URL: {url}")
 
@@ -98,7 +105,7 @@ async def test_setup_entry_ems_settings_error(
         raise ValueError(f"Unexpected POST URL: {url}")
 
     def patch_router(url, **kwargs):
-        if "/devices/evs/" in url:
+        if "/assets/evs/" in url:
             return _make_response({})
         raise ValueError(f"Unexpected PATCH URL: {url}")
 

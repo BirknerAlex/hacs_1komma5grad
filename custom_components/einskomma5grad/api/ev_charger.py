@@ -28,29 +28,29 @@ class EVCharger:
         return self._data["id"]
 
     def assigned_charger_id(self) -> str | None:
-        return self._data.get("assignedChargerId")
+        return self._data.get("chargerId")
 
     def name(self) -> str | None:
-        if "profile" in self._data and "name" in self._data["profile"]:
-            return self._data["profile"]["name"]
-
-        return None
+        return self._data.get("name")
 
     def charging_mode(self) -> ChargingMode:
-        return ChargingMode(self._data["chargeSettings"]["chargingMode"])
+        return ChargingMode(self._data["chargingMode"])
 
-    def set_charging_mode(self, mode: ChargingMode) -> None:
-        if self.charging_mode() == mode:
-            return
-
+    def _patch(self, fields: dict, what: str) -> None:
+        """PATCH the EV asset; the app always sends id, type and connectionStatus."""
         try:
             res = self._api.patch(
                 url=self._api.HEARTBEAT_API
-                + "/api/v1/systems/"
+                + "/api/v2/sites/"
                 + self._system.id()
-                + "/devices/evs/"
+                + "/assets/evs/"
                 + self.id(),
-                json={"chargeSettings": {"chargingMode": mode.value}},
+                json={
+                    "id": self.id(),
+                    "connectionStatus": self._data.get("connectionStatus"),
+                    **fields,
+                    "type": self._data.get("type", "EV"),
+                },
                 headers={
                     "Content-Type": "application/json",
                     "Authorization": "Bearer " + self._api.get_token(),
@@ -58,12 +58,27 @@ class EVCharger:
                 timeout=REQUEST_TIMEOUT,
             )
         except requests.exceptions.RequestException as err:
-            raise RequestError(f"Failed to set charging mode due to network error: {err}") from err
+            raise RequestError(f"Failed to set {what} due to network error: {err}") from err
 
         if res.status_code != 200:
-            raise RequestError("Failed to set charging mode: " + res.text)
+            raise RequestError(f"Failed to set {what}: " + res.text)
 
-        self._data["chargeSettings"]["chargingMode"] = mode.value
+    def set_charging_mode(self, mode: ChargingMode) -> None:
+        if self.charging_mode() == mode:
+            return
+
+        # Mirrors the app, which sends the schedule settings along with the mode.
+        self._patch(
+            {
+                "departureTime": self._data.get("departureTime"),
+                "targetSoc": self._data.get("targetSoc"),
+                "defaultSoc": self._data.get("defaultSoc"),
+                "chargingMode": mode.value,
+            },
+            "charging mode",
+        )
+
+        self._data["chargingMode"] = mode.value
 
     def current_soc(self) -> float | None:
         if self.charging_mode() != ChargingMode.SMART_CHARGE:
@@ -83,24 +98,6 @@ class EVCharger:
         if soc > 0:
             soc_decimal = float(soc / 100.0)
 
-        try:
-            res = self._api.patch(
-                url=self._api.HEARTBEAT_API
-                    + "/api/v1/systems/"
-                    + self._system.id()
-                    + "/devices/evs/"
-                    + self.id(),
-                json={"id":  self.id(), "manualSoc": soc_decimal},
-                headers={
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + self._api.get_token(),
-                },
-                timeout=REQUEST_TIMEOUT,
-            )
-        except requests.exceptions.RequestException as err:
-            raise RequestError(f"Failed to set state of charge due to network error: {err}") from err
+        self._patch({"manualSoc": soc_decimal}, "state of charge")
 
-        if res.status_code != 200:
-            raise RequestError("Failed to set state of charge: " + res.text)
-
-        self._data["manualSoc"] = soc
+        self._data["manualSoc"] = soc_decimal
