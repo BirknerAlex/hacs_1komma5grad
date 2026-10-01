@@ -27,6 +27,9 @@ class EVCharger:
     def id(self) -> str:
         return self._data["id"]
 
+    def assigned_charger_id(self) -> str | None:
+        return self._data.get("assignedChargerId")
+
     def name(self) -> str | None:
         if "profile" in self._data and "name" in self._data["profile"]:
             return self._data["profile"]["name"]

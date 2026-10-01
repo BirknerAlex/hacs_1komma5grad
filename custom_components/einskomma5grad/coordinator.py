@@ -33,6 +33,7 @@ class EVData:
     current_soc: float | None
     charging_mode: str | None
     system_id: str | None
+    assigned_charger_id: str | None = None
 
 @dataclass
 class AssetInfo:
@@ -56,7 +57,7 @@ class GatewayInfo:
 class DeviceData:
     """Holds all device registry info for a system."""
     gateway: GatewayInfo | None = None
-    assets_by_type: dict[str, AssetInfo] | None = None
+    assets_by_type: dict[str, list[AssetInfo]] | None = None
 
 @dataclass
 class SystemsData:
@@ -233,10 +234,12 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
                         current_soc=ev_charger.current_soc(),
                         charging_mode=ev_charger.charging_mode().value,
                         system_id=sid,
+                        assigned_charger_id=ev_charger.assigned_charger_id(),
                     )
 
                 # Fetch device info (gateway + assets) — purely optional
                 device_data[sid] = await self._fetch_device_data(system)
+                self._report_multiple_chargers(ev_chargers or [], device_data[sid])
 
             # What is returned here is stored in self.data by the DataUpdateCoordinator
             return SystemsData(
@@ -266,6 +269,28 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
                     error=err,
                 )
             raise UpdateFailed(f"Unexpected API response: {err!r}") from err
+
+    def _report_multiple_chargers(self, ev_chargers: list, device_data) -> None:
+        """Report (counts only) how multi-charger systems look, to verify support."""
+        if self.error_reporter is None:
+            return
+        charger_assets = (device_data.assets_by_type or {}).get("EV_CHARGER", [])
+        if len(ev_chargers) < 2 and len(charger_assets) < 2:
+            return
+        asset_ids = {asset.asset_id for asset in charger_assets}
+        assigned = [c.assigned_charger_id() for c in ev_chargers]
+        self.error_reporter.capture_api_issue(
+            "multiple_chargers",
+            "devices/evs",
+            None,
+            {
+                "evs": len(ev_chargers),
+                "ev_charger_assets": len(charger_assets),
+                "evs_with_assigned_charger": sum(1 for a in assigned if a),
+                "distinct_assigned_chargers": len({a for a in assigned if a}),
+                "assigned_matching_asset": sum(1 for a in assigned if a in asset_ids),
+            },
+        )
 
     def set_charging_mode(self, system_id: str, ev_id: str, mode: str):
         """Set the charging mode for an EV."""
@@ -350,14 +375,14 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
                     asset_type = asset.get("type")
                     if not asset_type:
                         continue
-                    assets_by_type[asset_type] = AssetInfo(
+                    assets_by_type.setdefault(asset_type, []).append(AssetInfo(
                         asset_id=asset.get("id", ""),
                         asset_type=asset_type,
                         manufacturer=asset.get("manufacturer"),
                         model=asset.get("model"),
                         serial_number=asset.get("serialnumber"),
                         name=asset.get("name"),
-                    )
+                    ))
                 result.assets_by_type = assets_by_type
         except (KeyError, TypeError, AttributeError):
             _LOGGER.debug("Could not fetch assets for system %s", system.id())

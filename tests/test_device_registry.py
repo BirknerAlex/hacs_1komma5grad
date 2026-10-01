@@ -1,11 +1,13 @@
 """Tests for device registry integration."""
 
 import json
+from typing import cast
 from unittest.mock import patch
 
 import pytest
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers import entity_registry as er
 
 from .conftest import SYSTEM_ID
 
@@ -172,3 +174,133 @@ async def test_entities_still_work_without_gateway(
         identifiers={("einskomma5grad", "I032-002-000-000-068-P-X")}
     )
     assert gateway is None
+
+
+def _assets_with_duplicates(mock_api: dict) -> dict:
+    data = json.loads(json.dumps(mock_api["data"]["status_and_assets"]))
+    data["assets"] += [
+        {
+            "id": "00000000-0000-0000-0000-000000000001",
+            "type": "EV_CHARGER",
+            "manufacturer": "Easee",
+            "model": "Home",
+            "serialnumber": "SN-EV-000002",
+        },
+        {
+            "id": "00000000-0000-0000-0000-000000000022",
+            "type": "HEAT_PUMP",
+            "manufacturer": "Vaillant",
+            "model": "VR940",
+            "serialnumber": "SN-HP-000002",
+        },
+    ]
+    return data
+
+
+@pytest.mark.asyncio
+async def test_multiple_assets_of_same_type_create_devices(
+    hass: HomeAssistant, mock_config_entry, mock_api, enable_custom_integrations
+):
+    """Every asset of a type gets its own device, and EV entities follow assignedChargerId."""
+    with patch(
+        "custom_components.einskomma5grad.api.system.System.get_status_and_assets",
+        return_value=_assets_with_duplicates(mock_api),
+    ):
+        mock_config_entry.add_to_hass(hass)
+        await hass.config_entries.async_setup(mock_config_entry.entry_id)
+        await hass.async_block_till_done()
+
+    device_registry = dr.async_get(hass)
+    entity_registry = er.async_get(hass)
+    for serial in ("SN-EV-000001", "SN-EV-000002", "SN-HP-000001", "SN-HP-000002"):
+        assert device_registry.async_get_device(
+            identifiers={("einskomma5grad", serial)}
+        ), serial
+
+    second_charger = device_registry.async_get_device(
+        identifiers={("einskomma5grad", "SN-EV-000002")}
+    )
+    assert second_charger is not None
+    ev_entities = [
+        e
+        for e in er.async_entries_for_config_entry(
+            entity_registry, mock_config_entry.entry_id
+        )
+        if "_ev_charging_mode_" in e.unique_id or "_ev_current_soc_" in e.unique_id
+    ]
+    assert ev_entities
+    assert {e.device_id for e in ev_entities} == {second_charger.id}
+
+
+@pytest.mark.asyncio
+async def test_two_evs_attach_to_their_own_chargers(
+    hass: HomeAssistant, mock_config_entry, mock_api, enable_custom_integrations
+):
+    """Two EVs get separate entities, each on its assigned charger (or the first as fallback)."""
+    evs = json.loads(json.dumps(mock_api["data"]["ev_chargers"]))
+    second = json.loads(json.dumps(evs[0]))
+    second["id"] = "00000000-0000-0000-0000-0000000000aa"
+    second["assignedChargerId"] = "00000000-0000-0000-0000-000000000001"
+    second["profile"]["name"] = "Tesla"  # same name as the first EV
+    evs[0]["assignedChargerId"] = None  # falls back to the first charger
+    evs.append(second)
+    mock_api["data"]["ev_chargers"][:] = evs
+
+    with patch(
+        "custom_components.einskomma5grad.api.system.System.get_status_and_assets",
+        return_value=_assets_with_duplicates(mock_api),
+    ):
+        mock_config_entry.add_to_hass(hass)
+        await hass.config_entries.async_setup(mock_config_entry.entry_id)
+        await hass.async_block_till_done()
+
+    device_registry = dr.async_get(hass)
+    entity_registry = er.async_get(hass)
+    first_dev = device_registry.async_get_device(
+        identifiers={("einskomma5grad", "SN-EV-000001")}
+    )
+    second_dev = device_registry.async_get_device(
+        identifiers={("einskomma5grad", "SN-EV-000002")}
+    )
+    assert first_dev is not None
+    assert second_dev is not None
+    modes = {
+        e.unique_id: e
+        for e in er.async_entries_for_config_entry(
+            entity_registry, mock_config_entry.entry_id
+        )
+        if "_ev_charging_mode_" in e.unique_id
+    }
+    assert len(modes) == 2
+    assert modes[f"einskomma5grad_ev_charging_mode_{SYSTEM_ID}_00000000-0000-0000-0000-000000000000"].device_id == first_dev.id
+    assert modes[f"einskomma5grad_ev_charging_mode_{SYSTEM_ID}_00000000-0000-0000-0000-0000000000aa"].device_id == second_dev.id
+
+
+def _reporter_calls(evs: list[str | None], asset_ids: list[str]):
+    from types import SimpleNamespace
+    from unittest.mock import MagicMock
+
+    from custom_components.einskomma5grad.coordinator import Coordinator
+
+    coordinator = SimpleNamespace(error_reporter=MagicMock())
+    chargers = [SimpleNamespace(assigned_charger_id=lambda a=a: a) for a in evs]
+    assets = [SimpleNamespace(asset_id=i) for i in asset_ids]
+    device_data = SimpleNamespace(assets_by_type={"EV_CHARGER": assets})
+    Coordinator._report_multiple_chargers(cast(Coordinator, coordinator), chargers, device_data)
+    return coordinator.error_reporter.capture_api_issue.call_args_list
+
+
+def test_multiple_chargers_reported_as_counts_only():
+    (call,) = _reporter_calls(["a", None], ["a", "b"])
+    assert call.args[0] == "multiple_chargers"
+    assert call.args[3] == {
+        "evs": 2,
+        "ev_charger_assets": 2,
+        "evs_with_assigned_charger": 1,
+        "distinct_assigned_chargers": 1,
+        "assigned_matching_asset": 1,
+    }
+
+
+def test_single_charger_not_reported():
+    assert _reporter_calls(["a"], ["a"]) == []

@@ -77,7 +77,13 @@ class EVCurrentStateOfCharge(CoordinatorEntity[Coordinator], NumberEntity):
 
     @property
     def device_info(self) -> DeviceInfo | None:
-        return get_device_info(self.coordinator, self._system_id, DeviceType.EV_CHARGER)
+        ev_data = self.coordinator.get_ev_data(self._ev_id)
+        return get_device_info(
+            self.coordinator,
+            self._system_id,
+            DeviceType.EV_CHARGER,
+            ev_data.assigned_charger_id if ev_data else None,
+        )
 
     @property
     def native_value(self) -> float | None:
