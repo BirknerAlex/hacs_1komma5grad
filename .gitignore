@@ -5,6 +5,7 @@
 # Local config
 .env
 .token
+flows
 
 # Python Cache files
 __pycache__/

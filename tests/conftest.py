@@ -1,6 +1,7 @@
 """Fixtures for 1KOMMA5GRAD integration tests."""
 
 import json
+import re
 from pathlib import Path
 from typing import cast
 from unittest.mock import MagicMock, patch
@@ -57,6 +58,24 @@ def _make_response(data, status=200):
     return resp
 
 
+
+_INSIGHT_MOCKS = (
+    # Order matters: the savings URL also contains "energy-trader".
+    ("energy-trader-savings", "GET_energy-trader-savings_id_month.json"),
+    ("energy-trader", "GET_energy-trader.json"),
+    ("heartbeat-prices", "GET_heartbeat-prices.json"),
+    ("comparison-price", "GET_comparison-price.json"),
+    ("energy-savings", "GET_systems_id_energy-savings.json"),
+)
+
+
+def insight_response(url):
+    """Return the mock response for the price and savings endpoints, or None."""
+    for marker, mock in _INSIGHT_MOCKS:
+        if marker in url:
+            return _make_response(load_mock(mock))
+    return None
+
 @pytest.fixture
 def mock_api():
     """Mock all API calls made by the integration."""
@@ -65,7 +84,7 @@ def mock_api():
         "live_overview": load_mock("GET_systems_id_live-overview.json"),
         "prices": load_mock("GET_systems_id_charts_market-prices.json"),
         "ems_settings": load_mock("GET_systems_id_ems_actions_get-settings.json"),
-        "ev_chargers": load_mock("GET_systems_id_devices_evs.json"),
+        "ev_chargers": load_mock("GET_sites_id_assets_evs.json"),
         "ev_modes": load_mock(
             "GET_sites_id_assets_evs_displayed-ev-charging-modes.json"
         ),
@@ -74,6 +93,12 @@ def mock_api():
     }
 
     def get_router(url, **kwargs):
+        if "/api/v1/systems/" in url and url.endswith("/details"):
+            return _make_response(cast(dict, mock_data["systems"])["data"][0])
+        if re.search(r"/api/v4/systems/[^/]+$", url):
+            return _make_response(cast(dict, mock_data["systems"])["data"][0])
+        if (insight := insight_response(url)) is not None:
+            return insight
         if "status-and-assets" in url:
             return _make_response(mock_data["status_and_assets"])
         if "energy-historical" in url:
@@ -93,7 +118,7 @@ def mock_api():
             return _make_response(mock_data["ems_settings"])
         if "displayed-ev-charging-modes" in url:
             return _make_response(mock_data["ev_modes"])
-        if "/devices/evs" in url:
+        if "/assets/evs" in url:
             return _make_response(mock_data["ev_chargers"])
         raise ValueError(f"Unexpected GET URL: {url}")
 
@@ -103,7 +128,7 @@ def mock_api():
         raise ValueError(f"Unexpected POST URL: {url}")
 
     def patch_router(url, **kwargs):
-        if "/devices/evs/" in url:
+        if "/assets/evs/" in url:
             return _make_response({})
         raise ValueError(f"Unexpected PATCH URL: {url}")
 

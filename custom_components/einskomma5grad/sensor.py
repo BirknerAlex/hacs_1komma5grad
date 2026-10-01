@@ -11,8 +11,10 @@ from .const import DOMAIN, DeviceType
 from .coordinator import Coordinator
 from .energy_sensor import DailyEnergySensor, EnergySensor
 from .ev_charger_power_sensor import EVChargerPowerSensor, ev_charger_cards
+from .heat_pump_power_sensor import HeatPumpPowerSensor, heat_pump_cards
 from .sensor_electricity_price import ElectricityPriceSensor
 from .sensor_power_generic import GenericPowerSensor
+from .sensor_prices import build_price_sensors
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -64,6 +66,8 @@ async def async_setup_entry(
         )
 
     for system in coordinator.data.systems:
+        sensors.extend(build_price_sensors(coordinator, system.id()))
+
         # Grid feed out power sensor
         grid_feed_out_power_sensor = GenericPowerSensor(
             coordinator=coordinator,
@@ -196,8 +200,28 @@ async def async_setup_entry(
             direction="consumption",
             device_type=DeviceType.HEAT_PUMP,
             system_id=system.id(),
-            metric_path=("consumption", "consumers", "heatPump"),
+            # "consumers.heatPump" only counts directly metered usage and reads 0 for
+            # heat pumps the EMS does not control; the total holds the real figure.
+            metric_path=("consumption", "consumersTotal", "heatPump"),
         )
+
+        # Per-heat-pump power sensors, only for systems with several heat pumps; the
+        # aggregated sensor above already covers a single one.
+        heat_pump_cards_ = heat_pump_cards(coordinator, system.id())
+        if len(heat_pump_cards_) > 1:
+            device_data = (coordinator.data.device_data or {}).get(system.id())
+            assets = (device_data.assets_by_type or {}).get("HEAT_PUMP", []) if device_data else []
+            asset_names = {asset.asset_id: asset.name for asset in assets if asset.name}
+            for index, card in enumerate(heat_pump_cards_, start=1):
+                pump_id = card["applianceId"]
+                sensors.append(
+                    HeatPumpPowerSensor(
+                        coordinator=coordinator,
+                        system_id=system.id(),
+                        heat_pump_id=pump_id,
+                        name=asset_names.get(pump_id) or str(index),
+                    )
+                )
 
         # Battery SOC sensor
         battery_soc_sensor = BatteryStateOfChargeSensor(

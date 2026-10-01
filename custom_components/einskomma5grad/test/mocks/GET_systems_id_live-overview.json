@@ -35,11 +35,18 @@
         "value": 0,
         "unit": "W"
       },
-      "powerExternal": null
+      "powerExternal": {
+        "value": 8.999,
+        "unit": "W"
+      }
     },
     "acsAggregated": {
       "power": {
         "value": 800,
+        "unit": "W"
+      },
+      "powerDirect": {
+        "value": 0,
         "unit": "W"
       }
     }
@@ -62,7 +69,8 @@
       "production": {
         "value": 1545,
         "unit": "W"
-      }
+      },
+      "productionExternal": null
     },
     "evChargers": [
       {
@@ -88,6 +96,16 @@
     "household": {
       "power": {
         "value": 634.4,
+        "unit": "W"
+      }
+    },
+    "heatPumpsAggregated": {
+      "power": {
+        "value": 0,
+        "unit": "W"
+      },
+      "powerExternal": {
+        "value": 8.999,
         "unit": "W"
       }
     }

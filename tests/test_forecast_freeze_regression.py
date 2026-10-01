@@ -12,6 +12,7 @@ successful poll — even though fresh price data was available.
 
 import copy
 import json
+import re
 from datetime import datetime, timedelta
 from typing import cast
 from unittest.mock import MagicMock, patch
@@ -21,7 +22,7 @@ import pytest
 from homeassistant.core import HomeAssistant
 
 from custom_components.einskomma5grad.const import DOMAIN
-from tests.conftest import SYSTEM_SLUG, load_mock
+from tests.conftest import SYSTEM_SLUG, insight_response, load_mock
 
 PRICE_ENTITY = f"sensor.electricity_price_{SYSTEM_SLUG}"
 
@@ -60,7 +61,7 @@ def mock_api_flaky_second_poll():
         "systems": load_mock("GET_systems.json"),
         "live_overview": load_mock("GET_systems_id_live-overview.json"),
         "ems_settings": load_mock("GET_systems_id_ems_actions_get-settings.json"),
-        "ev_chargers": load_mock("GET_systems_id_devices_evs.json"),
+        "ev_chargers": load_mock("GET_sites_id_assets_evs.json"),
         "ev_modes": load_mock(
             "GET_sites_id_assets_evs_displayed-ev-charging-modes.json"
         ),
@@ -71,6 +72,12 @@ def mock_api_flaky_second_poll():
     call_counts = {"market-prices": 0, "live-overview": 0}
 
     def get_router(url, **kwargs):
+        if "/api/v1/systems/" in url and url.endswith("/details"):
+            return _make_response(cast(dict, mock_data["systems"])["data"][0])
+        if re.search(r"/api/v4/systems/[^/]+$", url):
+            return _make_response(cast(dict, mock_data["systems"])["data"][0])
+        if (insight := insight_response(url)) is not None:
+            return insight
         if "status-and-assets" in url:
             return _make_response(mock_data["status_and_assets"])
         if "energy-historical" in url:
@@ -99,7 +106,7 @@ def mock_api_flaky_second_poll():
             return _make_response(mock_data["ems_settings"])
         if "displayed-ev-charging-modes" in url:
             return _make_response(mock_data["ev_modes"])
-        if "/devices/evs" in url:
+        if "/assets/evs" in url:
             return _make_response(mock_data["ev_chargers"])
         raise ValueError(f"Unexpected GET URL: {url}")
 
@@ -109,7 +116,7 @@ def mock_api_flaky_second_poll():
         raise ValueError(f"Unexpected POST URL: {url}")
 
     def patch_router(url, **kwargs):
-        if "/devices/evs/" in url:
+        if "/assets/evs/" in url:
             return _make_response({})
         raise ValueError(f"Unexpected PATCH URL: {url}")
 

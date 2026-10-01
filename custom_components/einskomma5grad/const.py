@@ -15,6 +15,12 @@ MAX_SCAN_INTERVAL = 3600
 # Market prices are rate limited (1 request/minute) and change slowly
 PRICE_REFRESH_INTERVAL = timedelta(minutes=15)
 
+# Savings, Heartbeat price and Energy Trader figures only move slowly
+INSIGHTS_REFRESH_INTERVAL = timedelta(hours=1)
+
+# Window of the savings figure, in days
+SAVINGS_WINDOW_DAYS = 30
+
 DOMAIN = "einskomma5grad"
 
 CURRENCY_ICON = "mdi:cash"

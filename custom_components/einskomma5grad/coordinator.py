@@ -19,7 +19,13 @@ from .api.error import ApiError
 from .api.ev_charger import ChargingMode
 from .api.system import System
 from .api.systems import Systems
-from .const import DEFAULT_SCAN_INTERVAL, DOMAIN, PRICE_REFRESH_INTERVAL
+from .const import (
+    DEFAULT_SCAN_INTERVAL,
+    DOMAIN,
+    INSIGHTS_REFRESH_INTERVAL,
+    PRICE_REFRESH_INTERVAL,
+    SAVINGS_WINDOW_DAYS,
+)
 
 if TYPE_CHECKING:
     from .error_reporting import ErrorReporter
@@ -79,6 +85,24 @@ class SystemsData:
 
     energy_today: dict[str, dict] | None = None
 
+    # Per system: heartbeat_prices, comparison_price, energy_savings,
+    # energy_trader and energy_trader_monthly (each None when unavailable).
+    insights: dict[str, dict[str, dict | None]] | None = None
+
+def _still_fresh(
+    last: datetime.datetime | None, now: datetime.datetime, interval: timedelta
+) -> bool:
+    """Whether a cached response is recent enough and from the same local day.
+
+    Day totals in these responses belong to the local day they were fetched on.
+    """
+    return (
+        last is not None
+        and now - last < interval
+        and dt_util.as_local(last).date() == dt_util.as_local(now).date()
+    )
+
+
 class Coordinator(DataUpdateCoordinator[SystemsData]):
     """1KOMMA5GRAD coordinator."""
 
@@ -101,6 +125,7 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
         # allows only 1 request/minute, so they are refetched far less often
         # than the rest of the data.
         self._prices_fetched_at: dict[str, datetime.datetime] = {}
+        self._insights_fetched_at: dict[str, datetime.datetime] = {}
 
         # Set by async_setup_entry when the user opted in to error reporting.
         # Home Assistant logs UpdateFailed itself, so it is reported explicitly.
@@ -151,11 +176,7 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
         now = dt_util.utcnow()
         previous = self._previous_value("prices", sid)
         last = self._prices_fetched_at.get(sid)
-        if (
-            previous is not None
-            and last is not None
-            and now - last < PRICE_REFRESH_INTERVAL
-        ):
+        if previous is not None and _still_fresh(last, now, PRICE_REFRESH_INTERVAL):
             return previous
 
         # Record the attempt even on failure so a rate-limited endpoint isn't
@@ -164,6 +185,46 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
         return await self._fetch_field(
             "prices", "prices", sid, system.get_prices, start, end,
         )
+
+    async def _fetch_insights(self, system: System, sid: str) -> dict[str, dict | None]:
+        """Fetch the slowly changing price and savings figures once per hour.
+
+        Every figure is isolated: one failing endpoint (e.g. Energy Trader on a
+        contract without it) keeps its previous value and does not affect the rest.
+        """
+        previous = self._previous_value("insights", sid) or {}
+        now = dt_util.utcnow()
+        last = self._insights_fetched_at.get(sid)
+        if previous and _still_fresh(last, now, INSIGHTS_REFRESH_INTERVAL):
+            return previous
+
+        # Record the attempt even on failure, like the prices.
+        self._insights_fetched_at[sid] = now
+        today = dt_util.now().date()
+        calls = {
+            "heartbeat_prices": (system.get_heartbeat_prices, ()),
+            "comparison_price": (system.get_comparison_price, ()),
+            "energy_savings": (
+                system.get_energy_savings,
+                (today - timedelta(days=SAVINGS_WINDOW_DAYS), today),
+            ),
+            "energy_trader": (system.get_energy_trader, ()),
+            "energy_trader_monthly": (system.get_energy_trader_monthly_savings, ()),
+        }
+        result: dict[str, dict | None] = {}
+        for key, (func, args) in calls.items():
+            try:
+                result[key] = await self.hass.async_add_executor_job(func, *args)
+            except ApiError:
+                _LOGGER.debug("Failed to get %s for system %s, keeping previous", key, sid)
+                result[key] = previous.get(key)
+        return result
+
+    def get_insights_by_id(self, system_id: str) -> dict[str, dict | None]:
+        """Return the price and savings figures by system id."""
+        if self.data.insights is None:
+            return {}
+        return self.data.insights.get(system_id) or {}
 
     def set_error_reporter(self, error_reporter: ErrorReporter) -> None:
         """Enable error reporting and tracing of refreshes and HTTP requests."""
@@ -190,8 +251,9 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
         try:
             systems = await self.hass.async_add_executor_job(systems_client.get_systems)
 
-            now_utc = dt_util.now().astimezone(datetime.timezone.utc)
-            start = now_utc.replace(hour=0, minute=0, second=0, microsecond=0)
+            # Local midnight, so the day totals in the price response cover the
+            # local calendar day like the other daily figures.
+            start = dt_util.start_of_local_day().astimezone(datetime.timezone.utc)
             end = start + timedelta(days=2)
 
             # Local calendar day, so daily energy totals align with the dashboard.
@@ -204,10 +266,12 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
             ev_charging_modes = {}
             device_data = {}
             energy_today = {}
+            insights = {}
             for system in systems:
                 sid = system.id()
 
                 prices[sid] = await self._fetch_prices(system, sid, start, end)
+                insights[sid] = await self._fetch_insights(system, sid)
                 energy_today[sid] = await self._fetch_field(
                     "historical energy", "energy_today", sid,
                     system.get_energy_historical, today, fallback="none",
@@ -251,6 +315,7 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
                 ev_charging_modes=ev_charging_modes,
                 device_data=device_data,
                 energy_today=energy_today,
+                insights=insights,
             )
         except ApiError as err:
             if self.error_reporter:
@@ -281,7 +346,7 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
         assigned = [c.assigned_charger_id() for c in ev_chargers]
         self.error_reporter.capture_api_issue(
             "multiple_chargers",
-            "devices/evs",
+            "assets/evs",
             None,
             {
                 "evs": len(ev_chargers),
@@ -300,6 +365,9 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
         for charger in system.get_ev_chargers():
             if charger.id() == ev_id:
                 charger.set_charging_mode(ChargingMode(mode))
+                return
+
+        _LOGGER.error("EV with id %s not found in system %s", ev_id, system_id)
 
     def set_ev_current_soc(self, system_id: str, ev_id: str, soc: float):
         """Set the current state of charge for an EV."""
@@ -350,7 +418,8 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
 
         # Gateway info from existing system data
         try:
-            gateways = system.data.get("deviceGateways", [])
+            details = await self.hass.async_add_executor_job(system.get_details)
+            gateways = (details or system.data).get("deviceGateways") or []
             if gateways:
                 gw = gateways[0]
                 serial = gw.get("serialNumber")

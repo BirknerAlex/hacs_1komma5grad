@@ -1,6 +1,7 @@
 """Tests for device registry integration."""
 
 import json
+import re
 from typing import cast
 from unittest.mock import patch
 
@@ -129,6 +130,15 @@ async def test_entities_still_work_without_gateway(
     modified["data"][0]["deviceGateways"] = []
 
     def get_router_no_gw(url, **kwargs):
+        if "/api/v1/systems/" in url and url.endswith("/details"):
+            from tests.conftest import _make_response
+            return _make_response(modified["data"][0])
+        if re.search(r"/api/v4/systems/[^/]+$", url):
+            from tests.conftest import _make_response
+            return _make_response(modified["data"][0])
+        from tests.conftest import insight_response
+        if (insight := insight_response(url)) is not None:
+            return insight
         if "status-and-assets" in url:
             from tests.conftest import _make_response
             return _make_response(mock_api["data"]["status_and_assets"])
@@ -150,7 +160,7 @@ async def test_entities_still_work_without_gateway(
             return _make_response(mock_api["data"]["ems_settings"])
         if "displayed-ev-charging-modes" in url:
             return _make_response(mock_api["data"]["ev_modes"])
-        if "/devices/evs" in url:
+        if "/assets/evs" in url:
             return _make_response(mock_api["data"]["ev_chargers"])
         raise ValueError(f"Unexpected GET URL: {url}")
 
@@ -201,7 +211,7 @@ def _assets_with_duplicates(mock_api: dict) -> dict:
 async def test_multiple_assets_of_same_type_create_devices(
     hass: HomeAssistant, mock_config_entry, mock_api, enable_custom_integrations
 ):
-    """Every asset of a type gets its own device, and EV entities follow assignedChargerId."""
+    """Every asset of a type gets its own device, and EV entities follow chargerId."""
     with patch(
         "custom_components.einskomma5grad.api.system.System.get_status_and_assets",
         return_value=_assets_with_duplicates(mock_api),
@@ -240,9 +250,9 @@ async def test_two_evs_attach_to_their_own_chargers(
     evs = json.loads(json.dumps(mock_api["data"]["ev_chargers"]))
     second = json.loads(json.dumps(evs[0]))
     second["id"] = "00000000-0000-0000-0000-0000000000aa"
-    second["assignedChargerId"] = "00000000-0000-0000-0000-000000000001"
-    second["profile"]["name"] = "Tesla"  # same name as the first EV
-    evs[0]["assignedChargerId"] = None  # falls back to the first charger
+    second["chargerId"] = "00000000-0000-0000-0000-000000000001"
+    second["name"] = "Tesla"  # same name as the first EV
+    evs[0]["chargerId"] = None  # falls back to the first charger
     evs.append(second)
     mock_api["data"]["ev_chargers"][:] = evs
 

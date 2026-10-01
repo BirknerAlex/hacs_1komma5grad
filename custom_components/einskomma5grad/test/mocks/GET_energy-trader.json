@@ -1,0 +1,13 @@
+{
+  "energyTrader": {
+    "status": "ACTIVE",
+    "greenEnergySavings": {
+      "amount": "12.5",
+      "currency": "EUR"
+    },
+    "energyTraderSavings": {
+      "amount": "48.75",
+      "currency": "EUR"
+    }
+  }
+}

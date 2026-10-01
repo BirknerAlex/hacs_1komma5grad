@@ -2004,5 +2004,37 @@
       "currency": "EUR"
     },
     "unit": "kWh"
+  },
+  "dayTotals": {
+    "supplyCostTotal": {
+      "withoutVat": {
+        "amount": "1.72922609601250000467",
+        "currency": "EUR"
+      },
+      "withVat": {
+        "amount": "2.05777905425487500556",
+        "currency": "EUR"
+      },
+      "withGridCost": {
+        "amount": "3.09668657111250000802",
+        "currency": "EUR"
+      },
+      "withGridCostAndVat": {
+        "amount": "3.68505701962387500955",
+        "currency": "EUR"
+      }
+    },
+    "feedInEarningsTotal": {
+      "withoutVat": {
+        "amount": "0.00977028167499999622",
+        "currency": "EUR"
+      },
+      "withVat": {
+        "amount": "0.00977028167499999622",
+        "currency": "EUR"
+      },
+      "withGridCost": null,
+      "withGridCostAndVat": null
+    }
   }
 }

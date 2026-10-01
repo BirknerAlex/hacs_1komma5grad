@@ -12,7 +12,7 @@ class Systems:
     def get_system(self, system_id: str) -> System:
         try:
             res = self.client.get(
-                url=self.client.HEARTBEAT_API + "/api/v2/systems/" + system_id,
+                url=self.client.HEARTBEAT_API + "/api/v4/systems/" + system_id,
                 headers={
                     "Content-Type": "application/json",
                     "Authorization": "Bearer " + self.client.get_token(),

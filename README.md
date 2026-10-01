@@ -52,6 +52,17 @@ The integration creates the following entities per system:
 | Battery State of Charge | Battery charge level (%) |
 | Battery In Power | Power flowing into the battery (W) |
 | Battery Out Power | Power flowing out of the battery (W) |
+| Spot Price | Current spot price (EUR/kWh, incl. VAT, without grid costs). `price_without_vat` attribute |
+| Grid Costs | Current grid costs (EUR/kWh, incl. VAT). `price_without_vat` attribute |
+| Grid Supply Cost Today | Cost of the energy drawn from the grid today (EUR, incl. grid costs and VAT). Other variants as attributes |
+| Feed-in Earnings Today | Earnings from energy fed into the grid today (EUR) |
+| Heartbeat Price | Your effective price per kWh today (EUR/kWh). `week`, `month`, `half_year` and `year` attributes |
+| Comparison Price | Reference tariff your savings are compared against (EUR/kWh) |
+| Heartbeat Savings 30 Days | Savings over the last 30 days (EUR) |
+| Energy Trader Savings | Lifetime Energy Trader savings (EUR). `green_energy_savings` and `status` attributes |
+| Energy Trader Average Monthly Savings | Average monthly Energy Trader savings (EUR) |
+
+The last five sensors are refreshed once per hour; they stay unknown if your contract does not include the feature (e.g. Energy Trader).
 
 Energy sensors (kWh) are also created for grid in/out, solar production, EV chargers, heat pumps, and battery in/out to enable the HA Energy Dashboard.
 
@@ -181,6 +192,12 @@ This integration is regularly tested against the following Heartbeat components:
 - Mennekes Amtron Compact 2.0S (EV Charger)
 
 Other components like heat pumps are not tested due to lack of hardware availability.
+
+## API documentation
+
+The Heartbeat API calls observed in the official app are documented as an unofficial OpenAPI spec:
+**[Heartbeat API on Swagger UI](https://birkneralex.github.io/hacs_1komma5grad/)** ([JSON](docs/heartbeat-openapi.json)).
+It is reverse-engineered, contains no personal data and may lag behind the real API.
 
 ## Contribute
 

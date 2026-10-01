@@ -25,7 +25,11 @@
       "systemName": "1KOMMA5° Demo",
       "technicalContactId": "6bb858c3-769a-4e3d-b0f3-fc1bd9da3ad1",
       "technicalContactName": "1KOMMA5° Holding",
-      "updatedAt": "1970-01-01T00:00Z"
+      "updatedAt": "1970-01-01T00:00Z",
+      "hasThirdPartySmartMeter": null,
+      "thirdPartySmartMeterMeterId": null,
+      "thirdPartySmartMeterDeletedAt": null,
+      "thirdPartySmartMeterMarketLocationId": null
     }
   ],
   "pageIndex": 0,
