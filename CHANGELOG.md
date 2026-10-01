@@ -1,3 +1,9 @@
+## [1.6.0-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.5.1-dev.2...v1.6.0-dev.1) (2026-10-01)
+
+### 🚀 Features
+
+* opt-in diagnostics via an isolated Sentry client ([4032641](https://github.com/BirknerAlex/hacs_1komma5grad/commit/4032641c8c57f44ca1d0e55e3a3c48071ceab33f))
+
 ## [1.5.1-dev.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.5.1-dev.1...v1.5.1-dev.2) (2026-10-01)
 
 ### 🛠️ Fixes
