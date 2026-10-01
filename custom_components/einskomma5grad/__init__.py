@@ -6,9 +6,11 @@ from dataclasses import dataclass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import device_registry as dr
 
 from .const import CONF_ERROR_REPORTING, DEFAULT_ERROR_REPORTING, DOMAIN
 from .coordinator import Coordinator
+from .device_info import all_device_infos
 from .error_reporting import ErrorReporter
 
 PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.SELECT, Platform.SWITCH, Platform.NUMBER]
@@ -55,6 +57,13 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> b
         hass.data[DOMAIN][config_entry.entry_id] = RuntimeData(
             coordinator, cancel_update_listener, error_reporter
         )
+
+        device_registry = dr.async_get(hass)
+        for device_data in (coordinator.data.device_data or {}).values():
+            for info in all_device_infos(device_data):
+                device_registry.async_get_or_create(
+                    config_entry_id=config_entry.entry_id, **info
+                )
 
         # Setup platforms (based on the list of entity types in PLATFORMS defined above)
         # This calls the async_setup method in each of your entity type files.

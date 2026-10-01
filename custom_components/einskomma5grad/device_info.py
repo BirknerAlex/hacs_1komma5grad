@@ -3,7 +3,7 @@
 from homeassistant.helpers.device_registry import DeviceInfo
 
 from .const import DOMAIN, DeviceType
-from .coordinator import Coordinator, DeviceData
+from .coordinator import AssetInfo, Coordinator, DeviceData
 
 # Maps our DeviceType enum to the API's asset type strings
 _DEVICE_TYPE_TO_ASSET: dict[DeviceType, tuple[str, str]] = {
@@ -27,15 +27,10 @@ def _gateway_device_info(device_data: DeviceData) -> DeviceInfo | None:
     )
 
 
-def _asset_device_info(
-    device_data: DeviceData, asset_type: str, fallback_name: str
+def _build_asset_device_info(
+    device_data: DeviceData, asset: AssetInfo, fallback_name: str
 ) -> DeviceInfo | None:
-    """Build DeviceInfo for a specific asset type (HYBRID, EV_CHARGER, HEAT_PUMP, etc.)."""
-    if device_data is None or device_data.assets_by_type is None:
-        return None
-    asset = device_data.assets_by_type.get(asset_type)
-    if asset is None:
-        return None
+    """Build DeviceInfo for a single asset."""
     identifier = asset.serial_number or asset.asset_id
     if not identifier:
         return None
@@ -51,8 +46,45 @@ def _asset_device_info(
     return info
 
 
+def _asset_device_info(
+    device_data: DeviceData,
+    asset_type: str,
+    fallback_name: str,
+    asset_id: str | None = None,
+) -> DeviceInfo | None:
+    """Build DeviceInfo for an asset of the given type.
+
+    Picks the asset matching asset_id, falling back to the first of that type.
+    """
+    if device_data is None or device_data.assets_by_type is None:
+        return None
+    assets = device_data.assets_by_type.get(asset_type)
+    if not assets:
+        return None
+    asset = next((a for a in assets if asset_id and a.asset_id == asset_id), assets[0])
+    return _build_asset_device_info(device_data, asset, fallback_name)
+
+
+def all_device_infos(device_data: DeviceData) -> list[DeviceInfo]:
+    """Return DeviceInfo for the gateway and every known asset."""
+    infos: list[DeviceInfo | None] = [_gateway_device_info(device_data)]
+    for asset_type, assets in (device_data.assets_by_type or {}).items():
+        fallback_name = next(
+            (name for t, name in _DEVICE_TYPE_TO_ASSET.values() if t == asset_type),
+            asset_type,
+        )
+        infos.extend(
+            _build_asset_device_info(device_data, asset, fallback_name)
+            for asset in assets
+        )
+    return [info for info in infos if info is not None]
+
+
 def get_device_info(
-    coordinator: Coordinator, system_id: str, device_type: DeviceType | None
+    coordinator: Coordinator,
+    system_id: str,
+    device_type: DeviceType | None,
+    asset_id: str | None = None,
 ) -> DeviceInfo | None:
     """Return DeviceInfo for the given device_type, or None if unavailable."""
     if device_type is None:
@@ -64,5 +96,5 @@ def get_device_info(
         return _gateway_device_info(device_data)
     mapping = _DEVICE_TYPE_TO_ASSET.get(device_type)
     if mapping:
-        return _asset_device_info(device_data, mapping[0], mapping[1])
+        return _asset_device_info(device_data, mapping[0], mapping[1], asset_id)
     return None
