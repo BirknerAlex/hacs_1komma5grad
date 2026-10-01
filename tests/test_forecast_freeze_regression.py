@@ -12,7 +12,7 @@ successful poll — even though fresh price data was available.
 
 import copy
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import cast
 from unittest.mock import MagicMock, patch
 from zoneinfo import ZoneInfo
@@ -163,6 +163,10 @@ async def test_forecast_still_updates_when_unrelated_endpoint_fails(
     ), patch(
         "custom_components.einskomma5grad.coordinator.dt_util.now",
         return_value=FROZEN_NOW,
+    ), patch(
+        # Disable price throttling so every poll refetches prices.
+        "custom_components.einskomma5grad.coordinator.PRICE_REFRESH_INTERVAL",
+        timedelta(0),
     ):
         await hass.config_entries.async_setup(mock_config_entry.entry_id)
         await hass.async_block_till_done()
