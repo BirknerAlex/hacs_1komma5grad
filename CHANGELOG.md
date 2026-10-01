@@ -1,3 +1,9 @@
+## [1.5.1-dev.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.5.1-dev.1...v1.5.1-dev.2) (2026-10-01)
+
+### 🛠️ Fixes
+
+* throttle market-prices requests to respect API rate limit ([#45](https://github.com/BirknerAlex/hacs_1komma5grad/issues/45)) ([41e7c52](https://github.com/BirknerAlex/hacs_1komma5grad/commit/41e7c5205dfb153073d6f0496dc03d26cb5b8ba0))
+
 ## [1.5.1-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.5.0...v1.5.1-dev.1) (2026-08-23)
 
 ### 🛠️ Fixes
