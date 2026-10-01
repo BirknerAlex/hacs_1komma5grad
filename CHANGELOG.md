@@ -1,3 +1,9 @@
+## [1.6.0-dev.3](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.6.0-dev.2...v1.6.0-dev.3) (2026-10-01)
+
+### 🚀 Features
+
+* add per-charger power sensors for multi-charger systems ([#44](https://github.com/BirknerAlex/hacs_1komma5grad/issues/44)) ([215d4f2](https://github.com/BirknerAlex/hacs_1komma5grad/commit/215d4f2b6917cd04ed070ccb39546737c10d41a8))
+
 ## [1.6.0-dev.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.6.0-dev.1...v1.6.0-dev.2) (2026-10-01)
 
 ### 🛠️ Fixes
