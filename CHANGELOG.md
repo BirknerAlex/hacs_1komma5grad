@@ -1,3 +1,9 @@
+## [1.6.0-dev.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.6.0-dev.1...v1.6.0-dev.2) (2026-10-01)
+
+### 🛠️ Fixes
+
+* support multiple EV chargers per system ([#44](https://github.com/BirknerAlex/hacs_1komma5grad/issues/44)) ([f76d6d5](https://github.com/BirknerAlex/hacs_1komma5grad/commit/f76d6d547543b927332b184d896095b2e85a3e40))
+
 ## [1.6.0-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.5.1-dev.2...v1.6.0-dev.1) (2026-10-01)
 
 ### 🚀 Features
