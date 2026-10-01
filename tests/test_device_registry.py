@@ -304,3 +304,74 @@ def test_multiple_chargers_reported_as_counts_only():
 
 def test_single_charger_not_reported():
     assert _reporter_calls(["a"], ["a"]) == []
+
+
+FIRST_CHARGER = "00000000-0000-0000-0000-000000000010"
+SECOND_CHARGER = "00000000-0000-0000-0000-000000000001"
+
+
+async def _setup_with_cards(hass, mock_config_entry, mock_api, powers: dict[str, float]):
+    mock_api["data"]["live_overview"]["summaryCards"]["evChargers"] = [
+        {"applianceId": cid, "currentSoc": None, "power": {"value": p, "unit": "W"}}
+        for cid, p in powers.items()
+    ]
+    with patch(
+        "custom_components.einskomma5grad.api.system.System.get_status_and_assets",
+        return_value=_assets_with_duplicates(mock_api),
+    ):
+        mock_config_entry.add_to_hass(hass)
+        await hass.config_entries.async_setup(mock_config_entry.entry_id)
+        await hass.async_block_till_done()
+
+
+@pytest.mark.asyncio
+async def test_per_charger_power_sensors_for_multiple_chargers(
+    hass: HomeAssistant, mock_config_entry, mock_api, enable_custom_integrations
+):
+    """Each charger gets its own power sensor on its own device; existing ids stay."""
+    await _setup_with_cards(
+        hass, mock_config_entry, mock_api, {FIRST_CHARGER: 3700, SECOND_CHARGER: 0}
+    )
+    entity_registry = er.async_get(hass)
+    device_registry = dr.async_get(hass)
+
+    for charger_id, serial, power in (
+        (FIRST_CHARGER, "SN-EV-000001", "3700"),
+        (SECOND_CHARGER, "SN-EV-000002", "0"),
+    ):
+        entity_id = entity_registry.async_get_entity_id(
+            "sensor",
+            "einskomma5grad",
+            f"einskomma5grad_ev_charger_power_{SYSTEM_ID}_{charger_id}",
+        )
+        assert entity_id, charger_id
+        entry = entity_registry.async_get(entity_id)
+        assert entry is not None
+        device = device_registry.async_get_device(
+            identifiers={("einskomma5grad", serial)}
+        )
+        assert device is not None
+        assert entry.device_id == device.id
+        state = hass.states.get(entity_id)
+        assert state is not None
+        assert float(state.state) == float(power)
+
+    # The aggregated sensor keeps its unique id
+    assert entity_registry.async_get_entity_id(
+        "sensor", "einskomma5grad", f"einskomma5grad_evChargersAggregated_{SYSTEM_ID}"
+    )
+
+
+@pytest.mark.asyncio
+async def test_no_per_charger_sensor_for_single_charger(
+    hass: HomeAssistant, mock_config_entry, mock_api, enable_custom_integrations
+):
+    await _setup_with_cards(hass, mock_config_entry, mock_api, {FIRST_CHARGER: 100})
+    entity_registry = er.async_get(hass)
+    assert not [
+        e
+        for e in er.async_entries_for_config_entry(
+            entity_registry, mock_config_entry.entry_id
+        )
+        if "_ev_charger_power_" in e.unique_id
+    ]

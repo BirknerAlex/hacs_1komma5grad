@@ -10,6 +10,7 @@ from .battery_soc_sensor import BatteryStateOfChargeSensor
 from .const import DOMAIN, DeviceType
 from .coordinator import Coordinator
 from .energy_sensor import DailyEnergySensor, EnergySensor
+from .ev_charger_power_sensor import EVChargerPowerSensor, ev_charger_cards
 from .sensor_electricity_price import ElectricityPriceSensor
 from .sensor_power_generic import GenericPowerSensor
 
@@ -160,6 +161,24 @@ async def async_setup_entry(
             system_id=system.id(),
             metric_path=("consumption", "consumers", "ev"),
         )
+
+        # Per-charger power sensors, only for systems with several chargers; the
+        # aggregated sensor above already covers a single one.
+        cards = ev_charger_cards(coordinator, system.id())
+        if len(cards) > 1:
+            device_data = (coordinator.data.device_data or {}).get(system.id())
+            assets = (device_data.assets_by_type or {}).get("EV_CHARGER", []) if device_data else []
+            asset_names = {asset.asset_id: asset.name for asset in assets if asset.name}
+            for index, card in enumerate(cards, start=1):
+                charger_id = card["applianceId"]
+                sensors.append(
+                    EVChargerPowerSensor(
+                        coordinator=coordinator,
+                        system_id=system.id(),
+                        charger_id=charger_id,
+                        name=asset_names.get(charger_id) or str(index),
+                    )
+                )
 
         # Heat pumps aggregated power sensor
         heat_pumps_power_sensor = GenericPowerSensor(
