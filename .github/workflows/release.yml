@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: "3.13"
       - name: Install dependencies
-        run: pip install pytest-homeassistant-custom-component
+        run: pip install pytest-homeassistant-custom-component sentry-sdk
       - name: Run tests
         run: pytest
 

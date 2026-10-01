@@ -23,7 +23,11 @@
             "init": {
                 "title": "1KOMMA5GRAD settings",
                 "data": {
-                    "scan_interval": "Scrape interval (seconds)"
+                    "scan_interval": "Scrape interval (seconds)",
+                    "error_reporting": "Send diagnostics (errors, logs, performance traces)"
+                },
+                "data_description": {
+                    "error_reporting": "Sends diagnostics from this integration to the developer via Sentry. Disabled by default. This includes errors and warnings with stack traces, log messages of this integration, and performance traces of data refreshes and API requests (URLs without query parameters, status codes and timings; a sample of requests on releases, all on pre-releases). If the 1KOMMA5GRAD API returns an error or an unexpected response, the structure of the response (field names and types, never your values) is included so API changes can be detected. Everything is tagged with the integration version and your Heartbeat system ID. No credentials, name, email address or host information is sent."
                 }
             }
         },

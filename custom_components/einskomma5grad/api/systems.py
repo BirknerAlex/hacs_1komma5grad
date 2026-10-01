@@ -11,7 +11,7 @@ class Systems:
 
     def get_system(self, system_id: str) -> System:
         try:
-            res = requests.get(
+            res = self.client.get(
                 url=self.client.HEARTBEAT_API + "/api/v2/systems/" + system_id,
                 headers={
                     "Content-Type": "application/json",
@@ -30,7 +30,7 @@ class Systems:
     # Returns a list with all systems the user has access to
     def get_systems(self) -> list[System]:
         try:
-            res = requests.get(
+            res = self.client.get(
                 url=self.client.HEARTBEAT_API + "/api/v2/systems",
                 headers={
                     "Content-Type": "application/json",

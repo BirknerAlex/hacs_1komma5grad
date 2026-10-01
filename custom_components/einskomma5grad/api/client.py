@@ -1,19 +1,32 @@
 import base64
 import datetime
+import functools
 import hashlib
 import logging
 import secrets
 import time
+from collections.abc import Callable
+from contextlib import AbstractContextManager
+from typing import Any
+from urllib.parse import urlsplit, urlunsplit
 
 import jwt
 import requests
 from jwt import PyJWKClient
 
+from .anonymize import describe_body, describe_payload, mask_text, url_template
 from .error import AuthenticationError, RequestError
 
 _LOGGER = logging.getLogger(__name__)
 
 REQUEST_TIMEOUT = 30
+
+# Expected failures that say nothing about the API: bad credentials, rate limits.
+_EXPECTED_ERROR_STATUS = frozenset({401, 403, 429})
+
+# Called with (method, url without query) and returns a context manager that
+# yields an object with `set_http_status(int)`, or None.
+HttpTracer = Callable[[str, str], AbstractContextManager[Any]]
 
 
 class Client:
@@ -33,6 +46,69 @@ class Client:
 
         self.username = username
         self.password = password
+
+        # Optional hook to trace outgoing HTTP requests, see HttpTracer.
+        self.tracer: HttpTracer | None = None
+
+        # Optional hook for API changes: (kind, endpoint, status, details). It only
+        # ever receives anonymized data, see anonymize.py.
+        self.on_issue: Callable[[str, str, int | None, dict], None] | None = None
+
+        # Structure of the last response per endpoint, kept to attach to parse errors.
+        self.response_shapes: dict[str, Any] = {}
+
+    def _send(self, method: str, url: str, send: Callable[..., Any], **kwargs):
+        """Send a request and inspect the response for API changes."""
+        res = self._send_traced(method, url, send, **kwargs)
+        if self.on_issue is not None:
+            self._inspect(method, url, res)
+        return res
+
+    def _inspect(self, method: str, url: str, res) -> None:
+        """Report unexpected statuses and invalid JSON, remember response shapes."""
+        template = url_template(url)
+        if (urlsplit(url).hostname or "").startswith("auth."):
+            return  # login pages carry credentials, never look at them
+        endpoint = f"{method} {template}"
+        status = res.status_code
+        if status >= 400:
+            if status not in _EXPECTED_ERROR_STATUS:
+                self.on_issue(  # type: ignore[misc]
+                    "http_error", endpoint, status, {"body": describe_body(res)}
+                )
+            return
+        if status == 204 or not res.content:
+            return
+        try:
+            data = res.json()
+        except ValueError:
+            self.on_issue(  # type: ignore[misc]
+                "invalid_json", endpoint, status, {"body": mask_text(res.text)}
+            )
+            return
+        self.response_shapes[endpoint] = describe_payload(data)
+        res.json = lambda **_: data  # avoid parsing the body twice
+
+    def _send_traced(self, method: str, url: str, send: Callable[..., Any], **kwargs):
+        """Send a request, wrapped in a trace span if a tracer is set."""
+        if self.tracer is None:
+            return send(url, **kwargs)
+        # Drop query and fragment: they carry auth state and PKCE challenges.
+        parts = urlsplit(url)
+        with self.tracer(method, urlunsplit(parts._replace(query="", fragment=""))) as span:
+            res = send(url, **kwargs)
+            if span is not None:
+                span.set_http_status(res.status_code)
+            return res
+
+    def get(self, url: str, **kwargs):
+        return self._send("GET", url, requests.get, **kwargs)
+
+    def post(self, url: str, **kwargs):
+        return self._send("POST", url, requests.post, **kwargs)
+
+    def patch(self, url: str, **kwargs):
+        return self._send("PATCH", url, requests.patch, **kwargs)
 
     def get_token_parsed(self) -> jwt.PyJWT:
         if self.token_set is None:
@@ -100,7 +176,7 @@ class Client:
 
     def login(self) -> str:
         try:
-            session = requests.Session()
+            session = _TracedSession(self)
 
             verifier = generate_code_verifier()
             challenge = generate_code_challenge(verifier)
@@ -162,7 +238,7 @@ class Client:
             code = resume_res.headers["location"].split("code=")[1]
 
             # Make POST request to get token
-            res = requests.post(
+            res = self.post(
                 url=self.TOKEN_URL,
                 json={
                     "client_id": self.CLIENT_ID,
@@ -194,7 +270,7 @@ class Client:
             raise AuthenticationError("No refresh token found")
 
         try:
-            res = requests.post(
+            res = self.post(
                 url=self.TOKEN_URL,
                 json={
                     "client_id": self.CLIENT_ID,
@@ -216,7 +292,7 @@ class Client:
 
     def get_user(self):
         try:
-            res = requests.get(
+            res = self.get(
                 url="https://customer-identity.1komma5grad.com/api/v1/users/me",
                 headers={
                     "Content-Type": "application/json",
@@ -234,7 +310,7 @@ class Client:
 
     def close(self):
         try:
-            res = requests.get(
+            res = self.get(
                 url="https://auth.1komma5grad.com/v2/logout",
                 params={"client_id": self.CLIENT_ID},
                 allow_redirects=False,
@@ -247,6 +323,18 @@ class Client:
             raise RequestError("Failed to logout: " + res.text)
 
         self.token_set = None
+
+
+class _TracedSession(requests.Session):
+    """Session whose requests go through the client's tracer."""
+
+    def __init__(self, client: Client) -> None:
+        super().__init__()
+        self._client = client
+
+    def request(self, method, url, **kwargs):  # type: ignore[override]
+        send = functools.partial(super().request, method)
+        return self._client._send(str(method).upper(), url, send, **kwargs)
 
 
 def base64_url_encode(data):

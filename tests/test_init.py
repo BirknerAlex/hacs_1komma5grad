@@ -126,6 +126,9 @@ async def test_setup_entry_ems_settings_error(
         client = MagicMock()
         client.get_token.return_value = "mock_token"
         client.HEARTBEAT_API = "https://heartbeat.1komma5grad.com"
+        client.get.side_effect = get_router
+        client.post.side_effect = post_router
+        client.patch.side_effect = patch_router
         mock_client_cls.return_value = client
 
         mock_config_entry.add_to_hass(hass)

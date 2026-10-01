@@ -1,9 +1,12 @@
 """Integration 101 Template integration using DataUpdateCoordinator."""
 
+from __future__ import annotations
+
 import datetime
 import logging
 from dataclasses import dataclass
 from datetime import timedelta
+from typing import TYPE_CHECKING
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PASSWORD, CONF_SCAN_INTERVAL, CONF_USERNAME
@@ -17,6 +20,9 @@ from .api.ev_charger import ChargingMode
 from .api.system import System
 from .api.systems import Systems
 from .const import DEFAULT_SCAN_INTERVAL, DOMAIN, PRICE_REFRESH_INTERVAL
+
+if TYPE_CHECKING:
+    from .error_reporting import ErrorReporter
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -95,6 +101,10 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
         # than the rest of the data.
         self._prices_fetched_at: dict[str, datetime.datetime] = {}
 
+        # Set by async_setup_entry when the user opted in to error reporting.
+        # Home Assistant logs UpdateFailed itself, so it is reported explicitly.
+        self.error_reporter: ErrorReporter | None = None
+
         # Initialise DataUpdateCoordinator
         super().__init__(
             hass=hass,
@@ -154,7 +164,20 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
             "prices", "prices", sid, system.get_prices, start, end,
         )
 
+    def set_error_reporter(self, error_reporter: ErrorReporter) -> None:
+        """Enable error reporting and tracing of refreshes and HTTP requests."""
+        self.error_reporter = error_reporter
+        self.api.tracer = error_reporter.http_span
+        self.api.on_issue = error_reporter.capture_api_issue
+
     async def async_update_data(self) -> SystemsData:
+        """Fetch data from the API, traced if error reporting is enabled."""
+        if self.error_reporter is None:
+            return await self._fetch_all()
+        with self.error_reporter.trace("coordinator refresh", op="coordinator.refresh"):
+            return await self._fetch_all()
+
+    async def _fetch_all(self) -> SystemsData:
         """Fetch data from API endpoint.
 
         This is the place to pre-process the data to lookup tables
@@ -227,7 +250,22 @@ class Coordinator(DataUpdateCoordinator[SystemsData]):
                 energy_today=energy_today,
             )
         except ApiError as err:
+            if self.error_reporter:
+                self.error_reporter.capture_api_issue(
+                    "api_error", "coordinator refresh", None, {}, error=err
+                )
             raise UpdateFailed(err) from err
+        except (KeyError, TypeError, ValueError, AttributeError, IndexError) as err:
+            # The API answered, but not in the shape we expect: it probably changed.
+            if self.error_reporter:
+                self.error_reporter.capture_api_issue(
+                    "parse_error",
+                    "coordinator refresh",
+                    None,
+                    {"responses": dict(self.api.response_shapes)},
+                    error=err,
+                )
+            raise UpdateFailed(f"Unexpected API response: {err!r}") from err
 
     def set_charging_mode(self, system_id: str, ev_id: str, mode: str):
         """Set the charging mode for an EV."""
