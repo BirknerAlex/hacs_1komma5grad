@@ -1,3 +1,18 @@
+## [1.6.0](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.5.0...v1.6.0) (2026-10-02)
+
+### 🛠️ Fixes
+
+* align with current Heartbeat API, fix heat pumps, add price sensors ([ab271b9](https://github.com/BirknerAlex/hacs_1komma5grad/commit/ab271b9e95b7285d0efc98db874235402cfd34f6))
+* isolate per-endpoint API failures in coordinator refresh ([#40](https://github.com/BirknerAlex/hacs_1komma5grad/issues/40)) ([5013670](https://github.com/BirknerAlex/hacs_1komma5grad/commit/50136704643d789a9b5cc2d6144e3a766432f23d))
+* resolve lint findings and restore lint/basedpyright as blocking CI checks ([27e550c](https://github.com/BirknerAlex/hacs_1komma5grad/commit/27e550cc4ec3735c2649cd6850dc0f53ef7d1b19)), closes [#40](https://github.com/BirknerAlex/hacs_1komma5grad/issues/40)
+* support multiple EV chargers per system ([#44](https://github.com/BirknerAlex/hacs_1komma5grad/issues/44)) ([f76d6d5](https://github.com/BirknerAlex/hacs_1komma5grad/commit/f76d6d547543b927332b184d896095b2e85a3e40))
+* throttle market-prices requests to respect API rate limit ([#45](https://github.com/BirknerAlex/hacs_1komma5grad/issues/45)) ([41e7c52](https://github.com/BirknerAlex/hacs_1komma5grad/commit/41e7c5205dfb153073d6f0496dc03d26cb5b8ba0))
+
+### 🚀 Features
+
+* add per-charger power sensors for multi-charger systems ([#44](https://github.com/BirknerAlex/hacs_1komma5grad/issues/44)) ([215d4f2](https://github.com/BirknerAlex/hacs_1komma5grad/commit/215d4f2b6917cd04ed070ccb39546737c10d41a8))
+* opt-in diagnostics via an isolated Sentry client ([4032641](https://github.com/BirknerAlex/hacs_1komma5grad/commit/4032641c8c57f44ca1d0e55e3a3c48071ceab33f))
+
 ## [1.6.0-dev.4](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.6.0-dev.3...v1.6.0-dev.4) (2026-10-02)
 
 ### 🛠️ Fixes
