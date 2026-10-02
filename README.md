@@ -17,7 +17,9 @@ This integration is for the latest 1KOMMA5GRAD Heartbeat API.
 
 > Warning: The new API is not available for all regions yet. The new API is required to use this integration with Home Assistant.
 
-To check if you are using the latest generation of the Heartbeat API, please try login on https://app.1komma5grad.com/.
+To check if you are using the latest generation of the Heartbeat API, check if you can log in to the
+**1KOMMA5° Heartbeat** app ([iOS](https://apps.apple.com/app/1komma5-heartbeat/id6455889609),
+[Android](https://play.google.com/store/apps/details?id=io.onecommafive.my.production.app)).
 
 Currently supported regions for the new API are (as of December 2025):
 
@@ -30,7 +32,7 @@ Currently supported regions for the new API are (as of December 2025):
 You can check this also by going to https://gaia-charge.github.io/app-not-available/ and enter `6455889609` as App ID.
 This checks if the latest iOS App is available in your region, which also uses the new API.
 
-If you are still using https://my.1komma5.io/ for login (or the old App), you are still using the old API and please use this
+If you are still using https://my.1komma5.io/ for login (or the old app), you are still using the old API and please use this
 https://github.com/derlangemarkus/1komma5grad_ha to integrate 1KOMMA5GRAD into Home Assistant instead.
 
 ## Entities
