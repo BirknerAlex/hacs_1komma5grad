@@ -1,3 +1,9 @@
+## [1.6.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.6.0...v1.6.1) (2026-10-02)
+
+### 🛠️ Fixes
+
+* update API availability check in README ([5ee5cf5](https://github.com/BirknerAlex/hacs_1komma5grad/commit/5ee5cf54368d74da85556c56e445dd7fc5b3735f))
+
 ## [1.6.1-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.6.0...v1.6.1-dev.1) (2026-10-02)
 
 ### 🛠️ Fixes
