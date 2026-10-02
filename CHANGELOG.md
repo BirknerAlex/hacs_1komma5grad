@@ -1,3 +1,9 @@
+## [1.6.2-dev.1](https://github.com/BirknerAlex/ha-1komma5grad/compare/v1.6.1...v1.6.2-dev.1) (2026-10-02)
+
+### 🛠️ Fixes
+
+* update links after renaming repository to ha-1komma5grad ([d62a8b7](https://github.com/BirknerAlex/ha-1komma5grad/commit/d62a8b75bf9ab7af60ba68bad07fcfd41720356e))
+
 ## [1.6.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.6.0...v1.6.1) (2026-10-02)
 
 ### 🛠️ Fixes
