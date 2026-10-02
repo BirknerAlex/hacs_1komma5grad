@@ -1,3 +1,9 @@
+## [1.6.0-dev.4](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.6.0-dev.3...v1.6.0-dev.4) (2026-10-02)
+
+### 🛠️ Fixes
+
+* align with current Heartbeat API, fix heat pumps, add price sensors ([ab271b9](https://github.com/BirknerAlex/hacs_1komma5grad/commit/ab271b9e95b7285d0efc98db874235402cfd34f6))
+
 ## [1.6.0-dev.3](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.6.0-dev.2...v1.6.0-dev.3) (2026-10-01)
 
 ### 🚀 Features
