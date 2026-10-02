@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/BirknerAlex/hacs_1komma5grad/main/images/icon.png" alt="1KOMMA5GRAD Logo" title="1KOMMA5GRAD Home Assistant Integration" align="right" height="60" />
+<img src="https://raw.githubusercontent.com/BirknerAlex/ha-1komma5grad/main/images/icon.png" alt="1KOMMA5GRAD Logo" title="1KOMMA5GRAD Home Assistant Integration" align="right" height="60" />
 
 # 1KOMMA5GRAD Home Assistant Integration
 
@@ -9,7 +9,7 @@ This integration is not related to 1KOMMA5GRAD and not officially supported by t
 
 ## Installation
 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=BirknerAlex&repository=hacs_1komma5grad&category=integration)
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=BirknerAlex&repository=ha-1komma5grad&category=integration)
 
 ## Limited availability
 
@@ -198,7 +198,7 @@ Other components like heat pumps are not tested due to lack of hardware availabi
 ## API documentation
 
 The Heartbeat API calls observed in the official app are documented as an unofficial OpenAPI spec:
-**[Heartbeat API on Swagger UI](https://birkneralex.github.io/hacs_1komma5grad/)** ([JSON](docs/heartbeat-openapi.json)).
+**[Heartbeat API on Swagger UI](https://birkneralex.github.io/ha-1komma5grad/)** ([JSON](docs/heartbeat-openapi.json)).
 It is reverse-engineered, contains no personal data and may lag behind the real API.
 
 ## Contribute
